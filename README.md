@@ -1,5 +1,6 @@
 #机械臂套件
 一个可以在本地电脑使用的机械臂操作真实手机的项目
+# 🚀 [👉 立即下载最新版本](https://github.com/hamlet0168/robotarmkit/releases/)
 # 🤖 RobotArmKit — 机械臂自动化工具套件
 
 > 让机械臂像人手一样精确操作手机屏幕
