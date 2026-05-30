@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexArm · 灵臂</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+            background: #0a0e17;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 720px;
+            text-align: center;
+        }
+        /* 品牌标识 */
+        .brand {
+            margin-bottom: 12px;
+        }
+        .brand-icon {
+            font-size: 56px;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 12px rgba(59, 130, 246, 0.4));
+        }
+        .brand-name {
+            font-size: 42px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+        .brand-zh {
+            font-size: 22px;
+            color: #94a3b8;
+            font-weight: 300;
+            letter-spacing: 6px;
+            margin-top: 4px;
+        }
+        .tagline {
+            font-size: 18px;
+            color: #64748b;
+            margin: 24px 0 40px;
+            line-height: 1.8;
+        }
+        .tagline strong { color: #e2e8f0; }
+
+        /* 产品卡片 */
+        .cards {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .card {
+            background: #111827;
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            padding: 28px 24px;
+            width: 320px;
+            text-align: left;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-4px);
+        }
+        .card-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .card-badge.free {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+        }
+        .card-badge.coming {
+            background: rgba(251, 191, 36, 0.15);
+            color: #fbbf24;
+        }
+        .card h2 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #f1f5f9;
+        }
+        .card p {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        .card-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #3b82f6;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .card-link:hover { color: #60a5fa; }
+        .card-link.disabled {
+            color: #475569;
+            pointer-events: none;
+        }
+
+        /* 页脚 */
+        .footer {
+            margin-top: 48px;
+            font-size: 13px;
+            color: #475569;
+        }
+        .footer a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 品牌 -->
+        <div class="brand">
+            <div class="brand-icon">🦾</div>
+            <div class="brand-name">FlexArm</div>
+            <div class="brand-zh">灵 臂</div>
+        </div>
+        <p class="tagline">
+            让机械臂拥有<strong>"眼睛"</strong>和<strong>"双手"</strong><br>
+            视觉标定 + 像素级精度，在电脑上操控真实手机
+        </p>
+
+        <!-- 产品卡片 -->
+        <div class="cards">
+            <!-- 标定版 -->
+            <div class="card">
+                <span class="card-badge free">✅ 已发布 · v1.0.0</span>
+                <h2>🎯 Calibration · 标定程序</h2>
+                <p>
+                    独立标定程序，开箱即用。通过摄像头识别手机四角点，
+                    完成机械臂标定后，用鼠标直接操控手机屏幕。
+                </p>
+                <div class="card-links">
+                    <a href="https://github.com/hamlet0168/robotarmkit/releases/tag/v1.0.0" class="card-link">
+                        ⬇️ 下载最新版 (159 MB)
+                    </a>
+                    <a href="calibration/tutorial_cn.html" class="card-link">
+                        📖 查看使用教程
+                    </a>
+                    <a href="https://github.com/hamlet0168/robotarmkit/tree/main/calibration" class="card-link">
+                        📂 查看源码
+                    </a>
+                </div>
+            </div>
+
+            <!-- Flask 版 -->
+            <div class="card">
+                <span class="card-badge coming">🚧 开发中</span>
+                <h2>🌐 FlexArm Server · API 服务</h2>
+                <p>
+                    Flask HTTP API 服务，提供脚本化自动控制能力。
+                    支持任务编排、远程调度，适合自动化批量操作。
+                </p>
+                <div class="card-links">
+                    <span class="card-link disabled">⏳ 即将发布</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="footer">
+            <a href="https://github.com/hamlet0168/robotarmkit">GitHub 仓库</a>
+            &nbsp;·&nbsp;
+            <a href="https://github.com/hamlet0168/robotarmkit/issues">反馈问题</a>
+            &nbsp;·&nbsp;
+            MIT License &copy; hamlet0168
+        </div>
+    </div>
+</body>
+</html>
