@@ -61,7 +61,7 @@ RobotArmKit/
 
 ### 使用步骤
 
-1. **下载压缩包** — 从 [Releases](https://github.com/hamlet0168/robot-arm-toolkit/releases) 下载最新版本
+1. **下载压缩包** — 从 [Releases](https://github.com/hamlet0168/robotarmkit/releases) 下载最新版本
 2. **解压到指定目录** — 建议 `D:\RobotArmKit`
 3. **运行主程序** — 双击 `RobotArmCalibration.exe`（首次运行自动安装驱动）
 4. **手机端准备** — 安装 Pydroid 3 APK，打开校准脚本
@@ -139,7 +139,7 @@ A: 是的，即使微小调整也应重新标定，原有标定文件不再适�
 欢迎提交 Issue 和 Pull Request！如果你有任何建议或遇到问题，可以通过以下方式联系：
 
 -邮箱：hamlet0168@163.com
-- 🐛 [提交问题](https://github.com/hamlet0168/robot-arm-toolkit/issues)
+- 🐛 [提交问题](https://github.com/hamlet0168/robotarmkit/issues)
 
 ---
 
