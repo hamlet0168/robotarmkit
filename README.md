@@ -85,6 +85,7 @@ RobotArmKit/
 
 | 文档 | 说明 |
 |------|------|
+[📖 查看使用教程](https://hamlet0168.github.io/robotarmkit/使用教程.html)
 | [📖 独立标定使用教程]([使用教程.html](https://hamlet0168.github.io/robotarmkit/使用教程.html)) | 图文教程，含常见问题 |
 | 🔜 Flask API 文档 | 接口说明与调用示例（即将推出） |
 
