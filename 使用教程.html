@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>机械臂标定程序 - 使用教程</title>
+<style>
+:root{--bg:#0a0e17;--bg2:#111827;--card:#1a2235;--code:#0d1117;--blue:#3b82f6;--purple:#8b5cf6;--cyan:#06b6d4;--green:#10b981;--orange:#f59e0b;--red:#ef4444;--tx:#f1f5f9;--tx2:#94a3b8;--muted:#64748b;--border:#1e293b;--glow:rgba(59,130,246,.3);--sw:240px;--hh:56px}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--tx);line-height:1.8;font-size:15px;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 800px 600px at 20% 10%,rgba(59,130,246,.08) 0%,transparent 70%),radial-gradient(ellipse 600px 400px at 80% 80%,rgba(139,92,246,.06) 0%,transparent 70%);pointer-events:none;z-index:0}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--muted);border-radius:3px}
+.header{position:fixed;top:0;left:0;right:0;height:var(--hh);background:rgba(10,14,23,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;z-index:1000}
+.hb{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:700}
+.hb .ico{width:32px;height:32px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.hn{margin-left:auto;display:flex;gap:6px}
+.hn a{color:var(--tx2);text-decoration:none;padding:6px 12px;border-radius:6px;font-size:13px;transition:.3s}
+.hn a:hover{color:var(--tx);background:rgba(255,255,255,.05)}
+.sidebar{position:fixed;top:var(--hh);left:0;bottom:0;width:var(--sw);background:rgba(17,24,39,.6);backdrop-filter:blur(10px);border-right:1px solid var(--border);padding:16px 0;overflow-y:auto;z-index:900;transition:transform .3s}
+.st{font-size:11px;font-weight:600;letter-spacing:1.5px;color:var(--muted);padding:0 18px;margin:18px 0 4px;text-transform:uppercase}
+.sn{list-style:none}
+.sn li a{display:flex;align-items:center;gap:8px;padding:8px 18px;color:var(--tx2);text-decoration:none;font-size:13px;transition:.3s;border-left:3px solid transparent}
+.sn li a:hover{color:var(--tx);background:rgba(255,255,255,.03);border-left-color:var(--blue)}
+.sn li a.active{color:var(--blue);background:rgba(59,130,246,.08);border-left-color:var(--blue)}
+.sn .ni{width:20px;text-align:center}
+.main{margin-left:var(--sw);padding-top:var(--hh);min-height:100vh;position:relative;z-index:1}
+.content{max-width:860px;margin:0 auto;padding:28px 36px 50px}
+.hero{text-align:center;padding:50px 0 32px}
+.hero .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);border-radius:50px;padding:5px 14px;font-size:12px;color:var(--blue);margin-bottom:18px}
+.hero h1{font-size:34px;font-weight:800;background:linear-gradient(135deg,var(--tx) 0%,var(--blue) 50%,var(--purple) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px;line-height:1.3}
+.hero .desc{font-size:15px;color:var(--tx2);max-width:540px;margin:0 auto;line-height:1.7}
+.sec{margin-bottom:42px;opacity:0;transform:translateY(20px);animation:fu .5s ease forwards}
+.sec:nth-child(2){animation-delay:.08s}.sec:nth-child(3){animation-delay:.14s}.sec:nth-child(4){animation-delay:.2s}.sec:nth-child(5){animation-delay:.26s}.sec:nth-child(6){animation-delay:.32s}.sec:nth-child(7){animation-delay:.38s}.sec:nth-child(8){animation-delay:.44s}.sec:nth-child(9){animation-delay:.5s}.sec:nth-child(10){animation-delay:.56s}
+@keyframes fu{to{opacity:1;transform:translateY(0)}}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.sn2{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff;flex-shrink:0;box-shadow:0 0 12px rgba(59,130,246,.3)}
+.st2{font-size:20px;font-weight:700;color:var(--tx)}
+.sub{margin:14px 0 10px;font-size:16px;font-weight:600;color:var(--tx);display:flex;align-items:center;gap:8px}
+.sub::before{content:"";width:4px;height:16px;background:var(--blue);border-radius:2px}
+.tx{font-size:15px;color:var(--tx2);margin-bottom:10px;line-height:1.8}
+.tx strong{color:var(--tx)}
+.tx code{background:var(--code);color:var(--cyan);padding:2px 7px;border-radius:4px;font-family:"JetBrains Mono",Consolas,monospace;font-size:13px;border:1px solid var(--border)}
+.tc{margin:18px 0;border-radius:10px;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 18px rgba(0,0,0,.4);background:var(--card);transition:.3s}
+.tc:hover{border-color:var(--glow);box-shadow:0 4px 18px rgba(0,0,0,.4),0 0 14px var(--glow)}
+.tc img{display:block;width:100%;height:auto}.tc img[src*="image4"],.tc img[src*="image5"],.tc img[src*="image6"],.tc img[src*="image7"],.tc img[src*="image8"],.tc img[src*="image9"],.tc img[src*="image10"],.tc img[src*="image11"],.tc img[src*="image12"],.tc img[src*="image13"],.tc img[src*="image14"],.tc img[src*="image15"],.tc img[src*="image16"],.tc img[src*="image17"],.tc img[src*="image18"],.tc img[src*="image19"],.tc img[src*="image20"],.tc img[src*="image21"],.tc img[src*="image22"],.tc img[src*="image23"],.tc img[src*="image24"],.tc img[src*="image25"]{width:50%;margin:0 auto;display:block}
+.tc .cap{padding:8px 14px;font-size:12px;color:var(--muted);background:rgba(0,0,0,.3);display:flex;align-items:center;gap:6px}
+.tc .cap::before{content:"";width:7px;height:7px;background:var(--blue);border-radius:50%;flex-shrink:0}
+.tw{margin:16px 0;border-radius:10px;border:1px solid var(--border);overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.4)}
+table.ft{width:100%;border-collapse:collapse}
+table.ft thead{background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(139,92,246,.12))}
+table.ft th{padding:11px 14px;text-align:left;font-size:12px;font-weight:600;letter-spacing:.5px;color:var(--blue);border-bottom:1px solid var(--border)}
+table.ft td{padding:11px 14px;font-size:13px;border-bottom:1px solid var(--border);color:var(--tx2);vertical-align:top}
+table.ft td:first-child{font-family:"JetBrains Mono",Consolas,monospace;color:var(--cyan);font-size:12px}
+table.ft tr:last-child td{border-bottom:none}table.ft tbody tr:hover{background:rgba(255,255,255,.02)}
+.ib{margin:14px 0;padding:12px 14px;border-radius:8px;border-left:4px solid;display:flex;gap:10px;font-size:14px}
+.ib.tip{background:rgba(16,185,129,.08);border-color:var(--green)}.ib.warn{background:rgba(245,158,11,.08);border-color:var(--orange)}.ib.info{background:rgba(59,130,246,.08);border-color:var(--blue)}.ib.danger{background:rgba(239,68,68,.08);border-color:var(--red)}
+.ib .ic{font-size:17px;flex-shrink:0}
+.reqs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0}
+.rc{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center;transition:.3s}
+.rc:hover{border-color:var(--blue);box-shadow:0 0 10px var(--glow)}
+.rc .ri{font-size:26px;margin-bottom:6px}.rc .rl{font-size:12px;color:var(--muted);margin-bottom:2px}.rc .rv{font-size:13px;font-weight:600}
+.kg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.kc{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center}
+.kc .kk{font-family:"JetBrains Mono",Consolas,monospace;font-size:18px;font-weight:700;color:var(--cyan)}.kc .kl{font-size:11px;color:var(--muted);margin-top:2px}
+.fi{border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.fq{width:100%;background:var(--card);border:none;padding:12px 14px;color:var(--tx);font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:.3s;text-align:left}
+.fq:hover{background:rgba(59,130,246,.05)}
+.fq::after{content:"+";font-size:18px;color:var(--muted);transition:.3s;flex-shrink:0}
+.fi.open .fq::after{transform:rotate(45deg)}
+.fa{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.fi.open .fa{max-height:300px}
+.fai{padding:12px 14px;font-size:13px;color:var(--tx2);line-height:1.8}
+.footer{text-align:center;padding:28px 0;color:var(--muted);font-size:12px;border-top:1px solid var(--border);margin-top:40px}
+.pb{position:fixed;top:var(--hh);left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--purple));z-index:999;transition:width .1s}
+.mb{display:none;background:none;border:none;color:var(--tx);font-size:22px;cursor:pointer;padding:4px}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:899}
+.gif-wrap .tc{border-color:rgba(245,158,11,.3)}
+.gif-wrap .tc::after{content:"GIF";position:absolute;top:8px;right:8px;background:rgba(245,158,11,.9);color:#000;font-size:10px;font-weight:700;padding:2px 8px;border-radius:50px}
+.gif-wrap .tc{position:relative}
+@media(max-width:860px){.mb{display:block}.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.ov.open{display:block}.main{margin-left:0}.content{padding:18px 12px 40px}.hero h1{font-size:24px}.hn{display:none}.kg{grid-template-columns:repeat(2,1fr)}.reqs{grid-template-columns:repeat(2,1fr)}}
+@media print{.header,.sidebar,.pb,.mb,.ov{display:none!important}.main{margin-left:0!important}.sec{opacity:1!important;transform:none!important}}
+</style>
+</head>
+<body>
+<div class="pb" id="pb"></div>
+<header class="header"><button class="mb" id="mb">&#9776;</button><div class="hb"><div class="ico">&#129302;</div><span>RobotArmKit - 使用教程</span></div><nav class="hn"><a href="#hero">首页</a><a href="#s1">步骤</a><a href="#faq">常见问题</a></nav></header>
+<div class="ov" id="ov"></div>
+<aside class="sidebar" id="sb">
+<div class="st">开始之前</div><ul class="sn">
+<li><a href="#hero"><span class="ni">&#127968;</span>教程概览</a></li>
+<li><a href="#req"><span class="ni">&#128203;</span>环境要求</a></li>
+</ul><div class="st">操作步骤</div><ul class="sn">
+<li><a href="#s1"><span class="ni">&#128230;</span>下载与解压</a></li>
+<li><a href="#s2"><span class="ni">&#128193;</span>文件结构</a></li>
+<li><a href="#s3"><span class="ni">&#9654;</span>启动主程序</a></li>
+<li><a href="#s4"><span class="ni">&#128241;</span>手机端准备</a></li>
+<li><a href="#s5"><span class="ni">&#127760;</span>网络配置</a></li>
+<li><a href="#s6"><span class="ni">&#127919;</span>角点识别</a></li>
+<li><a href="#s7"><span class="ni">&#129302;</span>阶段3:标定</a></li>
+<li><a href="#s8"><span class="ni">&#9989;</span>验证结果</a></li>
+<li><a href="#s9"><span class="ni">&#128190;</span>保存与复用</a></li>
+</ul><div class="st">帮助</div><ul class="sn"><li><a href="#faq"><span class="ni">&#128161;</span>常见问题</a></li></ul>
+</aside>
+<main class="main"><div class="content">
+<section class="hero" id="hero">
+<div class="badge">&#129302; 机械臂自动化 &#183; 标定程序</div>
+<h1>独立标定程序使用教程</h1>
+<p class="desc">本教程将引导您完成从程序下载到机械臂标定完成的全流程。按照以下步骤操作，即可顺利完成机械臂的视觉标定，实现用鼠标直接操作手机屏幕。</p>
+</section>
+<section id="req" class="sec"><div class="sh"><div class="sn2">&#10003;</div><h2 class="st2">环境要求</h2></div>
+<p class="tx">开始前，请确认以下条件已满足：</p>
+<div class="reqs"><div class="rc"><div class="ri">&#129302;</div><div class="rl">硬件</div><div class="rv">机械臂 + 摄像头</div></div><div class="rc"><div class="ri">&#128241;</div><div class="rl">手机</div><div class="rv">Android 设备</div></div><div class="rc"><div class="ri">&#128187;</div><div class="rl">电脑</div><div class="rv">Windows 系统</div></div><div class="rc"><div class="ri">&#128246;</div><div class="rl">网络</div><div class="rv">同一WiFi网络</div></div></div><div class="ib warn"><span class="ic">&#9888;</span><span>手机和电脑必须连接在同一个WiFi网络下，这是通信的前提条件。</span></div>
+</section>
+<section id="s1" class="sec"><div class="sh"><div class="sn2">1</div><h2 class="st2">下载与解压</h2></div>
+<p class="tx">从官方仓库下载的完整压缩包约<strong>160MB</strong>。后续更新过教程，所以实际大小略有出入。找一个空间充足的盘符，拷贝进去并解压。建议单独建立目录，例如 <code>D:\RobotArmKit</code>。</p>
+<div class="tc "><img src="tutorial_assets/image1.png" alt="图1 &#183; 压缩包详情" loading="lazy"><div class="cap">图1 &#183; 压缩包详情</div></div>
+<div class="tc "><img src="tutorial_assets/image2.png" alt="图2 &#183; D盘下新建RobotArmKit目录" loading="lazy"><div class="cap">图2 &#183; D盘下新建RobotArmKit目录</div></div>
+</section>
+<section id="s2" class="sec"><div class="sh"><div class="sn2">2</div><h2 class="st2">了解文件结构</h2></div>
+<p class="tx">解压后，您会看到以下文件和文件夹：</p>
+<div class="tw">
+    <table class="ft"><thead>
+    <tr><th>名称</th><th>说明</th></tr></thead><tbody>
+    <tr><td>&#128193; _internal</td><td>程序运行时所需的各种库及依赖项（无需手动操作）</td></tr>
+    <tr><td>&#128193; calibrations</td><td>存放标定历史，支持保存多个标定结果</td></tr>
+    <tr><td>&#128193; robot-arm-service</td><td>存放机械臂硬件驱动，自动安装/卸载驱动的批处理文件等</td></tr>
+    <tr><td>&#128193; tutorial_assets</td><td>教程图片</td></tr>
+    <tr><td>&#128196; phone_calibration_app.py</td><td>Python校准脚本，手机端运行</td></tr>
+    <tr><td>&#128230; pydroid-3-8-3-arm64.apk</td><td>Pydroid 3官方APK，手机端Python环境</td></tr>
+    <tr><td>&#9881;&#65039; RobotArmCalibration.exe</td><td>主程序（电脑上运行）</td></tr>
+    <tr><td>&#128193; 使用教程.html</td><td>网页版教程及常见问题解答</td></tr>
+    </tbody></table></div>
+<div class="tc "><img src="tutorial_assets/image3.png" alt="图3 &#183; 解压后的文件结构" loading="lazy"><div class="cap">图3 &#183; 解压后的文件结构</div></div>
+</section>
+<section id="s3" class="sec"><div class="sh"><div class="sn2">3</div><h2 class="st2">启动主程序</h2></div>
+<p class="tx">双击运行 <code>RobotArmCalibration.exe</code>，会弹出命令行窗口显示基本信息。</p>
+<ul style="list-style:none;padding:0"><li class="tx" style="padding:3px 0">&#8226; <strong>首次运行</strong>：自动安装机械臂硬件驱动</li><li class="tx" style="padding:3px 0">&#8226; <strong>非首次运行</strong>：跳过驱动安装，直接进入主界面</li></ul>
+<p class="tx">程序顺利启动后，会显示摄像头画面，右侧是信息面板。</p>
+    <p class="tx"><strong>特别注意：程序启动需要监听12345端口，用于与手机端通信，如果防火墙阻止，必须允许才能继续使用。</strong></p>
+<div class="tc "><img src="tutorial_assets/image26.png" alt="图26 &#183; 防火墙放行" loading="lazy"><div class="cap">图26 &#183; 防火墙放行</div></div>
+<div class="ib tip"><span class="ic">&#128161;</span><span>如果画面不够清晰，按键盘的 <strong>+</strong> 或 <strong>-</strong> 调整摄像头焦距，直到画面清晰为止。记住满意的焦距数值，后续可直接使用。</span></div>
+<div class="tc "><img src="tutorial_assets/image4.png" alt="图4 &#183; 命令行窗口" loading="lazy"><div class="cap">图4 &#183; 命令行窗口</div></div>
+<div class="tc "><img src="tutorial_assets/image5.png" alt="图5 &#183; 主程序窗口" loading="lazy"><div class="cap">图5 &#183; 主程序窗口</div></div>
+
+</section>
+<section id="s4" class="sec"><div class="sh"><div class="sn2">4</div><h2 class="st2">手机端准备</h2></div>
+<div class="sub">安装 Pydroid 3</div>
+<p class="tx">将 <code>pydroid-3-8-3-arm64.apk</code> 通过微信文件传输助手发送到手机。手机接收后点击允许安装。</p>
+<div class="ib info"><span class="ic">&#8505;</span><span>Pydroid 3是一款方便在手机里编写和调试Python代码的APP工具。</span></div>
+<div class="tc "><img src="tutorial_assets/image6.png" alt="图6 &#183; 主程序运行中" loading="lazy"><div class="cap">图6 &#183; 主程序运行中</div></div>
+<div class="sub">传输校准脚本</div>
+<p class="tx">Pydroid 3安装成功后，继续将 <code>phone_calibration_app.py</code> 发送到手机。收到后点击 <strong>文件 &#8594; 下载</strong>。</p>
+<div class="tc "><img src="tutorial_assets/image7.png" alt="图7 &#183; Pydroid 3图标" loading="lazy"><div class="cap">图7 &#183; Pydroid 3图标</div></div>
+<div class="tc "><img src="tutorial_assets/image8.png" alt="图8 &#183; 通过微信传输Pydroid 3 APK" loading="lazy"><div class="cap">图8 &#183; 通过微信传输Pydroid 3 APK</div></div>
+<p class="tx">下载完成后，选择用刚刚安装的 <strong>Pydroid 3</strong> 打开。</p>
+<div class="tc "><img src="tutorial_assets/image9.png" alt="图9 &#183; 传输校准脚本" loading="lazy"><div class="cap">图9 &#183; 传输校准脚本</div></div>
+<p class="tx">默认显示的是 <strong>new</strong>标签页。</p>
+<div class="tc "><img src="tutorial_assets/image10.png" alt="图10 &#183; 下载校准脚本文件" loading="lazy"><div class="cap">图10 &#183; 下载校准脚本文件</div></div>
+<p class="tx">需要切换到 <strong>phone_calibration_app.py</strong>标签页。</p>
+<div class="tc "><img src="tutorial_assets/image11.png" alt="图11 &#183; 用Pydroid 3打开脚本" loading="lazy"><div class="cap">图11 &#183; 用Pydroid 3打开脚本</div></div>
+</section>
+<section id="s5" class="sec"><div class="sh"><div class="sn2">5</div><h2 class="st2">网络配置（关键步骤）</h2></div>
+<p class="tx">手机程序和电脑程序需要通信互传数据才能精确标定，因此必须确保双方使用正确的内网IP。</p>
+<div class="sub">查看电脑内网IP</div>
+<p class="tx">打开电脑的<strong>网络设置</strong>，点击"属性"，找到 <strong>IPv4 地址</strong>并记录。示例：<code>192.168.31.83</code></p>
+<div class="tc "><img src="tutorial_assets/image12.png" alt="图12 &#183; 查看电脑内网IP" loading="lazy"><div class="cap">图12 &#183; 查看电脑内网IP</div></div>
+<div class="tc "><img src="tutorial_assets/image13.png" alt="图13 &#183; Pydroid 3代码界面" loading="lazy"><div class="cap">图13 &#183; Pydroid 3代码界面</div></div>
+<div class="sub">修改手机代码中的IP</div>
+<p class="tx">回到手机Pydroid 3界面，手指上划到代码<strong>283行附近</strong>，将IP改为您的电脑实际内网IP。</p>
+<div class="sub">运行脚本</div>
+<p class="tx">改好后，点击右下角的<strong>运行标志</strong>（&#9654;）。手机屏幕4个角落显示4个圆点。电脑端提示<strong>"手机已连接"</strong>。</p>
+<div class="tc "><img src="tutorial_assets/image14.png" alt="图14 &#183; 修改IP并运行" loading="lazy"><div class="cap">图14 &#183; 修改IP并运行</div></div>
+</section>
+<section id="s6" class="sec"><div class="sh"><div class="sn2">6</div><h2 class="st2">角点识别与确认</h2></div>
+<p class="tx">程序一直在寻找4个角落的圆点。已识别的角点会显示<strong>"稳定"</strong>。如果反光或有干扰，可能显示某个点<strong>"跳动"</strong>。</p>
+<div class="tc "><img src="tutorial_assets/image15.png" alt="图15 &#183; 手机4个角点 + 电脑端已连接" loading="lazy"><div class="cap">图15 &#183; 手机4个角点 + 电脑端已连接</div></div>
+<div class="sub">确认4个角点位置</div>
+<ol class="tx" style="padding-left:20px"><li style="padding:3px 0">光标是十字形，尽量让中心点落在圆心中再点击</li><li style="padding:3px 0">程序自动找到的角点用<strong style="color:var(--blue)">蓝色圆圈</strong>标记</li><li style="padding:3px 0">您用鼠标确认的点用<strong style="color:var(--red)">红色圆圈</strong>标记</li><li style="padding:3px 0">4个角点全部标记完成后，提示<strong>"所有点都已锁定"</strong></li></ol>
+<div class="tc "><img src="tutorial_assets/image16.png" alt="图16 &#183; 角点稳定状态" loading="lazy"><div class="cap">图16 &#183; 角点稳定状态</div></div>
+<div class="ib warn"><span class="ic">&#9888;</span><span><strong>按回车键确认锁定</strong>。只有按了回车才是真正的确认。</span></div>
+<div class="tc "><img src="tutorial_assets/image17.png" alt="图17 &#183; 确认角点位置" loading="lazy"><div class="cap">图17 &#183; 确认角点位置</div></div>
+</section>
+<section id="s7" class="sec"><div class="sh"><div class="sn2">7</div><h2 class="st2">阶段3 — 机械臂标定</h2></div>
+<p class="tx">电脑端提示进入<strong>阶段3</strong>，现在可以通过键盘控制机械臂了。</p>
+<div class="sub">移动控制</div>
+<div class="kg"><div class="kc"><div class="kk">W</div><div class="kl">上</div></div><div class="kc"><div class="kk">A</div><div class="kl">左</div></div><div class="kc"><div class="kk">S</div><div class="kl">下</div></div><div class="kc"><div class="kk">D</div><div class="kl">右</div></div></div><p class="tx">&#8226; 默认步长 <strong>2.0mm</strong><br>&#8226; 按 <strong>&#8593; &#8595;</strong> 调整步长（0.1mm ~ 10.0mm）<br>&#8226; 持续按住会连续移动，但<strong>尽量不要按太久</strong></p>
+<div class="tc "><img src="tutorial_assets/image18.png" alt="图18 &#183; 阶段3初始画面" loading="lazy"><div class="cap">图18 &#183; 阶段3初始画面</div></div>
+<div class="sub">触摸笔操作</div>
+<p class="tx">&#8226; <strong>按下</strong>：按空格键<br>&#8226; <strong>抬起</strong>：再次按空格键</p>
+<div class="ib danger"><span class="ic">&#9888;</span><span><strong>重要：不要在触摸笔按下的状态下移动机械臂！</strong>必须先抬起再移动。</span></div>
+<p class="tx">默认下按深度为<strong>9mm</strong>。触摸笔具备形变功能，手机正常摆放不会造成伤害。</p>
+<div class="tc "><img src="tutorial_assets/image19.jpeg" alt="图19 &#183; 触摸笔按下" loading="lazy"><div class="cap">图19 &#183; 触摸笔按下</div></div>
+<div class="tc "><img src="tutorial_assets/image20.jpeg" alt="图20 &#183; 触摸笔与手机接触" loading="lazy"><div class="cap">图20 &#183; 触摸笔与手机接触</div></div>
+<div class="tc "><img src="tutorial_assets/image21.jpeg" alt="图21 &#183; 触摸笔抬起" loading="lazy"><div class="cap">图21 &#183; 触摸笔抬起</div></div>
+<div class="sub">移动到角点上方</div>
+<p class="tx">控制机械臂依次移动到4个圆点上方，按下-抬起触摸笔，尝试点击圆点。每次点击后，手机屏幕显示<strong>"上次点击"</strong>坐标。</p>
+<p class="tx">每点击正确一个点，显示<strong>"已确认 N/4"</strong>。</p>
+<div class="tc "><img src="tutorial_assets/image22.png" alt="图22 &#183; 点击确认坐标" loading="lazy"><div class="cap">图22 &#183; 点击确认坐标</div></div>
+<p class="tx">4个点都正确点击后，机械臂<strong>自动复位</strong>，进入<strong>阶段4</strong>。</p>
+</section>
+<section id="s8" class="sec"><div class="sh"><div class="sn2">8</div><h2 class="st2">验证标定结果</h2></div>
+<p class="tx">手机画面显示<strong>随机8个点</strong>。在电脑端用鼠标点击看到的点，机械臂自动移动到对应位置按下并抬起。</p>
+<ul class="tx" style="padding-left:20px"><li style="padding:3px 0">电脑画面中显示<strong>白色圆点</strong>标记点击位置</li><li style="padding:3px 0">右侧面板显示：点击位置、期望目标、实际坐标</li><li style="padding:3px 0">通常误差<strong>不超过几个像素</strong></li></ul>
+<div class="tc "><img src="tutorial_assets/image23.png" alt="图23 &#183; 验证标定结果" loading="lazy"><div class="cap">图23 &#183; 验证标定结果</div></div>
+</section>
+<section id="s9" class="sec"><div class="sh"><div class="sn2">9</div><h2 class="st2">保存与复用</h2></div>
+<div class="sub">保存</div>
+<p class="tx">点击<strong>"退出（ESC）"</strong>，然后在电脑端按 <code>Q</code> 键退出。标定结果<strong>自动保存</strong>到 <code>calibrations</code> 目录。</p>
+<div class="sub">复用已有标定</div>
+<p class="tx">重新启动时，CMD窗口提示发现标记记录：</p>
+<ul class="tx" style="padding-left:20px"><li style="padding:3px 0"><strong>输入 1 + 回车</strong>：采用已有标定结果</li><li style="padding:3px 0"><strong>输入 0 + 回车</strong>：重新标记一次</li></ul>
+<div class="sub">直接使用</div>
+<p class="tx">选择已有标定后，手机不再需要运行Pydroid 3。可以直接在电脑画面中点击各个位置，就像用手指操作手机一样。</p>
+<div class="tc "><img src="tutorial_assets/image24.png" alt="图24 &#183; 直接用鼠标操作手机" loading="lazy"><div class="cap">图24 &#183; 直接用鼠标操作手机</div></div>
+<div class="tc "><img src="tutorial_assets/image25.GIF" alt="图25 &#183; 最终效果演示（GIF动图自动播放）" loading="lazy"><div class="cap">图25 &#183; 最终效果演示（GIF动图自动播放）</div></div>
+</section>
+<section class="faq" id="faq" style="margin-top:40px"><div class="sh"><div class="sn2" style="background:linear-gradient(135deg,var(--orange),var(--green))">?</div><h2 class="st2">常见问题</h2></div>
+<div class="fi"><button class="fq" onclick="var it=this.parentElement;var o=it.classList.contains('open');document.querySelectorAll('.fi').forEach(function(i){i.classList.remove('open')});if(!o)it.classList.add('open')">首次运行提示安装驱动失败怎么办？</button><div class="fa"><div class="fai">请检查您的系统是否为 <strong>Windows 10 或 Windows 11</strong>，并确认是否有杀毒软件阻止了硬件驱动的安装。</div></div></div>
+<div class="fi"><button class="fq" onclick="var it=this.parentElement;var o=it.classList.contains('open');document.querySelectorAll('.fi').forEach(function(i){i.classList.remove('open')});if(!o)it.classList.add('open')">摄像头画面不显示或黑屏？</button><div class="fa"><div class="fai">请依次检查以下三项：<br>1. 机械臂是否正常通电（电源插口附近<strong>蓝灯常亮</strong>）<br>2. 机械臂本身的 <strong>蓝色USB线</strong> 是否正确接入电脑USB插口<br>3. 机械臂顶部摄像头延伸出的<strong>黑色USB线</strong>是否正确接入电脑USB插口<br>全部确认后，再次启动程序。</div></div></div>
+<div class="fi"><button class="fq" onclick="var it=this.parentElement;var o=it.classList.contains('open');document.querySelectorAll('.fi').forEach(function(i){i.classList.remove('open')});if(!o)it.classList.add('open')">Pydroid 3无法打开.py文件？</button><div class="fa"><div class="fai">Pydroid 3 右上角有个文件夹图标，点击可选择<strong>'open'</strong>。<br>找到你从电脑传输过来的 <code>phone_calibration_app.py</code> 文件。<br><span style="color:var(--muted)">（如果还没传到手机，可通过微信/QQ/USB数据线等方式从电脑发送该文件到手机）</span><br>如果使用不明白可以网络搜索 Pydroid 3 使用教程。<br>或将你遇到的实际问题发送给作者 <strong>hamlet0168@163.com</strong></div></div></div>
+<div class="fi"><button class="fq" onclick="var it=this.parentElement;var o=it.classList.contains('open');document.querySelectorAll('.fi').forEach(function(i){i.classList.remove('open')});if(!o)it.classList.add('open')">标定结果保存在哪里？</button><div class="fa"><div class="fai">标定结果保存在解压后根目录中的 <code>calibrations</code> 目录下。<br>可以同时保存<strong>多个标定结果</strong>，假设你多次重新标定的话。你可以利用这个特性，给每个手机（比如 iPhone 或华为手机）各配备一套标记文件。<br>启动程序时，所有标记都会列出来，你可以随意选择使用哪个标记文件。<br>输入对应标记文件的数字并回车即可。<br>标记文件都是以时间格式命名的 <strong>json</strong> 文件，比如 <code>calib_20260529_143311.json</code>。</div></div></div>
+<div class="fi"><button class="fq" onclick="var it=this.parentElement;var o=it.classList.contains('open');document.querySelectorAll('.fi').forEach(function(i){i.classList.remove('open')});if(!o)it.classList.add('open')">可以删除之前的标定历史吗？</button><div class="fa"><div class="fai">可以，全部删除的话，再次启动程序就需要重新标记了。<br>或者每次你<strong>重新调整了手机固定装置</strong>，哪怕是微小调整，都应该重新标记，原来的标记文件就没有意义了。</div></div></div>
+</section>
+<footer class="footer"><p>&#129302; <strong>RobotArmKit</strong> &#183; 机械臂自动化标定程序</p><p style="margin-top:6px;color:var(--muted)">&#169; 2026 RobotArmKit.</p></footer>
+</div></main>
+<script>
+var mb=document.getElementById("mb"),sb=document.getElementById("sb"),ov=document.getElementById("ov");
+if(mb){mb.addEventListener("click",function(){sb.classList.toggle("open");ov.classList.toggle("open")});ov.addEventListener("click",function(){sb.classList.remove("open");ov.classList.remove("open")})}
+var secs=document.querySelectorAll("section[id]"),links=document.querySelectorAll(".sn a");
+function un(){var c="";secs.forEach(function(s){if(scrollY>=s.offsetTop-100)c=s.getAttribute("id")});links.forEach(function(l){l.classList.remove("active");if(l.getAttribute("href")==="#" +c)l.classList.add("active")})}
+window.addEventListener("scroll",un);un();
+window.addEventListener("scroll",function(){var st=document.documentElement.scrollTop,sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;var p=sh>0?(st/sh)*100:0;document.getElementById("pb").style.width=p+"%"})
+document.querySelectorAll(".sn a").forEach(function(l){l.addEventListener("click",function(){if(window.innerWidth<=860){sb.classList.remove("open");ov.classList.remove("open")}})});
+</script>
+</body>
+</html>
