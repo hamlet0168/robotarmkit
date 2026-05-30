@@ -2,7 +2,7 @@
 
 > 让机械臂像人手一样精确操作手机屏幕
 
-[🚀 **立即下载最新版本 (v1.0.0)**](https://github.com/hamlet0168/robotarmkit/releases/tag/v1.0.0) ｜ [📖 使用教程](tutorial_cn.html)
+[🚀 **立即下载最新版本 (v1.0.0)**](https://github.com/hamlet0168/robotarmkit/releases/tag/v1.0.0) ｜ [📖 使用教程](https://hamlet0168.github.io/robotarmkit/calibration/tutorial_cn.html)
 
 [![GitHub发布](https://img.shields.io/badge/version-0.1.0-blue)]()
 [![Python](https://img.shields.io/badge/Python-3.10%2B-green)]()
@@ -84,7 +84,7 @@ RobotArmKit/
 
 | 文档 | 说明 |
 |------|------|
-| [📖 查看使用教程](tutorial_cn.html) | 图文教程，含常见问题 |
+| [📖 查看使用教程](https://hamlet0168.github.io/robotarmkit/calibration/tutorial_cn.html) | 图文教程，含常见问题 |
 | 🔜 Flask API 文档 | 接口说明与调用示例（即将推出） |
 
 ---
