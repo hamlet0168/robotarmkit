@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Robot Arm Calibration Program - User Guide</title>
+<style>
+:root{--bg:#0a0e17;--bg2:#111827;--card:#1a2235;--code:#0d1117;--blue:#3b82f6;--purple:#8b5cf6;--cyan:#06b6d4;--green:#10b981;--orange:#f59e0b;--red:#ef4444;--tx:#f1f5f9;--tx2:#94a3b8;--muted:#64748b;--border:#1e293b;--glow:rgba(59,130,246,.3);--sw:240px;--hh:56px}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC",sans-serif;background:var(--bg);color:var(--tx);line-height:1.8;font-size:15px;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 800px 600px at 20% 10%,rgba(59,130,246,.08) 0%,transparent 70%),radial-gradient(ellipse 600px 400px at 80% 80%,rgba(139,92,246,.06) 0%,transparent 70%);pointer-events:none;z-index:0}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--muted);border-radius:3px}
+.header{position:fixed;top:0;left:0;right:0;height:var(--hh);background:rgba(10,14,23,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;z-index:1000}
+.hb{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:700}
+.hb .ico{width:32px;height:32px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.hn{margin-left:auto;display:flex;gap:6px}
+.hn a{color:var(--tx2);text-decoration:none;padding:6px 12px;border-radius:6px;font-size:13px;transition:.3s}
+.hn a:hover{color:var(--tx);background:rgba(255,255,255,.05)}
+.sidebar{position:fixed;top:var(--hh);left:0;bottom:0;width:var(--sw);background:rgba(17,24,39,.6);backdrop-filter:blur(10px);border-right:1px solid var(--border);padding:16px 0;overflow-y:auto;z-index:900;transition:transform .3s}
+.st{font-size:11px;font-weight:600;letter-spacing:1.5px;color:var(--muted);padding:0 18px;margin:18px 0 4px;text-transform:uppercase}
+.sn{list-style:none}
+.sn li a{display:flex;align-items:center;gap:8px;padding:8px 18px;color:var(--tx2);text-decoration:none;font-size:13px;transition:.3s;border-left:3px solid transparent}
+.sn li a:hover{color:var(--tx);background:rgba(255,255,255,.03);border-left-color:var(--blue)}
+.sn li a.active{color:var(--blue);background:rgba(59,130,246,.08);border-left-color:var(--blue)}
+.sn .ni{width:20px;text-align:center}
+.main{margin-left:var(--sw);padding-top:var(--hh);min-height:100vh;position:relative;z-index:1}
+.content{max-width:860px;margin:0 auto;padding:28px 36px 50px}
+.hero{text-align:center;padding:50px 0 32px}
+.hero .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);border-radius:50px;padding:5px 14px;font-size:12px;color:var(--blue);margin-bottom:18px}
+.hero h1{font-size:34px;font-weight:800;background:linear-gradient(135deg,var(--tx) 0%,var(--blue) 50%,var(--purple) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px;line-height:1.3}
+.hero .desc{font-size:15px;color:var(--tx2);max-width:540px;margin:0 auto;line-height:1.7}
+.sec{margin-bottom:42px;opacity:0;transform:translateY(20px);animation:fu .5s ease forwards}
+.sec:nth-child(2){animation-delay:.08s}.sec:nth-child(3){animation-delay:.14s}.sec:nth-child(4){animation-delay:.2s}.sec:nth-child(5){animation-delay:.26s}.sec:nth-child(6){animation-delay:.32s}.sec:nth-child(7){animation-delay:.38s}.sec:nth-child(8){animation-delay:.44s}.sec:nth-child(9){animation-delay:.5s}.sec:nth-child(10){animation-delay:.56s}
+@keyframes fu{to{opacity:1;transform:translateY(0)}}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.sn2{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff;flex-shrink:0;box-shadow:0 0 12px rgba(59,130,246,.3)}
+.st2{font-size:20px;font-weight:700;color:var(--tx)}
+.sub{margin:14px 0 10px;font-size:16px;font-weight:600;color:var(--tx);display:flex;align-items:center;gap:8px}
+.sub::before{content:"";width:4px;height:16px;background:var(--blue);border-radius:2px}
+.tx{font-size:15px;color:var(--tx2);margin-bottom:10px;line-height:1.8}
+.tx strong{color:var(--tx)}
+.tx code{background:var(--code);color:var(--cyan);padding:2px 7px;border-radius:4px;font-family:"JetBrains Mono",Consolas,monospace;font-size:13px;border:1px solid var(--border)}
+.tc{margin:18px 0;border-radius:10px;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 18px rgba(0,0,0,.4);background:var(--card);transition:.3s}
+.tc:hover{border-color:var(--glow);box-shadow:0 4px 18px rgba(0,0,0,.4),0 0 14px var(--glow)}
+.tc img{display:block;width:100%;height:auto}.tc img[src*="image4"],.tc img[src*="image5"],.tc img[src*="image6"],.tc img[src*="image7"],.tc img[src*="image8"],.tc img[src*="image9"],.tc img[src*="image10"],.tc img[src*="image11"],.tc img[src*="image12"],.tc img[src*="image13"],.tc img[src*="image14"],.tc img[src*="image15"],.tc img[src*="image16"],.tc img[src*="image17"],.tc img[src*="image18"],.tc img[src*="image19"],.tc img[src*="image20"],.tc img[src*="image21"],.tc img[src*="image22"],.tc img[src*="image23"],.tc img[src*="image24"],.tc img[src*="image25"]{width:50%;margin:0 auto;display:block}
+.tc .cap{padding:8px 14px;font-size:12px;color:var(--muted);background:rgba(0,0,0,.3);display:flex;align-items:center;gap:6px}
+.tc .cap::before{content:"";width:7px;height:7px;background:var(--blue);border-radius:50%;flex-shrink:0}
+.tw{margin:16px 0;border-radius:10px;border:1px solid var(--border);overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.4)}
+table.ft{width:100%;border-collapse:collapse}
+table.ft thead{background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(139,92,246,.12))}
+table.ft th{padding:11px 14px;text-align:left;font-size:12px;font-weight:600;letter-spacing:.5px;color:var(--blue);border-bottom:1px solid var(--border)}
+table.ft td{padding:11px 14px;font-size:13px;border-bottom:1px solid var(--border);color:var(--tx2);vertical-align:top}
+table.ft td:first-child{font-family:"JetBrains Mono",Consolas,monospace;color:var(--cyan);font-size:12px}
+table.ft tr:last-child td{border-bottom:none}table.ft tbody tr:hover{background:rgba(255,255,255,.02)}
+.ib{margin:14px 0;padding:12px 14px;border-radius:8px;border-left:4px solid;display:flex;gap:10px;font-size:14px}
+.ib.tip{background:rgba(16,185,129,.08);border-color:var(--green)}.ib.warn{background:rgba(245,158,11,.08);border-color:var(--orange)}.ib.info{background:rgba(59,130,246,.08);border-color:var(--blue)}.ib.danger{background:rgba(239,68,68,.08);border-color:var(--red)}
+.ib .ic{font-size:17px;flex-shrink:0}
+.reqs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0}
+.rc{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center;transition:.3s}
+.rc:hover{border-color:var(--blue);box-shadow:0 0 10px var(--glow)}
+.rc .ri{font-size:26px;margin-bottom:6px}.rc .rl{font-size:12px;color:var(--muted);margin-bottom:2px}.rc .rv{font-size:13px;font-weight:600}
+.kg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.kc{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center}
+.kc .kk{font-family:"JetBrains Mono",Consolas,monospace;font-size:18px;font-weight:700;color:var(--cyan)}.kc .kl{font-size:11px;color:var(--muted);margin-top:2px}
+.fi{border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.fq{width:100%;background:var(--card);border:none;padding:12px 14px;color:var(--tx);font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:.3s;text-align:left}
+.fq:hover{background:rgba(59,130,246,.05)}
+.fq::after{content:"+";font-size:18px;color:var(--muted);transition:.3s;flex-shrink:0}
+.fi.open .fq::after{transform:rotate(45deg)}
+.fa{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.fi.open .fa{max-height:300px}
+.fai{padding:12px 14px;font-size:13px;color:var(--tx2);line-height:1.8}
+.footer{text-align:center;padding:28px 0;color:var(--muted);font-size:12px;border-top:1px solid var(--border);margin-top:40px}
+.pb{position:fixed;top:var(--hh);left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--purple));z-index:999;transition:width .1s}
+.mb{display:none;background:none;border:none;color:var(--tx);font-size:22px;cursor:pointer;padding:4px}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:899}
+@media(max-width:860px){.mb{display:block}.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.ov.open{display:block}.main{margin-left:0}.content{padding:18px 12px 40px}.hero h1{font-size:24px}.hn{display:none}.kg{grid-template-columns:repeat(2,1fr)}.reqs{grid-template-columns:repeat(2,1fr)}}
+@media print{.header,.sidebar,.pb,.mb,.ov{display:none!important}.main{margin-left:0!important}.sec{opacity:1!important;transform:none!important}}
+</style>
+</head>
+<body>
+<div class="pb" id="pb"></div>
+<header class="header"><button class="mb" id="mb">&#9776;</button><div class="hb"><div class="ico">&#129302;</div><span>RobotArmKit - User Guide</span></div><nav class="hn"><a href="#hero">Home</a><a href="#s1">Steps</a><a href="#faq">FAQ</a></nav></header>
+<div class="ov" id="ov"></div>
+<aside class="sidebar" id="sb">
+<div class="st">Before You Begin</div><ul class="sn">
+<li><a href="#hero"><span class="ni">&#127968;</span>Tutorial Overview</a></li>
+<li><a href="#req"><span class="ni">&#128203;</span>Requirements</a></li>
+</ul><div class="st">Step-by-Step</div><ul class="sn">
+<li><a href="#s1"><span class="ni">&#128230;</span>Download &amp; Extract</a></li>
+<li><a href="#s2"><span class="ni">&#128193;</span>File Structure</a></li>
+<li><a href="#s3"><span class="ni">&#9654;</span>Launch the Program</a></li>
+<li><a href="#s4"><span class="ni">&#128241;</span>Phone Preparation</a></li>
+<li><a href="#s5"><span class="ni">&#127760;</span>Network Configuration</a></li>
+<li><a href="#s6"><span class="ni">&#127919;</span>Corner Detection</a></li>
+<li><a href="#s7"><span class="ni">&#129302;</span>Phase 3: Calibration</a></li>
+<li><a href="#s8"><span class="ni">&#9989;</span>Verify Results</a></li>
+<li><a href="#s9"><span class="ni">&#128190;</span>Save &amp; Reuse</a></li>
+</ul><div class="st">Help</div><ul class="sn"><li><a href="#faq"><span class="ni">&#128161;</span>FAQ</a></li></ul>
+</aside>
+<main class="main"><div class="content">
+<section class="hero" id="hero">
+<div class="badge">&#129302; Robot Arm Automation &#183; Calibration Program</div>
+<h1>Standalone Calibration Program - User Guide</h1>
+<p class="desc">This tutorial guides you through the entire process from downloading the program to completing robot arm calibration. Follow these steps to finish visual calibration and control your phone screen directly with a mouse.</p>
+</section>
+<section id="req" class="sec"><div class="sh"><div class="sn2">&#10003;</div><h2 class="st2">Requirements</h2></div>
+<p class="tx">Before you begin, make sure the following conditions are met:</p>
+<div class="reqs"><div class="rc"><div class="ri">&#129302;</div><div class="rl">Hardware</div><div class="rv">Robot Arm + Camera</div></div><div class="rc"><div class="ri">&#128241;</div><div class="rl">Phone</div><div class="rv">Android Device</div></div><div class="rc"><div class="ri">&#128187;</div><div class="rl">Computer</div><div class="rv">Windows OS</div></div><div class="rc"><div class="ri">&#128246;</div><div class="rl">Network</div><div class="rv">Same WiFi Network</div></div></div><div class="ib warn"><span class="ic">&#9888;</span><span>The phone and computer must be connected to the same WiFi network. This is essential for communication.</span></div>
+</section>
+<section id="s1" class="sec"><div class="sh"><div class="sn2">1</div><h2 class="st2">Download &amp; Extract</h2></div>
+<p class="tx">The downloaded archive is approximately <strong>160 MB</strong>. Actual size may vary slightly due to updates. Find a disk with sufficient space, copy the archive there, and extract it. It's recommended to create a dedicated directory, for example <code>D:\RobotArmKit</code>.</p>
+<div class="tc"><img src="tutorial_assets/image1.png" alt="Image 1 - Archive Details" loading="lazy"><div class="cap">Image 1 - Archive Details</div></div>
+<div class="tc"><img src="tutorial_assets/image2.png" alt="Image 2 - Create RobotArmKit directory on D drive" loading="lazy"><div class="cap">Image 2 - Create RobotArmKit directory on D drive</div></div>
+</section>
+<section id="s2" class="sec"><div class="sh"><div class="sn2">2</div><h2 class="st2">File Structure</h2></div>
+<p class="tx">After extracting, you'll see the following files and folders:</p>
+<div class="tw">
+    <table class="ft"><thead>
+    <tr><th>Name</th><th>Description</th></tr></thead><tbody>
+    <tr><td>&#128193; _internal</td><td>Runtime libraries and dependencies (no manual action needed)</td></tr>
+    <tr><td>&#128193; calibrations</td><td>Calibration history; supports saving multiple calibration results</td></tr>
+    <tr><td>&#128193; robot-arm-service</td><td>Robot arm hardware driver; batch files for auto install/uninstall</td></tr>
+    <tr><td>&#128193; tutorial_assets</td><td>Tutorial images</td></tr>
+    <tr><td>&#128196; User Guide.html</td><td>Web-based tutorial and FAQ</td></tr>
+    <tr><td>&#128196; phone_calibration_app.py</td><td>Python calibration script (run on phone)</td></tr>
+    <tr><td>&#128230; pydroid-3-8-3-arm64.apk</td><td>Pydroid 3 official APK (Python environment for phone)</td></tr>
+    <tr><td>&#9881;&#65039; RobotArmCalibration.exe</td><td>Main program (run on computer)</td></tr>
+    </tbody></table></div>
+<div class="tc"><img src="tutorial_assets/image3.png" alt="Image 3 - Extracted file structure" loading="lazy"><div class="cap">Image 3 - Extracted file structure</div></div>
+</section>
+<section id="s3" class="sec"><div class="sh"><div class="sn2">3</div><h2 class="st2">Launch the Program</h2></div>
+<p class="tx">Double-click to run <code>RobotArmCalibration.exe</code>. A command line window will appear showing basic information.</p>
+<ul style="list-style:none;padding:0"><li class="tx" style="padding:3px 0">&#8226; <strong>First run</strong>: Automatically installs robot arm hardware drivers</li><li class="tx" style="padding:3px 0">&#8226; <strong>Subsequent runs</strong>: Skips driver installation, enters main interface directly</li></ul>
+<p class="tx">After successful startup, the camera feed is displayed with an info panel on the right.</p>
+    <p class="tx"><strong>Important: The program needs to listen on port 12345 for phone communication. If the firewall blocks it, you must allow it to continue.</strong></p>
+<div class="tc"><img src="tutorial_assets/image26.png" alt="Image 26 - Allow through Firewall" loading="lazy"><div class="cap">Image 26 - Allow through Firewall</div></div>
+<div class="ib tip"><span class="ic">&#128161;</span><span>If the image is not clear enough, press <strong>+</strong> or <strong>-</strong> on the keyboard to adjust the camera focus until it's clear. Remember the focus value for direct use later.</span></div>
+<div class="tc"><img src="tutorial_assets/image4.png" alt="Image 4 - Command Line Window" loading="lazy"><div class="cap">Image 4 - Command Line Window</div></div>
+<div class="tc"><img src="tutorial_assets/image5.png" alt="Image 5 - Main Program Window" loading="lazy"><div class="cap">Image 5 - Main Program Window</div></div>
+</section>
+<section id="s4" class="sec"><div class="sh"><div class="sn2">4</div><h2 class="st2">Phone Preparation</h2></div>
+<div class="sub">Install Pydroid 3</div>
+<p class="tx">Send <code>pydroid-3-8-3-arm64.apk</code> to the phone via WeChat File Transfer. Tap Allow to install after receiving.</p>
+<div class="ib info"><span class="ic">&#8505;</span><span>Pydroid 3 is a convenient app for writing and debugging Python code on your phone.</span></div>
+<div class="tc"><img src="tutorial_assets/image6.png" alt="Image 6 - Main Program Running" loading="lazy"><div class="cap">Image 6 - Main Program Running</div></div>
+<div class="sub">Transfer Calibration Script</div>
+<p class="tx">After Pydroid 3 is installed, continue by sending <code>phone_calibration_app.py</code> to the phone. After receiving, tap <strong>File &#8594; Download</strong>.</p>
+<div class="tc"><img src="tutorial_assets/image7.png" alt="Image 7 - Pydroid 3 Icon" loading="lazy"><div class="cap">Image 7 - Pydroid 3 Icon</div></div>
+<div class="tc"><img src="tutorial_assets/image8.png" alt="Image 8 - Transfer Pydroid 3 APK via WeChat" loading="lazy"><div class="cap">Image 8 - Transfer Pydroid 3 APK via WeChat</div></div>
+<p class="tx">After downloading, open it with the newly installed <strong>Pydroid 3</strong>.</p>
+<div class="tc"><img src="tutorial_assets/image9.png" alt="Image 9 - Transfer Calibration Script" loading="lazy"><div class="cap">Image 9 - Transfer Calibration Script</div></div>
+<p class="tx">The default view shows the <strong>new</strong> tab.</p>
+<div class="tc"><img src="tutorial_assets/image10.png" alt="Image 10 - Download Calibration Script File" loading="lazy"><div class="cap">Image 10 - Download Calibration Script File</div></div>
+<p class="tx">You need to switch to the <strong>phone_calibration_app.py</strong> tab.</p>
+<div class="tc"><img src="tutorial_assets/image11.png" alt="Image 11 - Open Script with Pydroid 3" loading="lazy"><div class="cap">Image 11 - Open Script with Pydroid 3</div></div>
+</section>
+<section id="s5" class="sec"><div class="sh"><div class="sn2">5</div><h2 class="st2">Network Configuration (Critical Step)</h2></div>
+<p class="tx">The phone and computer programs need to communicate for precise calibration, so both must use the correct LAN IP.</p>
+<div class="sub">Check Computer LAN IP</div>
+<p class="tx">Open your computer's <strong>Network Settings</strong>, click "Properties", and find the <strong>IPv4 Address</strong> and note it down. Example: <code>192.168.31.83</code></p>
+<div class="tc"><img src="tutorial_assets/image12.png" alt="Image 12 - Check Computer LAN IP" loading="lazy"><div class="cap">Image 12 - Check Computer LAN IP</div></div>
+<div class="tc"><img src="tutorial_assets/image13.png" alt="Image 13 - Pydroid 3 Code Interface" loading="lazy"><div class="cap">Image 13 - Pydroid 3 Code Interface</div></div>
+<div class="sub">Modify the IP in the Phone Script</div>
+<p class="tx">On the Pydroid 3 screen, scroll up to around <strong>line 283</strong> and change the IP to your computer's actual LAN IP.</p>
+<div class="sub">Run the Script</div>
+<p class="tx">When ready, tap the <strong>Run button</strong> (&#9654;) in the bottom-right corner. Four dots appear in the corners of the phone screen. The computer will show <strong>"Phone Connected"</strong>.</p>
+<div class="tc"><img src="tutorial_assets/image14.png" alt="Image 14 - Modify IP and Run" loading="lazy"><div class="cap">Image 14 - Modify IP and Run</div></div>
+</section>
+<section id="s6" class="sec"><div class="sh"><div class="sn2">6</div><h2 class="st2">Corner Detection &amp; Confirmation</h2></div>
+<p class="tx">The program continuously searches for the four corner dots. Identified corners show <strong>"Stable"</strong>. If there is glare or interference, a point may show <strong>"Jumping"</strong>.</p>
+<div class="tc"><img src="tutorial_assets/image15.png" alt="Image 15 - 4 Phone Corners + Computer Connected" loading="lazy"><div class="cap">Image 15 - 4 Phone Corners + Computer Connected</div></div>
+<div class="sub">Confirm Corner Positions</div>
+<ol class="tx" style="padding-left:20px"><li style="padding:3px 0">The cursor is cross-shaped; try to center the crosshair on the dot before clicking</li><li style="padding:3px 0">Auto-detected corners are marked with <strong style="color:var(--blue)">blue circles</strong></li><li style="padding:3px 0">User-confirmed points are marked with <strong style="color:var(--red)">red circles</strong></li><li style="padding:3px 0">After all 4 corners are marked, you will see <strong>"All Points Locked"</strong></li></ol>
+<div class="tc"><img src="tutorial_assets/image16.png" alt="Image 16 - Stable Corner Status" loading="lazy"><div class="cap">Image 16 - Stable Corner Status</div></div>
+<div class="ib warn"><span class="ic">&#9888;</span><span><strong>Press Enter to confirm the lock</strong>. Only pressing Enter constitutes actual confirmation.</span></div>
+<div class="tc"><img src="tutorial_assets/image17.png" alt="Image 17 - Confirm Corner Positions" loading="lazy"><div class="cap">Image 17 - Confirm Corner Positions</div></div>
+</section>
+<section id="s7" class="sec"><div class="sh"><div class="sn2">7</div><h2 class="st2">Phase 3 - Robot Arm Calibration</h2></div>
+<p class="tx">The computer prompts that you have entered <strong>Phase 3</strong>. You can now control the robot arm via keyboard.</p>
+<div class="sub">Movement Controls</div>
+<div class="kg"><div class="kc"><div class="kk">W</div><div class="kl">Up</div></div><div class="kc"><div class="kk">A</div><div class="kl">Left</div></div><div class="kc"><div class="kk">S</div><div class="kl">Down</div></div><div class="kc"><div class="kk">D</div><div class="kl">Right</div></div></div><p class="tx">&#8226; Default step size: <strong>2.0mm</strong><br>&#8226; Press <strong>&#8593; &#8595;</strong> to adjust step size (0.1mm ~ 10.0mm)<br>&#8226; Holding continuously will cause repeated movement, but <strong>try not to hold too long</strong></p>
+<div class="tc"><img src="tutorial_assets/image18.png" alt="Image 18 - Phase 3 Initial View" loading="lazy"><div class="cap">Image 18 - Phase 3 Initial View</div></div>
+<div class="sub">Stylus Operation</div>
+<p class="tx">&#8226; <strong>Press down</strong>: Press Spacebar<br>&#8226; <strong>Lift</strong>: Press Spacebar again</p>
+<div class="ib danger"><span class="ic">&#9888;</span><span><strong>Important: Do NOT move the robot arm while the stylus is pressed down!</strong> Always lift before moving.</span></div>
+<p class="tx">Default press depth is <strong>9mm</strong>. The stylus has flex capability, so normal phone placement will not cause damage.</p>
+<div class="tc"><img src="tutorial_assets/image19.jpeg" alt="Image 19 - Stylus Pressed Down" loading="lazy"><div class="cap">Image 19 - Stylus Pressed Down</div></div>
+<div class="tc"><img src="tutorial_assets/image20.jpeg" alt="Image 20 - Stylus Contact with Phone" loading="lazy"><div class="cap">Image 20 - Stylus Contact with Phone</div></div>
+<div class="tc"><img src="tutorial_assets/image21.jpeg" alt="Image 21 - Stylus Lifted" loading="lazy"><div class="cap">Image 21 - Stylus Lifted</div></div>
+<div class="sub">Move Above the Corner Points</div>
+<p class="tx">Control the robot arm to move above each of the 4 dots in sequence, press-lift the stylus, and attempt to tap the dot. After each tap, the phone screen shows <strong>"Last Click"</strong> coordinates.</p>
+<p class="tx">Each successful tap shows <strong>"Confirmed N/4"</strong>.</p>
+<div class="tc"><img src="tutorial_assets/image22.png" alt="Image 22 - Click to Confirm Coordinates" loading="lazy"><div class="cap">Image 22 - Click to Confirm Coordinates</div></div>
+<p class="tx">After all 4 points are correctly tapped, the robot arm <strong>automatically resets</strong> and enters <strong>Phase 4</strong>.</p>
+</section>
+<section id="s8" class="sec"><div class="sh"><div class="sn2">8</div><h2 class="st2">Verify Calibration Results</h2></div>
+<p class="tx">The phone screen displays <strong>8 random points</strong>. Click the points you see on the computer screen with your mouse; the robot arm automatically moves to the corresponding position, presses, and lifts.</p>
+<ul class="tx" style="padding-left:20px"><li style="padding:3px 0">The computer display shows <strong>white dots</strong> marking click positions</li><li style="padding:3px 0">The right panel shows: click position, expected target, actual coordinates</li><li style="padding:3px 0">Typically the error is <strong>within a few pixels</strong></li></ul>
+<div class="tc"><img src="tutorial_assets/image23.png" alt="Image 23 - Verify Calibration Results" loading="lazy"><div class="cap">Image 23 - Verify Calibration Results</div></div>
+</section>
+<section id="s9" class="sec"><div class="sh"><div class="sn2">9</div><h2 class="st2">Save &amp; Reuse</h2></div>
+<div class="sub">Save</div>
+<p class="tx">Click <strong>"Exit (ESC)"</strong>, then press <code>Q</code> on the computer to exit. The calibration results are <strong>automatically saved</strong> to the <code>calibrations</code> directory.</p>
+<div class="sub">Reuse Existing Calibration</div>
+<p class="tx">On restart, the CMD window prompts that calibration records were found:</p>
+<ul class="tx" style="padding-left:20px"><li style="padding:3px 0"><strong>Enter 1 + Enter</strong>: Use existing calibration</li><li style="padding:3px 0"><strong>Enter 0 + Enter</strong>: Re-calibrate</li></ul>
+<div class="sub">Use Directly</div>
+<p class="tx">After selecting an existing calibration, Pydroid 3 is no longer needed on the phone. You can click positions directly on the computer screen, as if operating the phone with your finger.</p>
+<div class="tc"><img src="tutorial_assets/image24.png" alt="Image 24 - Control Phone Directly with Mouse" loading="lazy"><div class="cap">Image 24 - Control Phone Directly with Mouse</div></div>
+<div class="tc"><img src="tutorial_assets/image25.gif" alt="Image 25 - Final Demo (GIF auto-plays)" loading="lazy"><div class="cap">Image 25 - Final Demo (GIF auto-plays)</div></div>
+</section>
+<section class="faq" id="faq" style="margin-top:40px"><div class="sh"><div class="sn2" style="background:linear-gradient(135deg,var(--orange),var(--green))">?</div><h2 class="st2">Frequently Asked Questions</h2></div>
+<div class="fi"><button class="fq" onclick="var it=this.parentElement;var o=it.classList.contains('open');document.querySelectorAll('.fi').forEach(function(i){i.classList.remove('open')});if(!o)it.classList.add('open')">What if driver installation fails on first run?</button><div class="fa"><div class="fai">Please check that your system is <strong>Windows 10 or Windows 11</strong>, and confirm whether any antivirus software is blocking the driver installation.</div></div></div>
+<div class="fi"><button class="fq" onclick="var it=this.parentElement;var o=it.classList.contains('open');document.querySelectorAll('.fi').forEach(function(i){i.classList.remove('open')});if(!o)it.classList.add('open')">Camera feed not showing or black screen?</button><div class="fa"><div class="fai">Please check the following three items in order:<br>1. Is the robot arm properly powered (<strong>blue LED steady</strong> near the power jack?)<br>2. Is the robot arm's own <strong>blue USB cable</strong> properly connected to a computer USB port?<br>3. Is the <strong>black USB cable</strong> extending from the top camera properly connected to a computer USB port?<br>After confirming all three, restart the program.</div></div></div>
+<div class="fi"><button class="fq" onclick="var it=this.parentElement;var o=it.classList.contains('open');document.querySelectorAll('.fi').forEach(function(i){i.classList.remove('open')});if(!o)it.classList.add('open')">Pydroid 3 cannot open .py files?</button><div class="fa"><div class="fai">Pydroid 3 has a folder icon in the top-right corner; click it and select <strong>'Open'</strong>.<br>Find the <code>phone_calibration_app.py</code> file you transferred from the computer.<br><span style="color:var(--muted)">(If not yet transferred, you can send it from the computer via WeChat/QQ/USB cable)</span><br>If unsure, you can search online for Pydroid 3 tutorials.<br>Or send your actual issue to the author at <strong>hamlet0168@163.com</strong></div></div></div>
+<div class="fi"><button class="fq" onclick="var it=this.parentElement;var o=it.classList.contains('open');document.querySelectorAll('.fi').forEach(function(i){i.classList.remove('open')});if(!o)it.classList.add('open')">Where are calibration results saved?</button><div class="fa"><div class="fai">Calibration results are saved in the <code>calibrations</code> directory under the extracted root.<br>You can save <strong>multiple calibration results</strong>. If you re-calibrate multiple times, each result is saved. You can use this feature to maintain separate calibration files for different phones (e.g., iPhone or Huawei).<br>When starting the program, all calibrations are listed and you can freely choose which one to use.<br>Enter the corresponding number and press Enter.<br>Calibration files are named in timestamp format as <strong>JSON</strong> files, such as <code>calib_20260529_143311.json</code>.</div></div></div>
+<div class="fi"><button class="fq" onclick="var it=this.parentElement;var o=it.classList.contains('open');document.querySelectorAll('.fi').forEach(function(i){i.classList.remove('open')});if(!o)it.classList.add('open')">Can I delete previous calibration history?</button><div class="fa"><div class="fai">Yes. If you delete all of them, the program will require re-calibration on next startup.<br>Also, every time you <strong>readjust the phone holder</strong>, even slightly, you should re-calibrate; the previous calibration file becomes invalid.</div></div></div>
+</section>
+<footer class="footer"><p>&#129302; <strong>RobotArmKit</strong> &#183; Robot Arm Automated Calibration Program</p><p style="margin-top:6px;color:var(--muted)">&#169; 2026 RobotArmKit.</p></footer>
+</div></main>
+<script>
+var mb=document.getElementById("mb"),sb=document.getElementById("sb"),ov=document.getElementById("ov");
+if(mb){mb.addEventListener("click",function(){sb.classList.toggle("open");ov.classList.toggle("open")});ov.addEventListener("click",function(){sb.classList.remove("open");ov.classList.remove("open")})}
+var secs=document.querySelectorAll("section[id]"),links=document.querySelectorAll(".sn a");
+function un(){var c="";secs.forEach(function(s){if(scrollY>=s.offsetTop-100)c=s.getAttribute("id")});links.forEach(function(l){l.classList.remove("active");if(l.getAttribute("href")==="#" +c)l.classList.add("active")})}
+window.addEventListener("scroll",un);un();
+window.addEventListener("scroll",function(){var st=document.documentElement.scrollTop,sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;var p=sh>0?(st/sh)*100:0;document.getElementById("pb").style.width=p+"%"})
+document.querySelectorAll(".sn a").forEach(function(l){l.addEventListener("click",function(){if(window.innerWidth<=860){sb.classList.remove("open");ov.classList.remove("open")}})});
+</script>
+</body>
+</html>
