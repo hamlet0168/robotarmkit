@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>FlexArm - Desktop Recognition Configuration Tutorial</title>
+<style>
+:root{--bg:#0a0e17;--bg2:#111827;--card:#1a2235;--code:#0d1117;--blue:#3b82f6;--purple:#8b5cf6;--cyan:#06b6d4;--green:#10b981;--orange:#f59e0b;--red:#ef4444;--tx:#f1f5f9;--tx2:#94a3b8;--muted:#64748b;--border:#1e293b;--glow:rgba(59,130,246,.3);--sw:240px;--hh:56px}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--tx);line-height:1.8;font-size:15px;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 800px 600px at 20% 10%,rgba(59,130,246,.08) 0%,transparent 70%),radial-gradient(ellipse 600px 400px at 80% 80%,rgba(139,92,246,.06) 0%,transparent 70%);pointer-events:none;z-index:0}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--muted);border-radius:3px}
+.header{position:fixed;top:0;left:0;right:0;height:var(--hh);background:rgba(10,14,23,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;z-index:1000}
+.hb{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:700}
+.hb .ico{width:32px;height:32px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.hn{margin-left:auto;display:flex;gap:6px}
+.hn a{color:var(--tx2);text-decoration:none;padding:6px 12px;border-radius:6px;font-size:13px;transition:.3s}
+.hn a:hover{color:var(--tx);background:rgba(255,255,255,.05)}
+.lang-switch{color:var(--blue);border:1px solid rgba(59,130,246,.3);padding:4px 12px;border-radius:6px;font-size:12px;font-weight:600}
+.lang-switch:hover{background:rgba(59,130,246,.1)}
+.sidebar{position:fixed;top:var(--hh);left:0;bottom:0;width:var(--sw);background:rgba(17,24,39,.6);backdrop-filter:blur(10px);border-right:1px solid var(--border);padding:16px 0;overflow-y:auto;z-index:900;transition:transform .3s}
+.st{font-size:11px;font-weight:600;letter-spacing:1.5px;color:var(--muted);padding:0 18px;margin:18px 0 4px;text-transform:uppercase}
+.sn{list-style:none}
+.sn li a{display:flex;align-items:center;gap:8px;padding:8px 18px;color:var(--tx2);text-decoration:none;font-size:13px;transition:.3s;border-left:3px solid transparent}
+.sn li a:hover{color:var(--tx);background:rgba(255,255,255,.03);border-left-color:var(--blue)}
+.sn li a.active{color:var(--blue);background:rgba(59,130,246,.08);border-left-color:var(--blue)}
+.sn .ni{width:20px;text-align:center}
+.main{margin-left:var(--sw);padding-top:var(--hh);min-height:100vh;position:relative;z-index:1}
+.content{max-width:860px;margin:0 auto;padding:28px 36px 50px}
+.hero{text-align:center;padding:50px 0 32px}
+.hero .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);border-radius:50px;padding:5px 14px;font-size:12px;color:var(--blue);margin-bottom:18px}
+.hero h1{font-size:34px;font-weight:800;background:linear-gradient(135deg,var(--tx) 0%,var(--blue) 50%,var(--purple) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px;line-height:1.3}
+.hero .desc{font-size:15px;color:var(--tx2);max-width:540px;margin:0 auto;line-height:1.7}
+.logo-wrap{margin:0 auto 20px;width:120px;height:120px;border-radius:20px;overflow:hidden;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(59,130,246,.15)}
+.logo-wrap img{width:100%;height:100%;object-fit:contain}
+.sec{margin-bottom:42px;opacity:0;transform:translateY(20px);animation:fu .5s ease forwards}
+.sec:nth-child(2){animation-delay:.08s}.sec:nth-child(3){animation-delay:.14s}.sec:nth-child(4){animation-delay:.2s}.sec:nth-child(5){animation-delay:.26s}.sec:nth-child(6){animation-delay:.32s}.sec:nth-child(7){animation-delay:.38s}.sec:nth-child(8){animation-delay:.44s}
+@keyframes fu{to{opacity:1;transform:translateY(0)}}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.sn2{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff;flex-shrink:0;box-shadow:0 0 12px rgba(59,130,246,.3)}
+.st2{font-size:20px;font-weight:700;color:var(--tx)}
+.sub{margin:14px 0 10px;font-size:16px;font-weight:600;color:var(--tx);display:flex;align-items:center;gap:8px}
+.sub::before{content:"";width:4px;height:16px;background:var(--blue);border-radius:2px}
+.tx{font-size:15px;color:var(--tx2);margin-bottom:10px;line-height:1.8}
+.tx strong{color:var(--tx)}
+.tx code{background:var(--code);color:var(--cyan);padding:2px 7px;border-radius:4px;font-family:"JetBrains Mono",Consolas,monospace;font-size:13px;border:1px solid var(--border)}
+.tc{margin:18px 0;border-radius:10px;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 18px rgba(0,0,0,.4);background:var(--card);transition:.3s}
+.tc:hover{border-color:var(--glow);box-shadow:0 4px 18px rgba(0,0,0,.4),0 0 14px var(--glow)}
+.tc img{display:block;width:100%;height:auto}
+.tc .cap{padding:8px 14px;font-size:12px;color:var(--muted);background:rgba(0,0,0,.3);display:flex;align-items:center;gap:6px}
+.tc .cap::before{content:"";width:7px;height:7px;background:var(--blue);border-radius:50%;flex-shrink:0}
+.tw{margin:16px 0;border-radius:10px;border:1px solid var(--border);overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.4)}
+table.ft{width:100%;border-collapse:collapse}
+table.ft thead{background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(139,92,246,.12))}
+table.ft th{padding:11px 14px;text-align:left;font-size:12px;font-weight:600;letter-spacing:.5px;color:var(--blue);border-bottom:1px solid var(--border)}
+table.ft td{padding:11px 14px;font-size:13px;border-bottom:1px solid var(--border);color:var(--tx2);vertical-align:top}
+table.ft td:first-child{font-family:"JetBrains Mono",Consolas,monospace;color:var(--cyan);font-size:12px}
+table.ft tr:last-child td{border-bottom:none}table.ft tbody tr:hover{background:rgba(255,255,255,.02)}
+.ib{margin:14px 0;padding:12px 14px;border-radius:8px;border-left:4px solid;display:flex;gap:10px;font-size:14px}
+.ib.tip{background:rgba(16,185,129,.08);border-color:var(--green)}.ib.warn{background:rgba(245,158,11,.08);border-color:var(--orange)}.ib.info{background:rgba(59,130,246,.08);border-color:var(--blue)}.ib.danger{background:rgba(239,68,68,.08);border-color:var(--red)}
+.ib .ic{font-size:17px;flex-shrink:0}
+pre.yaml{background:var(--code);border:1px solid var(--border);border-radius:8px;padding:14px;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tx2);margin:12px 0}
+pre.yaml .k{color:var(--cyan)}pre.yaml .s{color:var(--orange)}pre.yaml .c{color:var(--muted);font-style:italic}
+.icon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:10px;margin:14px 0}
+.icon-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center;transition:.3s}
+.icon-card:hover{border-color:var(--blue)}
+.icon-card img{width:52px;height:52px;border-radius:10px;display:block;margin:0 auto 6px}
+.icon-card .name{font-size:11px;color:var(--tx2)}
+.page-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.page-preview .tc{margin:0}
+.page-preview img{width:100%}
+.fi{border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.fq{width:100%;background:transparent;border:none;padding:12px 14px;color:var(--tx2);font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:.3s;text-align:left}
+.fq:hover{background:rgba(59,130,246,.04);color:var(--tx)}
+.fq::after{content:"+";font-size:18px;color:var(--muted);transition:.3s;flex-shrink:0}
+.fi.open .fq::after{transform:rotate(45deg)}
+.fi.open .fq{background:rgba(59,130,246,.06);color:var(--tx)}
+.fa{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.fi.open .fa{max-height:300px}
+.fai{padding:12px 14px;font-size:13px;color:var(--tx2);line-height:1.8}
+.footer{text-align:center;padding:28px 0;color:var(--muted);font-size:12px;border-top:1px solid var(--border);margin-top:40px}
+.pb{position:fixed;top:var(--hh);left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--purple));z-index:999;transition:width .1s}
+.mb{display:none;background:none;border:none;color:var(--tx);font-size:22px;cursor:pointer;padding:4px}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:899}
+@media(max-width:860px){.mb{display:block}.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.ov.open{display:block}.main{margin-left:0}.content{padding:18px 12px 40px}.hero h1{font-size:24px}.hn{display:none}.page-preview{grid-template-columns:1fr}}
+@media print{.header,.sidebar,.pb,.mb,.ov{display:none!important}.main{margin-left:0!important}.sec{opacity:1!important;transform:none!important}}
+</style>
+</head>
+<body>
+<div class="pb" id="pb"></div>
+<header class="header"><button class="mb" id="mb">&#9776;</button><div class="hb"><div class="ico">&#128241;</div><span>FlexArm - Desktop Tutorial</span></div><nav class="hn"><a href="#hero">Home</a><a href="#s1">Steps</a><a href="#faq">FAQ</a><a class="lang-switch" href="desktop_tutorial_cn.html">中文</a></nav></header>
+<div class="ov" id="ov"></div>
+<aside class="sidebar" id="sb">
+<div class="st">Before You Start</div><ul class="sn">
+<li><a href="#hero"><span class="ni">&#127968;</span>Overview</a></li>
+<li><a href="#req"><span class="ni">&#128203;</span>Requirements</a></li>
+</ul><div class="st">Steps</div><ul class="sn">
+<li><a href="#s1"><span class="ni">&#128241;</span>Capture Screenshot</a></li>
+<li><a href="#s2"><span class="ni">&#9986;</span>Crop Icon Templates</a></li>
+<li><a href="#s3"><span class="ni">&#128221;</span>Write Desktop Config</a></li>
+<li><a href="#s4"><span class="ni">&#128269;</span>Detection Principle</a></li>
+<li><a href="#s5"><span class="ni">&#128640;</span>Page Navigation</a></li>
+<li><a href="#s6"><span class="ni">&#128225;</span>Test & Verify</a></li>
+</ul><div class="st">Help</div><ul class="sn"><li><a href="#faq"><span class="ni">&#128161;</span>FAQ</a></li></ul>
+</aside>
+<main class="main"><div class="content">
+
+<!-- Hero -->
+<section class="hero" id="hero">
+<div class="logo-wrap"><img src="desktop_demo_pic/logo_256.png" alt="FlexArm Logo"></div>
+<div class="badge">&#129302; Robotic Arm Automation &#183; Desktop Recognition</div>
+<h1>How to Make the Robot Recognize Your Desktop</h1>
+<p class="desc">This tutorial guides you through the full process of configuring desktop icon templates. Once done, the robotic arm can use template matching to identify desktop pages, auto-page to find target apps, and precisely tap icons to launch them.</p>
+</section>
+
+<!-- Requirements -->
+<section id="req" class="sec"><div class="sh"><div class="sn2">&#10003;</div><h2 class="st2">Requirements</h2></div>
+<p class="tx">Before you begin, make sure the following conditions are met:</p>
+<div class="reqs"><div class="rc"><div class="ri">&#129302;</div><div class="rl">Hardware</div><div class="rv">Robotic arm + camera</div></div><div class="rc"><div class="ri">&#128241;</div><div class="rl">Phone</div><div class="rv">Android device</div></div><div class="rc"><div class="ri">&#128187;</div><div class="rl">Computer</div><div class="rv">Windows OS</div></div><div class="rc"><div class="ri">&#128276;</div><div class="rl">Service</div><div class="rv">RobotArmServer.exe</div></div></div>
+<div class="ib info"><span class="ic">&#8505;</span><span>The core of desktop recognition is <strong>template matching</strong>: the camera captures the phone screen, and OpenCV searches for regions that best match the icon templates. Recognition accuracy depends on the quality of template images.</span></div>
+</section>
+
+<!-- Step 1: Screenshot -->
+<section id="s1" class="sec"><div class="sh"><div class="sn2">1</div><h2 class="st2">Capture Desktop Screenshots</h2></div>
+<p class="tx">First, have the robotic arm capture the current phone desktop. Make sure the phone is positioned within the camera view and the screen is awake.</p>
+<div class="ib tip"><span class="ic">&#128161;</span><span>Take a screenshot via API <code>POST /api/screenshot</code>, or use the arm <code>click</code> to tap a blank area and wake the screen.</span></div>
+<p class="tx">Below are example desktop screenshots from this tutorial (3 pages):</p>
+<div class="page-preview">
+<div class="tc"><img src="desktop_demo_pic/desktop_page0.png" alt="Desktop Page 0" loading="lazy"><div class="cap">Page 0 — Weather, Settings, Video, Music, etc.</div></div>
+<div class="tc"><img src="desktop_demo_pic/desktop_page1.png" alt="Desktop Page 1" loading="lazy"><div class="cap">Page 1 — Quark, Qishui Music, Pydroid, etc.</div></div>
+<div class="tc"><img src="desktop_demo_pic/desktop_page2.png" alt="Desktop Page 2" loading="lazy"><div class="cap">Page 2 — WeChat, Alipay, TikTok, News, etc.</div></div>
+</div>
+<p class="tx">In each screenshot you can clearly see the various app icons. These icons are the <strong>templates</strong> we need to extract.</p>
+</section>
+
+<!-- Step 2: Crop Icons -->
+<section id="s2" class="sec"><div class="sh"><div class="sn2">2</div><h2 class="st2">Crop Icon Templates</h2></div>
+<p class="tx">Crop each app icon from the screenshots and save as PNG files into the <code>icons/</code> directory.</p>
+<div class="sub">Cropping requirements</div>
+<ul style="list-style:none;padding:0">
+<li class="tx" style="padding:3px 0">&#8226; <strong>PNG format</strong>, lowercase English name with underscores, e.g. <code>app_qishui.png</code></li>
+<li class="tx" style="padding:3px 0">&#8226; <strong>Complete icon body</strong>, with 2-3px padding around the edges (mask mode needs edge pixels for background sampling)</li>
+<li class="tx" style="padding:3px 0">&#8226; <strong>No dynamic content</strong> (notification badges, countdowns, animations, etc.)</li>
+<li class="tx" style="padding:3px 0">&#8226; <strong>Reasonable size</strong>, typically 60x60 ~ 120x120 pixels is enough</li>
+</ul>
+<div class="ib warn"><span class="ic">&#9888;</span><span>When cropping, <strong>keep only the icon itself</strong> — do not include surrounding background color. Template matching uses the entire image to search the screen; background areas will interfere with matching.</span></div>
+<div class="sub">Example: configured icon templates</div>
+<p class="tx">Below are the desktop icon templates currently configured in the <code>icons/</code> directory:</p>
+<div class="icon-grid">
+<div class="icon-card"><img src="desktop_demo_pic/icon_phone.png" alt="Phone"><div class="name">Phone</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_camera.png" alt="Camera"><div class="name">Camera</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_message.png" alt="Message"><div class="name">Messages</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_settings.png" alt="Settings"><div class="name">Settings</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_music.png" alt="Music"><div class="name">Music</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_quark.png" alt="Quark"><div class="name">Quark</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_qishui.png" alt="Qishui"><div class="name">Qishui Music</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_deepseek.png" alt="DeepSeek"><div class="name">DeepSeek</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_hongguo.png" alt="Hongguo"><div class="name">Hongguo</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_pydroid.png" alt="Pydroid"><div class="name">Pydroid</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_kuaishou.png" alt="Kuaishou"><div class="name">Kuaishou Lite</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_alipay.png" alt="Alipay"><div class="name">Alipay</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_tiktok.png" alt="TikTok"><div class="name">TikTok</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_wechat.png" alt="WeChat"><div class="name">WeChat</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_lol.png" alt="LOL"><div class="name">League of Legends</div></div>
+</div>
+</section>
+
+<!-- Step 3: Write Config -->
+<section id="s3" class="sec"><div class="sh"><div class="sn2">3</div><h2 class="st2">Write the Desktop Configuration File</h2></div>
+<p class="tx">The desktop config file is at <code>scripts/configs/app_desktop.yaml</code>. It defines all recognizable desktop pages.</p>
+<div class="sub">Configuration structure</div>
+<div class="tw">
+<table class="ft"><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
+<tr><td>app_name</td><td>Desktop name (string, any name)</td></tr>
+<tr><td>pages</td><td>List of pages, each with the following fields</td></tr>
+<tr><td>name</td><td>Page name, e.g. <code>desktop_page0</code>, <code>desktop_page1</code></td></tr>
+<tr><td>min_match</td><td>Minimum number of feature matches required to pass detection</td></tr>
+<tr><td>must_features</td><td>Required features — <strong>all must match</strong>, otherwise the page is skipped</td></tr>
+<tr><td>features</td><td>Optional features — passes when match count &ge; <code>min_match</code></td></tr>
+<tr><td>type</td><td>Feature type: <code>image</code> (template matching) or <code>text</code> (OCR)</td></tr>
+<tr><td>path</td><td>Icon template file path (used when <code>type: image</code>)</td></tr>
+<tr><td>mask</td><td><code>false</code> = 4-corner background sampling (relaxed), <code>true</code> = strict template matching</td></tr>
+</tbody></table></div>
+<div class="sub">Complete example</div>
+<pre class="yaml"><span class="k">app_name</span>: Phone Desktop
+
+<span class="k">pages</span>:
+  <span class="c"># Page 1: Phone, Camera, Messages, Settings, Music</span>
+  - <span class="k">name</span>: desktop_page0
+    <span class="k">min_match</span>: 2
+    <span class="k">must_features</span>:
+      - <span class="k">name</span>: Phone
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/app_phone.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: Camera
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/app_camera.png
+        <span class="k">mask</span>: false
+    <span class="k">features</span>:
+      - <span class="k">name</span>: Messages
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/app_message.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: Settings
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/app_settings.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: Music
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/app_music.png
+        <span class="k">mask</span>: false
+
+  <span class="c"># Page 2: Phone, Camera + more apps</span>
+  - <span class="k">name</span>: desktop_page1
+    <span class="k">min_match</span>: 3
+    <span class="k">must_features</span>:
+      - <span class="k">name</span>: Phone
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/app_phone.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: Camera
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/app_camera.png
+        <span class="k">mask</span>: false
+    <span class="k">features</span>:
+      - <span class="k">name</span>: Qishui Music
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/app_qishui.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: Quark
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/app_quark.png
+        <span class="k">mask</span>: false
+
+  <span class="c"># Task card page (multi-task switch view)</span>
+  - <span class="k">name</span>: Task Card
+    <span class="k">min_match</span>: 0
+    <span class="k">must_features</span>:
+      - <span class="k">name</span>: Window Display
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/task_show.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: Trash Bin
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/task_delete.png
+        <span class="k">mask</span>: false
+    <span class="k">features</span>: []</pre>
+<div class="ib tip"><span class="ic">&#128161;</span><span><strong>must_features</strong> and <strong>features</strong> serve different purposes: must_features is the "gate" — all must pass before features are checked. Features form a "candidate pool" — the page is identified when enough features match (min_match).</span></div>
+</section>
+
+<!-- Step 4: Detection Principle -->
+<section id="s4" class="sec"><div class="sh"><div class="sn2">4</div><h2 class="st2">Detection Principle</h2></div>
+<p class="tx">When the program runs <code>detect_desktop</code>, it works as follows:</p>
+<div class="sub">Detection flow</div>
+<p class="tx"><strong>Step 1</strong>: Camera captures the current phone screen (rotated 90&deg; for portrait mode)</p>
+<p class="tx"><strong>Step 2</strong>: Iterate through every page defined in the config (page0 &rarr; page1 &rarr; page2 &rarr; Task Card)</p>
+<p class="tx"><strong>Step 3</strong>: For each page, check <code>must_features</code> first (all must match). If any fails, skip that page</p>
+<p class="tx"><strong>Step 4</strong>: Once required features pass, check <code>features</code> and count matches</p>
+<p class="tx"><strong>Step 5</strong>: When match count &ge; <code>min_match</code>, the current screen is identified as that page</p>
+<div class="sub">Template matching</div>
+<p class="tx">OpenCV uses <code>cv2.matchTemplate()</code> to search the screen for regions most similar to the icon template. It returns the highest similarity score and its position. Default threshold is 0.75 — scores above this are considered a match.</p>
+<div class="ib info"><span class="ic">&#8505;</span><span>With <code>mask: false</code>, the program samples colors at the 4 corners of the template as background, ignoring those pixels during matching. This tolerates small variations in icon size/position. Desktop icons should generally use <code>mask: false</code>.</span></div>
+</section>
+
+<!-- Step 5: Page Navigation -->
+<section id="s5" class="sec"><div class="sh"><div class="sn2">5</div><h2 class="st2">Page Navigation</h2></div>
+<p class="tx">Once desktop is configured, the robotic arm can auto-navigate between pages using these APIs:</p>
+<div class="tw">
+<table class="ft"><thead><tr><th>API</th><th>Method</th><th>Description</th></tr></thead><tbody>
+<tr><td>POST /api/go_home</td><td>POST</td><td>Return to desktop: checks if on desktop, if not swipes up repeatedly until desktop is detected</td></tr>
+<tr><td>POST /api/go_forward</td><td>POST</td><td>Page forward (swipe left gesture), switch from current page to the next</td></tr>
+<tr><td>POST /api/go_back</td><td>POST</td><td>Page backward (swipe right gesture), switch from current page to the previous</td></tr>
+<tr><td>POST /api/run_app</td><td>GET/POST</td><td>Smart app launch: go_home &rarr; detect page &rarr; auto-page to target &rarr; tap icon</td></tr>
+</tbody></table></div>
+<div class="sub">run_app auto-page flow</div>
+<p class="tx">Execution flow for <code>POST /api/run_app {"app_name": "Qishui Music"}</code>:</p>
+<p class="tx"><strong>1.</strong> <code>go_home</code> ensures we are on the desktop</p>
+<p class="tx"><strong>2.</strong> Detect current page and determine distance to target page</p>
+<p class="tx"><strong>3.</strong> Auto-execute <code>go_forward</code> or <code>go_back</code> until the target page is reached</p>
+<p class="tx"><strong>4.</strong> Use template matching on the target page to find and tap the icon</p>
+<p class="tx"><strong>5.</strong> Safety limits: max 20 loop iterations, 3 tap attempts</p>
+<div class="ib warn"><span class="ic">&#9888;</span><span>Page ordering depends on the <strong>numeric order</strong> of page names in <code>app_desktop.yaml</code>. Name pages as <code>desktop_page0</code>, <code>desktop_page1</code>, <code>desktop_page2</code>, etc. — the program auto-sorts by number.</span></div>
+</section>
+
+<!-- Step 6: Test -->
+<section id="s6" class="sec"><div class="sh"><div class="sn2">6</div><h2 class="st2">Test & Verify</h2></div>
+<p class="tx">After configuration, verify desktop recognition works with these APIs:</p>
+<div class="sub">Detect current desktop page</div>
+<pre class="yaml"><span class="c"># Detect current page, returns page name and confidence</span>
+POST /api/detect_desktop
+<span class="c"># Response: {"ok":true,"data":{"page_name":"desktop_page1","score":0.94,"matched":true}}</span></pre>
+<div class="sub">Launch an app</div>
+<pre class="yaml"><span class="c"># Have the arm auto-find and tap the "Qishui Music" icon</span>
+POST /api/run_app {"app_name": "Qishui Music"}
+<span class="c"># Response: {"ok":true,"data":{"launched":true}}</span></pre>
+<div class="sub">Find a specific icon</div>
+<pre class="yaml"><span class="c"># Search for "Quark" icon in current frame</span>
+POST /api/find_template {"path": "icons/app_quark.png", "threshold": 0.75}
+<span class="c"># Response: {"ok":true,"data":{"x":242,"y":516,"w":55,"h":55,"score":0.92}}</span></pre>
+<div class="ib tip"><span class="ic">&#128161;</span><span>If an icon can't be found, try: <strong>1)</strong> Lower threshold to 0.65; <strong>2)</strong> Set <code>mask: false</code>; <strong>3)</strong> Specify an <code>roi</code> to narrow the search area; <strong>4)</strong> Check if the template image actually matches the icon on screen.</span></div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="sec"><div class="sh"><div class="sn2">&#128161;</div><h2 class="st2">Frequently Asked Questions</h2></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: Why can't the icon be found?</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0">The most common cause is poor template image quality. Check: <strong>1)</strong> Does the template contain only the icon body without extra background? <strong>2)</strong> Is the icon size close to what appears on screen? <strong>3)</strong> Try setting <code>mask: false</code> for 4-corner background sampling; <strong>4)</strong> Lower the threshold; <strong>5)</strong> Is the camera in focus? (adjust via <code>/api/change_focus</code>).</p>
+</div></div></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: Page detection always returns None (not detected)?</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0"><strong>1)</strong> Confirm that the must_features icons actually exist on screen; <strong>2)</strong> Reduce matching difficulty (mask: false + lower threshold); <strong>3)</strong> Add more icons to features as backup; <strong>4)</strong> Lower min_match to reduce the threshold.</p>
+</div></div></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: run_app can't find the target app, what should I do?</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0">Confirm the target app icon is correctly configured in a page in <code>app_desktop.yaml</code>, and the <code>name</code> field exactly matches the <code>app_name</code> passed in the API call. Also verify the template file exists in the <code>icons/</code> directory.</p>
+</div></div></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: What's the difference between mask: false and mask: true?</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0"><code>mask: true</code> (default) uses strict template matching — every pixel in the template participates in matching. Best for fixed UI elements (buttons, text, etc.).</p>
+<p class="tx" style="margin:0"><code>mask: false</code> samples the 4 corner colors of the template as background and ignores those pixels during matching. This tolerates icon display differences across varying background colors. <strong>Use mask: false for desktop icons</strong>.</p>
+</div></div></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: How do I add a new app to the desktop config?</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0"><strong>1)</strong> Screenshot your phone desktop, find the target app icon; <strong>2)</strong> Crop the icon and save as <code>icons/app_xxx.png</code>; <strong>3)</strong> Add a new entry under <code>features</code> in the appropriate page of <code>app_desktop.yaml</code>; <strong>4)</strong> Test with <code>POST /api/find_template</code> to confirm it can be found; <strong>5)</strong> Test with <code>POST /api/run_app</code> to confirm it can be launched.</p>
+</div></div></div>
+</section>
+
+<div class="footer">FlexArm Robot &middot; Desktop Recognition Tutorial &middot; <a href="desktop_tutorial_cn.html" style="color:var(--blue);text-decoration:none">中文版</a></div>
+</div></main>
+
+<script>
+const links=document.querySelectorAll('.sn a');
+const secs=document.querySelectorAll('.sec, .hero');
+const pb=document.getElementById('pb');
+window.addEventListener('scroll',()=>{
+  let y=window.scrollY+100;
+  secs.forEach((s,i)=>{if(y>=s.offsetTop){links.forEach(l=>l.classList.remove('active'));if(links[i])links[i].classList.add('active')}});
+  pb.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
+});
+document.getElementById('mb').onclick=()=>{document.getElementById('sb').classList.toggle('open');document.getElementById('ov').classList.toggle('open')};
+document.getElementById('ov').onclick=()=>{document.getElementById('sb').classList.remove('open');document.getElementById('ov').classList.remove('open')};
+</script>
+</body>
+</html>

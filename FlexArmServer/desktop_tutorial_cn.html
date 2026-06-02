@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>FlexArm - 手机桌面识别配置教程</title>
+<style>
+:root{--bg:#0a0e17;--bg2:#111827;--card:#1a2235;--code:#0d1117;--blue:#3b82f6;--purple:#8b5cf6;--cyan:#06b6d4;--green:#10b981;--orange:#f59e0b;--red:#ef4444;--tx:#f1f5f9;--tx2:#94a3b8;--muted:#64748b;--border:#1e293b;--glow:rgba(59,130,246,.3);--sw:240px;--hh:56px}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--tx);line-height:1.8;font-size:15px;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 800px 600px at 20% 10%,rgba(59,130,246,.08) 0%,transparent 70%),radial-gradient(ellipse 600px 400px at 80% 80%,rgba(139,92,246,.06) 0%,transparent 70%);pointer-events:none;z-index:0}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--muted);border-radius:3px}
+.header{position:fixed;top:0;left:0;right:0;height:var(--hh);background:rgba(10,14,23,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;z-index:1000}
+.hb{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:700}
+.hb .ico{width:32px;height:32px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.hn{margin-left:auto;display:flex;gap:6px}
+.hn a{color:var(--tx2);text-decoration:none;padding:6px 12px;border-radius:6px;font-size:13px;transition:.3s}
+.hn a:hover{color:var(--tx);background:rgba(255,255,255,.05)}
+.lang-switch{color:var(--blue);border:1px solid rgba(59,130,246,.3);padding:4px 12px;border-radius:6px;font-size:12px;font-weight:600}
+.lang-switch:hover{background:rgba(59,130,246,.1)}
+.sidebar{position:fixed;top:var(--hh);left:0;bottom:0;width:var(--sw);background:rgba(17,24,39,.6);backdrop-filter:blur(10px);border-right:1px solid var(--border);padding:16px 0;overflow-y:auto;z-index:900;transition:transform .3s}
+.st{font-size:11px;font-weight:600;letter-spacing:1.5px;color:var(--muted);padding:0 18px;margin:18px 0 4px;text-transform:uppercase}
+.sn{list-style:none}
+.sn li a{display:flex;align-items:center;gap:8px;padding:8px 18px;color:var(--tx2);text-decoration:none;font-size:13px;transition:.3s;border-left:3px solid transparent}
+.sn li a:hover{color:var(--tx);background:rgba(255,255,255,.03);border-left-color:var(--blue)}
+.sn li a.active{color:var(--blue);background:rgba(59,130,246,.08);border-left-color:var(--blue)}
+.sn .ni{width:20px;text-align:center}
+.main{margin-left:var(--sw);padding-top:var(--hh);min-height:100vh;position:relative;z-index:1}
+.content{max-width:860px;margin:0 auto;padding:28px 36px 50px}
+.hero{text-align:center;padding:50px 0 32px}
+.hero .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);border-radius:50px;padding:5px 14px;font-size:12px;color:var(--blue);margin-bottom:18px}
+.hero h1{font-size:34px;font-weight:800;background:linear-gradient(135deg,var(--tx) 0%,var(--blue) 50%,var(--purple) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px;line-height:1.3}
+.hero .desc{font-size:15px;color:var(--tx2);max-width:540px;margin:0 auto;line-height:1.7}
+.logo-wrap{margin:0 auto 20px;width:120px;height:120px;border-radius:20px;overflow:hidden;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(59,130,246,.15)}
+.logo-wrap img{width:100%;height:100%;object-fit:contain}
+.sec{margin-bottom:42px;opacity:0;transform:translateY(20px);animation:fu .5s ease forwards}
+.sec:nth-child(2){animation-delay:.08s}.sec:nth-child(3){animation-delay:.14s}.sec:nth-child(4){animation-delay:.2s}.sec:nth-child(5){animation-delay:.26s}.sec:nth-child(6){animation-delay:.32s}.sec:nth-child(7){animation-delay:.38s}.sec:nth-child(8){animation-delay:.44s}
+@keyframes fu{to{opacity:1;transform:translateY(0)}}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.sn2{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff;flex-shrink:0;box-shadow:0 0 12px rgba(59,130,246,.3)}
+.st2{font-size:20px;font-weight:700;color:var(--tx)}
+.sub{margin:14px 0 10px;font-size:16px;font-weight:600;color:var(--tx);display:flex;align-items:center;gap:8px}
+.sub::before{content:"";width:4px;height:16px;background:var(--blue);border-radius:2px}
+.tx{font-size:15px;color:var(--tx2);margin-bottom:10px;line-height:1.8}
+.tx strong{color:var(--tx)}
+.tx code{background:var(--code);color:var(--cyan);padding:2px 7px;border-radius:4px;font-family:"JetBrains Mono",Consolas,monospace;font-size:13px;border:1px solid var(--border)}
+.tc{margin:18px 0;border-radius:10px;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 18px rgba(0,0,0,.4);background:var(--card);transition:.3s}
+.tc:hover{border-color:var(--glow);box-shadow:0 4px 18px rgba(0,0,0,.4),0 0 14px var(--glow)}
+.tc img{display:block;width:100%;height:auto}
+.tc .cap{padding:8px 14px;font-size:12px;color:var(--muted);background:rgba(0,0,0,.3);display:flex;align-items:center;gap:6px}
+.tc .cap::before{content:"";width:7px;height:7px;background:var(--blue);border-radius:50%;flex-shrink:0}
+.tw{margin:16px 0;border-radius:10px;border:1px solid var(--border);overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.4)}
+table.ft{width:100%;border-collapse:collapse}
+table.ft thead{background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(139,92,246,.12))}
+table.ft th{padding:11px 14px;text-align:left;font-size:12px;font-weight:600;letter-spacing:.5px;color:var(--blue);border-bottom:1px solid var(--border)}
+table.ft td{padding:11px 14px;font-size:13px;border-bottom:1px solid var(--border);color:var(--tx2);vertical-align:top}
+table.ft td:first-child{font-family:"JetBrains Mono",Consolas,monospace;color:var(--cyan);font-size:12px}
+table.ft tr:last-child td{border-bottom:none}table.ft tbody tr:hover{background:rgba(255,255,255,.02)}
+.ib{margin:14px 0;padding:12px 14px;border-radius:8px;border-left:4px solid;display:flex;gap:10px;font-size:14px}
+.ib.tip{background:rgba(16,185,129,.08);border-color:var(--green)}.ib.warn{background:rgba(245,158,11,.08);border-color:var(--orange)}.ib.info{background:rgba(59,130,246,.08);border-color:var(--blue)}.ib.danger{background:rgba(239,68,68,.08);border-color:var(--red)}
+.ib .ic{font-size:17px;flex-shrink:0}
+pre.yaml{background:var(--code);border:1px solid var(--border);border-radius:8px;padding:14px;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tx2);margin:12px 0}
+pre.yaml .k{color:var(--cyan)}pre.yaml .s{color:var(--orange)}pre.yaml .c{color:var(--muted);font-style:italic}
+.icon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:10px;margin:14px 0}
+.icon-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center;transition:.3s}
+.icon-card:hover{border-color:var(--blue)}
+.icon-card img{width:52px;height:52px;border-radius:10px;display:block;margin:0 auto 6px}
+.icon-card .name{font-size:11px;color:var(--tx2)}
+.page-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.page-preview .tc{margin:0}
+.page-preview img{width:100%}
+.fi{border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.fq{width:100%;background:transparent;border:none;padding:12px 14px;color:var(--tx2);font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:.3s;text-align:left}
+.fq:hover{background:rgba(59,130,246,.04);color:var(--tx)}
+.fq::after{content:"+";font-size:18px;color:var(--muted);transition:.3s;flex-shrink:0}
+.fi.open .fq::after{transform:rotate(45deg)}
+.fi.open .fq{background:rgba(59,130,246,.06);color:var(--tx)}
+.fa{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.fi.open .fa{max-height:300px}
+.fai{padding:12px 14px;font-size:13px;color:var(--tx2);line-height:1.8}
+.footer{text-align:center;padding:28px 0;color:var(--muted);font-size:12px;border-top:1px solid var(--border);margin-top:40px}
+.pb{position:fixed;top:var(--hh);left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--purple));z-index:999;transition:width .1s}
+.mb{display:none;background:none;border:none;color:var(--tx);font-size:22px;cursor:pointer;padding:4px}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:899}
+@media(max-width:860px){.mb{display:block}.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.ov.open{display:block}.main{margin-left:0}.content{padding:18px 12px 40px}.hero h1{font-size:24px}.hn{display:none}.page-preview{grid-template-columns:1fr}}
+@media print{.header,.sidebar,.pb,.mb,.ov{display:none!important}.main{margin-left:0!important}.sec{opacity:1!important;transform:none!important}}
+</style>
+</head>
+<body>
+<div class="pb" id="pb"></div>
+<header class="header"><button class="mb" id="mb">&#9776;</button><div class="hb"><div class="ico">&#128241;</div><span>FlexArm - 桌面识别教程</span></div><nav class="hn"><a href="#hero">首页</a><a href="#s1">步骤</a><a href="#faq">FAQ</a><a class="lang-switch" href="desktop_tutorial_en.html">English</a></nav></header>
+<div class="ov" id="ov"></div>
+<aside class="sidebar" id="sb">
+<div class="st">开始之前</div><ul class="sn">
+<li><a href="#hero"><span class="ni">&#127968;</span>教程概览</a></li>
+<li><a href="#req"><span class="ni">&#128203;</span>环境要求</a></li>
+</ul><div class="st">操作步骤</div><ul class="sn">
+<li><a href="#s1"><span class="ni">&#128241;</span>拍摄桌面截图</a></li>
+<li><a href="#s2"><span class="ni">&#9986;</span>裁剪图标模板</a></li>
+<li><a href="#s3"><span class="ni">&#128221;</span>编写桌面配置</a></li>
+<li><a href="#s4"><span class="ni">&#128269;</span>检测原理详解</a></li>
+<li><a href="#s5"><span class="ni">&#128640;</span>翻页逻辑</a></li>
+<li><a href="#s6"><span class="ni">&#128225;</span>测试与验证</a></li>
+</ul><div class="st">帮助</div><ul class="sn"><li><a href="#faq"><span class="ni">&#128161;</span>常见问题</a></li></ul>
+</aside>
+<main class="main"><div class="content">
+
+<!-- Hero -->
+<section class="hero" id="hero">
+<div class="logo-wrap"><img src="desktop_demo_pic/logo_256.png" alt="FlexArm Logo"></div>
+<div class="badge">&#129302; 机械臂自动化 &#183; 桌面识别</div>
+<h1>如何让机器人识别你的桌面</h1>
+<p class="desc">本教程将引导你完成桌面图标模板配置的全流程。配置完成后，机械臂可通过模板匹配识别桌面页面、自动翻页查找目标 APP、精准点击图标启动应用。</p>
+</section>
+
+<!-- Requirements -->
+<section id="req" class="sec"><div class="sh"><div class="sn2">&#10003;</div><h2 class="st2">环境要求</h2></div>
+<p class="tx">开始前，请确认以下条件已满足：</p>
+<div class="reqs"><div class="rc"><div class="ri">&#129302;</div><div class="rl">硬件</div><div class="rv">机械臂 + 摄像头</div></div><div class="rc"><div class="ri">&#128241;</div><div class="rl">手机</div><div class="rv">Android 设备</div></div><div class="rc"><div class="ri">&#128187;</div><div class="rl">电脑</div><div class="rv">Windows 系统</div></div><div class="rc"><div class="ri">&#128276;</div><div class="rl">服务</div><div class="rv">RobotArmServer.exe</div></div></div>
+<div class="ib info"><span class="ic">&#8505;</span><span>桌面识别的核心是 <strong>模板匹配</strong>：用摄像头拍摄手机屏幕，通过 OpenCV 在画面中搜索与图标模板最相似的区域。识别准确度取决于模板图片的质量。</span></div>
+</section>
+
+<!-- Step 1: Screenshot -->
+<section id="s1" class="sec"><div class="sh"><div class="sn2">1</div><h2 class="st2">拍摄桌面截图</h2></div>
+<p class="tx">首先，让机械臂拍摄手机当前桌面的画面。确保手机已放在摄像头画面中，且屏幕已点亮。</p>
+<div class="ib tip"><span class="ic">&#128161;</span><span>可通过 API <code>POST /api/screenshot</code> 截图，或通过机械臂 <code>click</code> 点击屏幕空白处唤醒亮屏。</span></div>
+<p class="tx">以下为本教程使用的实际桌面截图示例（3 个桌面页面）：</p>
+<div class="page-preview">
+<div class="tc"><img src="desktop_demo_pic/desktop_page0.png" alt="Desktop Page 0" loading="lazy"><div class="cap">桌面 page0 — 天气、设置、华为视频、音乐等</div></div>
+<div class="tc"><img src="desktop_demo_pic/desktop_page1.png" alt="Desktop Page 1" loading="lazy"><div class="cap">桌面 page1 — 红果、夸克、汽水音乐、Pydroid 等</div></div>
+<div class="tc"><img src="desktop_demo_pic/desktop_page2.png" alt="Desktop Page 2" loading="lazy"><div class="cap">桌面 page2 — 微信、支付宝、抖音、腾讯新闻等</div></div>
+</div>
+<p class="tx">每张截图中，你可以清晰看到各个 APP 图标。这些图标就是我们要提取的<strong>模板图片</strong>。</p>
+</section>
+
+<!-- Step 2: Crop Icons -->
+<section id="s2" class="sec"><div class="sh"><div class="sn2">2</div><h2 class="st2">裁剪图标模板</h2></div>
+<p class="tx">从截图中裁剪出每个 APP 的图标，保存为 PNG 文件放入 <code>icons/</code> 目录。</p>
+<div class="sub">裁剪要求</div>
+<ul style="list-style:none;padding:0">
+<li class="tx" style="padding:3px 0">&#8226; <strong>PNG 格式</strong>，文件名小写英文 + 下划线，如 <code>app_qishui.png</code></li>
+<li class="tx" style="padding:3px 0">&#8226; <strong>图标主体完整</strong>，边缘留 2-3px 空白（mask 模式需要边缘判断背景）</li>
+<li class="tx" style="padding:3px 0">&#8226; <strong>不要包含动态内容</strong>（通知角标、倒计时、动画等）</li>
+<li class="tx" style="padding:3px 0">&#8226; <strong>大小适中</strong>，通常 60x60 ~ 120x120 像素即可</li>
+</ul>
+<div class="ib warn"><span class="ic">&#9888;</span><span>裁剪时尽量<strong>只保留图标本体</strong>，不要包含图标周围的背景色。模板匹配会拿整张图片去屏幕中搜索，背景区域会干扰匹配结果。</span></div>
+<div class="sub">示例：已配置的图标模板</div>
+<p class="tx">以下是当前 <code>icons/</code> 目录中已配置的桌面图标模板：</p>
+<div class="icon-grid">
+<div class="icon-card"><img src="desktop_demo_pic/icon_phone.png" alt="Phone"><div class="name">电话</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_camera.png" alt="Camera"><div class="name">照相机</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_message.png" alt="Message"><div class="name">短信</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_settings.png" alt="Settings"><div class="name">设置</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_music.png" alt="Music"><div class="name">音乐</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_quark.png" alt="Quark"><div class="name">夸克</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_qishui.png" alt="Qishui"><div class="name">汽水音乐</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_deepseek.png" alt="DeepSeek"><div class="name">DeepSeek</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_hongguo.png" alt="Hongguo"><div class="name">红果</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_pydroid.png" alt="Pydroid"><div class="name">Pydroid</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_kuaishou.png" alt="Kuaishou"><div class="name">快手极速版</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_alipay.png" alt="Alipay"><div class="name">支付宝</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_tiktok.png" alt="TikTok"><div class="name">抖音</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_wechat.png" alt="WeChat"><div class="name">微信</div></div>
+<div class="icon-card"><img src="desktop_demo_pic/icon_lol.png" alt="LOL"><div class="name">英雄联盟</div></div>
+</div>
+</section>
+
+<!-- Step 3: Write Config -->
+<section id="s3" class="sec"><div class="sh"><div class="sn2">3</div><h2 class="st2">编写桌面配置文件</h2></div>
+<p class="tx">桌面配置文件的固定路径是 <code>scripts/configs/app_desktop.yaml</code>。它定义了手机桌面的所有可识别页面。</p>
+<div class="sub">配置文件结构</div>
+<div class="tw">
+<table class="ft"><thead><tr><th>字段</th><th>说明</th></tr></thead><tbody>
+<tr><td>app_name</td><td>桌面名称（字符串，任意命名）</td></tr>
+<tr><td>pages</td><td>页面列表，每个页面包含以下字段</td></tr>
+<tr><td>name</td><td>页面名称，如 <code>desktop_page0</code>、<code>desktop_page1</code></td></tr>
+<tr><td>min_match</td><td>最少需要匹配的特征数（达到此数即通过该页面检测）</td></tr>
+<tr><td>must_features</td><td>必选特征列表——<strong>全部必须匹配</strong>，否则跳过该页面</td></tr>
+<tr><td>features</td><td>可选特征列表——匹配数 &ge; <code>min_match</code> 即通过</td></tr>
+<tr><td>type</td><td>特征类型：<code>image</code>（模板匹配）或 <code>text</code>（OCR）</td></tr>
+<tr><td>path</td><td>图标模板路径（<code>type: image</code> 时使用）</td></tr>
+<tr><td>mask</td><td><code>false</code>=4角背景采样（宽松），<code>true</code>=严格模板匹配</td></tr>
+</tbody></table></div>
+<div class="sub">完整示例</div>
+<pre class="yaml"><span class="k">app_name</span>: 手机桌面
+
+<span class="k">pages</span>:
+  <span class="c"># 第 1 页：电话、相机、短信、设置、音乐</span>
+  - <span class="k">name</span>: desktop_page0
+    <span class="k">min_match</span>: 2
+    <span class="k">must_features</span>:
+      - <span class="k">name</span>: 电话
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/app_phone.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 照相机
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/app_camera.png
+        <span class="k">mask</span>: false
+    <span class="k">features</span>:
+      - <span class="k">name</span>: 短信
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/app_message.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 设置
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/app_settings.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 音乐
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/app_music.png
+        <span class="k">mask</span>: false
+
+  <span class="c"># 第 2 页：电话、相机 + 更多 APP</span>
+  - <span class="k">name</span>: desktop_page1
+    <span class="k">min_match</span>: 3
+    <span class="k">must_features</span>:
+      - <span class="k">name</span>: 电话
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/app_phone.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 照相机
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/app_camera.png
+        <span class="k">mask</span>: false
+    <span class="k">features</span>:
+      - <span class="k">name</span>: 汽水音乐
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/app_qishui.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 夸克
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/app_quark.png
+        <span class="k">mask</span>: false
+
+  <span class="c"># 任务卡页面（多任务切换视图）</span>
+  - <span class="k">name</span>: 任务卡
+    <span class="k">min_match</span>: 0
+    <span class="k">must_features</span>:
+      - <span class="k">name</span>: 小窗显示
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/task_show.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 垃圾箱
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/task_delete.png
+        <span class="k">mask</span>: false
+    <span class="k">features</span>: []</pre>
+<div class="ib tip"><span class="ic">&#128161;</span><span>配置文件中 <strong>must_features</strong> 和 <strong>features</strong> 的作用不同：must_features 是"门槛"，全部通过才继续检测 features；features 是"候选池"，达到 min_match 数量即可认定该页面。</span></div>
+</section>
+
+<!-- Step 4: Detection Principle -->
+<section id="s4" class="sec"><div class="sh"><div class="sn2">4</div><h2 class="st2">检测原理详解</h2></div>
+<p class="tx">当程序执行 <code>detect_desktop</code> 时，内部按以下流程工作：</p>
+<div class="sub">检测流程</div>
+<p class="tx"><strong>Step 1</strong>：摄像头捕获当前手机屏幕画面（旋转 90&deg; 适配竖屏）</p>
+<p class="tx"><strong>Step 2</strong>：遍历配置文件中定义的每个页面（page0 &rarr; page1 &rarr; page2 &rarr; 任务卡）</p>
+<p class="tx"><strong>Step 3</strong>：对每个页面，先检测 <code>must_features</code>（必须全部匹配）。若有不匹配的，跳过该页面</p>
+<p class="tx"><strong>Step 4</strong>：必须特征通过后，检测 <code>features</code>，统计匹配数量</p>
+<p class="tx"><strong>Step 5</strong>：匹配数量 &ge; <code>min_match</code> 时，认定当前屏幕属于该页面</p>
+<div class="sub">模板匹配原理</div>
+<p class="tx">OpenCV 使用 <code>cv2.matchTemplate()</code> 在画面中搜索与图标模板最相似的区域。返回最高相似度得分（score）及其位置。默认阈值 0.75，得分超过此值即认为匹配成功。</p>
+<div class="ib info"><span class="ic">&#8505;</span><span><code>mask: false</code> 时，程序会采样模板图 4 个角点的颜色作为背景色，搜索时忽略这些背景像素。这能容忍图标大小/位置的微小变化。建议桌面图标统一使用 <code>mask: false</code>。</span></div>
+</section>
+
+<!-- Step 5: Page Navigation -->
+<section id="s5" class="sec"><div class="sh"><div class="sn2">5</div><h2 class="st2">翻页逻辑</h2></div>
+<p class="tx">配置好桌面后，机械臂可通过以下 API 在页面间自动导航：</p>
+<div class="tw">
+<table class="ft"><thead><tr><th>API</th><th>方法</th><th>说明</th></tr></thead><tbody>
+<tr><td>POST /api/go_home</td><td>POST</td><td>返回桌面：检测当前是否在桌面，不在则循环上滑直到回到桌面</td></tr>
+<tr><td>POST /api/go_forward</td><td>POST</td><td>向右翻页（左滑手势），从当前页面切换到下一页</td></tr>
+<tr><td>POST /api/go_back</td><td>POST</td><td>向左翻页（右滑手势），从当前页面切换到上一页</td></tr>
+<tr><td>POST /api/run_app</td><td>GET/POST</td><td>智能启动 APP：go_home &rarr; 检测页面 &rarr; 自动翻页找到目标页 &rarr; 点击图标</td></tr>
+</tbody></table></div>
+<div class="sub">run_app 自动翻页流程</div>
+<p class="tx"><code>POST /api/run_app {"app_name": "汽水音乐"}</code> 的执行流程：</p>
+<p class="tx"><strong>1.</strong> <code>go_home</code> 确保回到桌面</p>
+<p class="tx"><strong>2.</strong> 检测当前页面，判断与目标页面（汽水音乐所在的 page）的距离</p>
+<p class="tx"><strong>3.</strong> 自动执行 <code>go_forward</code> 或 <code>go_back</code> 翻页，直到到达目标页面</p>
+<p class="tx"><strong>4.</strong> 在目标页面上用模板匹配找到图标并点击</p>
+<p class="tx"><strong>5.</strong> 最多循环 20 次保护，3 次点击尝试</p>
+<div class="ib warn"><span class="ic">&#9888;</span><span>翻页依赖 <code>app_desktop.yaml</code> 中页面的 <strong>数字顺序</strong>。确保页面命名为 <code>desktop_page0</code>、<code>desktop_page1</code>、<code>desktop_page2</code> 等格式，程序会按数字自动排序。</span></div>
+</section>
+
+<!-- Step 6: Test -->
+<section id="s6" class="sec"><div class="sh"><div class="sn2">6</div><h2 class="st2">测试与验证</h2></div>
+<p class="tx">配置完成后，通过以下 API 验证桌面识别是否正常工作：</p>
+<div class="sub">检测当前桌面页面</div>
+<pre class="yaml"><span class="c"># 检测当前是否在桌面，返回页面名称和置信度</span>
+POST /api/detect_desktop
+<span class="c"># 返回: {"ok":true,"data":{"page_name":"desktop_page1","score":0.94,"matched":true}}</span></pre>
+<div class="sub">启动指定 APP</div>
+<pre class="yaml"><span class="c"># 让机械臂自动找到并点击"汽水音乐"图标</span>
+POST /api/run_app {"app_name": "汽水音乐"}
+<span class="c"># 返回: {"ok":true,"data":{"launched":true}}</span></pre>
+<div class="sub">查找指定图标</div>
+<pre class="yaml"><span class="c"># 在当前画面中搜索"夸克"图标</span>
+POST /api/find_template {"path": "icons/app_quark.png", "threshold": 0.75}
+<span class="c"># 返回: {"ok":true,"data":{"x":242,"y":516,"w":55,"h":55,"score":0.92}}</span></pre>
+<div class="ib tip"><span class="ic">&#128161;</span><span>如果图标找不到，依次尝试：<strong>1)</strong> 降低 threshold 到 0.65；<strong>2)</strong> 设置 <code>mask: false</code>；<strong>3)</strong> 指定 roi 缩小搜索区域；<strong>4)</strong> 检查模板图片是否与画面中的图标一致。</span></div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="sec"><div class="sh"><div class="sn2">&#128161;</div><h2 class="st2">常见问题</h2></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: 为什么图标一直找不到？</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0">最常见的原因是模板图片质量不佳。检查以下几点：<strong>1)</strong> 模板是否只包含图标本体，没有多余背景；<strong>2)</strong> 图标是否与画面中的图标大小接近；<strong>3)</strong> 尝试设置 <code>mask: false</code> 使用 4 角背景采样；<strong>4)</strong> 降低 threshold 阈值；<strong>5)</strong> 摄像头对焦是否清晰（调整 <code>/api/change_focus</code>）。</p>
+</div></div></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: 页面检测一直返回 None（未检测到）？</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0"><strong>1)</strong> 确认 must_features 中的图标在画面中确实存在；<strong>2)</strong> 降低 must_features 的图标匹配难度（mask: false + 降低 threshold）；<strong>3)</strong> 增加 features 中的图标数量作为备选；<strong>4)</strong> 调整 min_match 降低门槛。</p>
+</div></div></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: run_app 找不到目标 APP 怎么办？</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0">确认目标 APP 的图标已正确配置在 <code>app_desktop.yaml</code> 的某个页面中，且 <code>name</code> 字段与 API 调用时传入的 <code>app_name</code> 完全一致。同时确认图标模板文件存在于 <code>icons/</code> 目录。</p>
+</div></div></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: mask: false 和 mask: true 有什么区别？</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0"><code>mask: true</code>（默认）使用严格模板匹配，图标模板的每个像素都会参与匹配计算。适合固定 UI 元素（按钮、文字等）。</p>
+<p class="tx" style="margin:0"><code>mask: false</code> 会采样模板图 4 个角的颜色作为背景色，匹配时忽略这些背景区域。这能容忍图标在不同背景色上的显示差异。<strong>桌面图标建议使用 mask: false</strong>。</p>
+</div></div></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: 如何添加新 APP 到桌面配置？</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0"><strong>1)</strong> 截图手机桌面，找到目标 APP 图标；<strong>2)</strong> 裁剪图标保存为 <code>icons/app_xxx.png</code>；<strong>3)</strong> 在 <code>app_desktop.yaml</code> 对应页面的 <code>features</code> 中添加新条目；<strong>4)</strong> 测试 <code>POST /api/find_template</code> 确认可找到；<strong>5)</strong> 测试 <code>POST /api/run_app</code> 确认可启动。</p>
+</div></div></div>
+</section>
+
+<div class="footer">FlexArm Robot &middot; 桌面识别配置教程 &middot; <a href="desktop_tutorial_en.html" style="color:var(--blue);text-decoration:none">English Version</a></div>
+</div></main>
+
+<script>
+const links=document.querySelectorAll('.sn a');
+const secs=document.querySelectorAll('.sec, .hero');
+const pb=document.getElementById('pb');
+window.addEventListener('scroll',()=>{
+  let y=window.scrollY+100;
+  secs.forEach((s,i)=>{if(y>=s.offsetTop){links.forEach(l=>l.classList.remove('active'));if(links[i])links[i].classList.add('active')}});
+  pb.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
+});
+document.getElementById('mb').onclick=()=>{document.getElementById('sb').classList.toggle('open');document.getElementById('ov').classList.toggle('open')};
+document.getElementById('ov').onclick=()=>{document.getElementById('sb').classList.remove('open');document.getElementById('ov').classList.remove('open')};
+</script>
+</body>
+</html>

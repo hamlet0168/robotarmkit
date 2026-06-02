@@ -77,19 +77,17 @@ table.ft tr:last-child td{border-bottom:none}table.ft tbody tr:hover{background:
 .gif-wrap .tc{border-color:rgba(245,158,11,.3)}
 .gif-wrap .tc::after{content:"GIF";position:absolute;top:8px;right:8px;background:rgba(245,158,11,.9);color:#000;font-size:10px;font-weight:700;padding:2px 8px;border-radius:50px}
 .gif-wrap .tc{position:relative}
+.logo-wrap{margin:0 auto 20px;width:120px;height:120px;border-radius:20px;overflow:hidden;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(59,130,246,.15)}
+.logo-wrap img{width:100%;height:100%;object-fit:contain}
+.lang-switch{color:var(--blue);border:1px solid rgba(59,130,246,.3);padding:4px 12px;border-radius:6px;font-size:12px;font-weight:600}
+.lang-switch:hover{background:rgba(59,130,246,.1)}
 @media(max-width:860px){.mb{display:block}.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.ov.open{display:block}.main{margin-left:0}.content{padding:18px 12px 40px}.hero h1{font-size:24px}.hn{display:none}.kg{grid-template-columns:repeat(2,1fr)}.reqs{grid-template-columns:repeat(2,1fr)}}
 @media print{.header,.sidebar,.pb,.mb,.ov{display:none!important}.main{margin-left:0!important}.sec{opacity:1!important;transform:none!important}}
 </style>
 </head>
 <body>
 <div class="pb" id="pb"></div>
-<header class="header"><button class="mb" id="mb">&#9776;</button><div class="hb"><div class="ico">&#129302;</div><span>RobotArmKit - 使用教程</span></div><nav class="hn"><a href="#hero">首页</a><a href="#s1">步骤</a><a href="#faq">常见问题</a></nav></header>
-        <!-- Language Switch / 语言切换 -->
-        <div style="position:fixed;top:16px;right:20px;z-index:1001;display:flex;gap:10px;align-items:center">
-            <a href="tutorial_en.html" style="color:var(--tx2);text-decoration:none;padding:6px 14px;border-radius:8px;font-size:13px;background:rgba(255,255,255,.06);border:1px solid var(--border);transition:.3s;display:flex;align-items:center;gap:6px" onmouseover="this.style.color='var(--tx)';this.style.borderColor='var(--blue)'" onmouseout="this.style.color='var(--tx2)';this.style.borderColor='var(--border)'">
-                🌐 English Version
-            </a>
-        </div>
+<header class="header"><button class="mb" id="mb">&#9776;</button><div class="hb"><div class="ico">&#129302;</div><span>RobotArmKit - 使用教程</span></div><nav class="hn"><a href="#hero">首页</a><a href="#s1">步骤</a><a href="#faq">FAQ</a><a class="lang-switch" href="tutorial_en.html">English</a></nav></header>
 <div class="ov" id="ov"></div>
 <aside class="sidebar" id="sb">
 <div class="st">开始之前</div><ul class="sn">
@@ -109,7 +107,7 @@ table.ft tr:last-child td{border-bottom:none}table.ft tbody tr:hover{background:
 </aside>
 <main class="main"><div class="content">
 <section class="hero" id="hero">
-<div style="margin-bottom:16px"><img src="../flx-icon-256.png" alt="FlexArm Logo" style="width:72px;height:72px;filter:drop-shadow(0 0 16px rgba(138,43,226,.4));border-radius:12px"></div>
+<div class="logo-wrap"><img src="../flx-icon-256.png" alt="FlexArm Logo"></div>
 <div class="badge">&#129302; 机械臂自动化 &#183; 标定程序</div>
 <h1>独立标定程序使用教程</h1>
 <p class="desc">本教程将引导您完成从程序下载到机械臂标定完成的全流程。按照以下步骤操作，即可顺利完成机械臂的视觉标定，实现用鼠标直接操作手机屏幕。</p>

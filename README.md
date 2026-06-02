@@ -41,12 +41,14 @@
 
 **位置 / Location：** [`RobotArmServer/`](https://github.com/hamlet0168/FlexArm/releases/tag/v2.0.0)
 
-Flask HTTP API 服务，提供脚本化自动控制能力。支持 YAML 脚本编排、智能页面检测、图标/文字识别点击、条件分支等。
+FlexArm Server HTTP API 服务，提供脚本化自动控制能力。支持 YAML 脚本编排、智能页面检测、图标/文字识别点击、条件分支等。
 
-*Flask HTTP API service providing scripted automatic control. Supports YAML script orchestration, smart page detection, icon/text recognition & click, conditional branching, etc.*
+*FlexArm Server HTTP API service providing scripted automatic control. Supports YAML script orchestration, smart page detection, icon/text recognition & click, conditional branching, etc.*
 
 - [📥 下载 / Download RobotArmServer v2.0.0 (231 MB)](https://github.com/hamlet0168/FlexArm/releases/tag/v2.0.0)
 - [📖 AI Agent Skill 文档 / Documentation](skill.md)
+- [📖 桌面识别配置教程 / Desktop Setup Guide](FlexArmServer/desktop_tutorial_cn.html)
+- [📖 Desktop Setup Guide (English)](FlexArmServer/desktop_tutorial_en.html)
 
 ---
 
@@ -63,8 +65,10 @@ flexarm/
 │   ├── tutorial_cn.html       # 中文使用教程 / Chinese tutorial
 │   ├── tutorial_en.html       # English tutorial
 │   └── tutorial_assets/       # 教程图片 / Tutorial images
-└── RobotArmServer/            # Flask API 服务 / API service (v2.0.0 released)
-    └── ...
+├── FlexArmServer/             # FlexArm Server + 教程 / Server + tutorials
+│   ├── desktop_tutorial_cn.html  # 桌面识别配置教程 / Desktop setup guide (CN)
+│   ├── desktop_tutorial_en.html  # Desktop setup guide (EN)
+│   └── desktop_demo_pic/        # 教程示例图片 / Demo images
 ```
 
 ---

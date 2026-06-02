@@ -36,8 +36,8 @@ RobotArmKit 是一套基于视觉标定的机械臂自动化工具，通过机�
   *Persistent calibration — save/load multiple calibration profiles, switch phones without re-calibrating*
 - 🔧 **独立标定程序** — 开箱即用的 Windows 可执行文件，无需安装 Python 环境
   *Standalone program — ready-to-use Windows executable, no Python environment needed*
-- 🌐 **Flask API 服务**（已推出） — HTTP 接口支持脚本化自动控制
-  *Flask API service (released) — HTTP interface for scripted automatic control*
+- 🌐 **FlexArm API 服务**（已推出） — HTTP 接口支持脚本化自动控制
+  *Flask FlexArm Server API (released) — HTTP interface for scripted automatic control*
 
 ---
 
@@ -52,7 +52,7 @@ FlexArm/
 │   ├── calibrations/            ← 标定结果存储 / Calibration storage
 │   ├── tutorial_cn.html         ← 中文教程 / Chinese tutorial
 │   └── tutorial_en.html         ← English tutorial
-├── flask-server/         # Flask API 服务 / API service
+├── FlexArmServer/         # FlexArm API 服务 / API service
 ├── docs/                 # 文档 / Documentation
 └── README.md             # 本文件 / This file
 ```
