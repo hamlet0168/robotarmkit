@@ -6,9 +6,9 @@
   <img src="flx-icon-256.png" alt="FlexArm Logo" width="120">
 </p>
 
-> 让机械臂拥有"眼睛"和"双手"——视觉标定 + 像素级精度，在电脑上操控真实手机
+> 给AI一双眼睛和双手，替你操控真实手机
 >
-> *Give robot arms "eyes" and "hands" — vision calibration + pixel precision to control a real phone from your computer*
+> *Give AI eyes to see reality and hands to operate your phone*
 
 [![GitHub Release](https://img.shields.io/badge/v2.0.0-Server-purple)](https://github.com/hamlet0168/FlexArm/releases/tag/v2.0.0)
 [![GitHub Release](https://img.shields.io/badge/v1.0.0-Calibration-green)](https://github.com/hamlet0168/FlexArm/releases/tag/v1.0.0)
