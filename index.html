@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FlexArm · 灵臂</title>
+    <link rel="icon" href="flx-icon-32.png" type="image/png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -18,16 +19,12 @@
             padding: 40px 20px;
         }
         .container {
-            max-width: 720px;
+            max-width: 800px;
             text-align: center;
         }
-        /* 品牌标识 */
-        .brand {
-            margin-bottom: 12px;
-        }
         .brand-icon {
-            width: 80px;
-            height: 80px;
+            width: 90px;
+            height: 90px;
             margin: 0 auto 12px;
             filter: drop-shadow(0 0 16px rgba(138, 43, 226, 0.5));
         }
@@ -47,15 +44,27 @@
             letter-spacing: 6px;
             margin-top: 4px;
         }
+        .brand-en {
+            font-size: 14px;
+            color: #64748b;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-top: 2px;
+            font-style: italic;
+        }
         .tagline {
             font-size: 18px;
             color: #64748b;
-            margin: 24px 0 40px;
+            margin: 24px 0 8px;
             line-height: 1.8;
         }
+        .tagline-en {
+            font-size: 13px;
+            color: #475569;
+            margin-bottom: 32px;
+            font-style: italic;
+        }
         .tagline strong { color: #e2e8f0; }
-
-        /* 产品卡片 */
         .cards {
             display: flex;
             gap: 20px;
@@ -67,7 +76,7 @@
             border: 1px solid #1e293b;
             border-radius: 16px;
             padding: 28px 24px;
-            width: 320px;
+            width: 360px;
             text-align: left;
             transition: border-color 0.3s, transform 0.3s;
         }
@@ -87,25 +96,40 @@
             background: rgba(34, 197, 94, 0.15);
             color: #22c55e;
         }
-        .card-badge.coming {
-            background: rgba(251, 191, 36, 0.15);
-            color: #fbbf24;
+        .card-badge.released {
+            background: rgba(138, 43, 226, 0.15);
+            color: #a855f7;
         }
         .card h2 {
             font-size: 20px;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             color: #f1f5f9;
+        }
+        .card h2-en {
+            display: block;
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 400;
+            font-style: italic;
+            margin-bottom: 10px;
         }
         .card p {
             font-size: 14px;
             color: #94a3b8;
             line-height: 1.7;
-            margin-bottom: 20px;
+            margin-bottom: 4px;
+        }
+        .card p-en {
+            display: block;
+            font-size: 12px;
+            color: #475569;
+            font-style: italic;
+            margin-bottom: 16px;
         }
         .card-links {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
         .card-link {
             display: inline-flex;
@@ -122,8 +146,6 @@
             color: #475569;
             pointer-events: none;
         }
-
-        /* 页脚 */
         .footer {
             margin-top: 48px;
             font-size: 13px;
@@ -137,63 +159,67 @@
 </head>
 <body>
     <div class="container">
-        <!-- 品牌 -->
         <div class="brand">
             <img src="flx-icon-256.png" alt="FlexArm Logo" class="brand-icon">
             <div class="brand-name">FlexArm</div>
-            <div class="brand-zh">�?�?/div>
+            <div class="brand-zh">灵 臂</div>
+            <div class="brand-en">Robotic arm automation with vision & precision</div>
         </div>
         <p class="tagline">
-            让机械臂拥有<strong>"眼睛"</strong>�?strong>"双手"</strong><br>
+            让机械臂拥有<strong>"眼睛"</strong>和<strong>"双手"</strong><br>
             视觉标定 + 像素级精度，在电脑上操控真实手机
         </p>
+        <p class="tagline-en">
+            Give robot arms "eyes" and "hands" — vision calibration + pixel precision to control a real phone from your computer
+        </p>
 
-        <!-- 产品卡片 -->
         <div class="cards">
-            <!-- 标定�?-->
             <div class="card">
-                <span class="card-badge free">�?已发�?· v1.0.0</span>
+                <span class="card-badge free">✅ 已发布 · v1.0.0</span>
                 <h2>🎯 Calibration · 标定程序</h2>
-                <p>
-                    独立标定程序，开箱即用。通过摄像头识别手机四角点�?                    完成机械臂标定后，用鼠标直接操控手机屏幕�?                </p>
+                <h2-en>Standalone Calibration Program</h2-en>
+                <p>独立标定程序，开箱即用。通过摄像头识别手机四角点，完成机械臂标定后，用鼠标直接操控手机屏幕。</p>
+                <p-en>Ready-to-use standalone calibration. Identify phone corners via camera, then control your phone screen with mouse clicks.</p-en>
                 <div class="card-links">
                     <a href="https://github.com/hamlet0168/FlexArm/releases/tag/v1.0.0" class="card-link">
-                        ⬇️ 下载最新版 (159 MB)
+                        ⬇️ 下载最新版 (159 MB) / Download
                     </a>
                     <a href="calibration/tutorial_cn.html" class="card-link">
-                        📖 查看使用教程
+                        📖 使用教程（中文）/ Chinese Guide
+                    </a>
+                    <a href="calibration/tutorial_en.html" class="card-link">
+                        📖 User Guide (English)
                     </a>
                     <a href="https://github.com/hamlet0168/FlexArm/tree/main/calibration" class="card-link">
-                        📂 查看源码
+                        📂 查看源码 / Source Code
                     </a>
                 </div>
             </div>
 
-            <!-- Flask �?-->
             <div class="card">
-                <span class="card-badge coming">🚀 已发�?· v2.0.0</span>
+                <span class="card-badge released">🚀 已发布 · v2.0.0</span>
                 <h2>🌐 FlexArm Server · API 服务</h2>
-                <p>
-                    Flask HTTP API 服务，提供脚本化自动控制能力�?                    支持 YAML 脚本编排、智能页面检测、图�?文字识别点击�?                </p>
+                <h2-en>Flask HTTP API Service</h2-en>
+                <p>Flask HTTP API 服务，提供脚本化自动控制能力。支持 YAML 脚本编排、智能页面检测、图标/文字识别点击。</p>
+                <p-en>Flask API service for scripted automatic control. YAML scripting, smart page detection, icon/text recognition & click.</p-en>
                 <div class="card-links">
                     <a href="https://github.com/hamlet0168/FlexArm/releases/tag/v2.0.0" class="card-link">
-                        ⬇️ 下载 RobotArmServer (231 MB)
+                        ⬇️ 下载 RobotArmServer (231 MB) / Download
                     </a>
                     <a href="skill.md" class="card-link">
-                        📖 AI Agent Skill 文档
+                        📖 AI Agent Skill 文档 / Documentation
                     </a>
                     <a href="https://github.com/hamlet0168/FlexArm" class="card-link">
-                        📂 查看源码
+                        📂 查看源码 / Source Code
                     </a>
                 </div>
             </div>
         </div>
 
-        <!-- 页脚 -->
         <div class="footer">
-            <a href="https://github.com/hamlet0168/FlexArm">GitHub 仓库</a>
+            <a href="https://github.com/hamlet0168/FlexArm">GitHub 仓库 / Repo</a>
             &nbsp;·&nbsp;
-            <a href="https://github.com/hamlet0168/FlexArm/issues">反馈问题</a>
+            <a href="https://github.com/hamlet0168/FlexArm/issues">反馈问题 / Issues</a>
             &nbsp;·&nbsp;
             MIT License &copy; hamlet0168
         </div>
