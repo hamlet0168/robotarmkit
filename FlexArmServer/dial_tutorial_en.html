@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>FlexArm - Automated Phone Dialing Tutorial</title>
+<style>
+:root{--bg:#0a0e17;--bg2:#111827;--card:#1a2235;--code:#0d1117;--blue:#3b82f6;--purple:#8b5cf6;--cyan:#06b6d4;--green:#10b981;--orange:#f59e0b;--red:#ef4444;--tx:#f1f5f9;--tx2:#94a3b8;--muted:#64748b;--border:#1e293b;--glow:rgba(59,130,246,.3);--sw:240px;--hh:56px}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--tx);line-height:1.8;font-size:15px;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 800px 600px at 20% 10%,rgba(59,130,246,.08) 0%,transparent 70%),radial-gradient(ellipse 600px 400px at 80% 80%,rgba(139,92,246,.06) 0%,transparent 70%);pointer-events:none;z-index:0}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--muted);border-radius:3px}
+.header{position:fixed;top:0;left:0;right:0;height:var(--hh);background:rgba(10,14,23,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;z-index:1000}
+.hb{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:700}
+.hb .ico{width:32px;height:32px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.hn{margin-left:auto;display:flex;gap:6px}
+.hn a{color:var(--tx2);text-decoration:none;padding:6px 12px;border-radius:6px;font-size:13px;transition:.3s}
+.hn a:hover{color:var(--tx);background:rgba(255,255,255,.05)}
+.lang-switch{color:var(--blue);border:1px solid rgba(59,130,246,.3);padding:4px 12px;border-radius:6px;font-size:12px;font-weight:600}
+.lang-switch:hover{background:rgba(59,130,246,.1)}
+.sidebar{position:fixed;top:var(--hh);left:0;bottom:0;width:var(--sw);background:rgba(17,24,39,.6);backdrop-filter:blur(10px);border-right:1px solid var(--border);padding:16px 0;overflow-y:auto;z-index:900;transition:transform .3s}
+.st{font-size:11px;font-weight:600;letter-spacing:1.5px;color:var(--muted);padding:0 18px;margin:18px 0 4px;text-transform:uppercase}
+.sn{list-style:none}
+.sn li a{display:flex;align-items:center;gap:8px;padding:8px 18px;color:var(--tx2);text-decoration:none;font-size:13px;transition:.3s;border-left:3px solid transparent}
+.sn li a:hover{color:var(--tx);background:rgba(255,255,255,.03);border-left-color:var(--blue)}
+.sn li a.active{color:var(--blue);background:rgba(59,130,246,.08);border-left-color:var(--blue)}
+.sn .ni{width:20px;text-align:center}
+.main{margin-left:var(--sw);padding-top:var(--hh);min-height:100vh;position:relative;z-index:1}
+.content{max-width:860px;margin:0 auto;padding:28px 36px 50px}
+.hero{text-align:center;padding:50px 0 32px}
+.hero .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);border-radius:50px;padding:5px 14px;font-size:12px;color:var(--blue);margin-bottom:18px}
+.hero h1{font-size:34px;font-weight:800;background:linear-gradient(135deg,var(--tx) 0%,var(--blue) 50%,var(--purple) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px;line-height:1.3}
+.hero .desc{font-size:15px;color:var(--tx2);max-width:540px;margin:0 auto;line-height:1.7}
+.logo-wrap{margin:0 auto 20px;width:120px;height:120px;border-radius:20px;overflow:hidden;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(59,130,246,.15)}
+.logo-wrap img{width:100%;height:100%;object-fit:contain}
+.sec{margin-bottom:42px;opacity:0;transform:translateY(20px);animation:fu .5s ease forwards}
+.sec:nth-child(2){animation-delay:.08s}.sec:nth-child(3){animation-delay:.14s}.sec:nth-child(4){animation-delay:.2s}.sec:nth-child(5){animation-delay:.26s}.sec:nth-child(6){animation-delay:.32s}.sec:nth-child(7){animation-delay:.38s}.sec:nth-child(8){animation-delay:.44s}
+@keyframes fu{to{opacity:1;transform:translateY(0)}}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.sn2{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff;flex-shrink:0;box-shadow:0 0 12px rgba(59,130,246,.3)}
+.st2{font-size:20px;font-weight:700;color:var(--tx)}
+.sub{margin:14px 0 10px;font-size:16px;font-weight:600;color:var(--tx);display:flex;align-items:center;gap:8px}
+.sub::before{content:"";width:4px;height:16px;background:var(--blue);border-radius:2px}
+.tx{font-size:15px;color:var(--tx2);margin-bottom:10px;line-height:1.8}
+.tx strong{color:var(--tx)}
+.tx code{background:var(--code);color:var(--cyan);padding:2px 7px;border-radius:4px;font-family:"JetBrains Mono",Consolas,monospace;font-size:13px;border:1px solid var(--border)}
+.tc{margin:18px 0;border-radius:10px;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 18px rgba(0,0,0,.4);background:var(--card);transition:.3s}
+.tc:hover{border-color:var(--glow);box-shadow:0 4px 18px rgba(0,0,0,.4),0 0 14px var(--glow)}
+.tc img{display:block;width:100%;height:auto}
+.tc .cap{padding:8px 14px;font-size:12px;color:var(--muted);background:rgba(0,0,0,.3);display:flex;align-items:center;gap:6px}
+.tc .cap::before{content:"";width:7px;height:7px;background:var(--blue);border-radius:50%;flex-shrink:0}
+.tw{margin:16px 0;border-radius:10px;border:1px solid var(--border);overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.4)}
+table.ft{width:100%;border-collapse:collapse}
+table.ft thead{background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(139,92,246,.12))}
+table.ft th{padding:11px 14px;text-align:left;font-size:12px;font-weight:600;letter-spacing:.5px;color:var(--blue);border-bottom:1px solid var(--border)}
+table.ft td{padding:11px 14px;font-size:13px;border-bottom:1px solid var(--border);color:var(--tx2);vertical-align:top}
+table.ft td:first-child{font-family:"JetBrains Mono",Consolas,monospace;color:var(--cyan);font-size:12px}
+table.ft tr:last-child td{border-bottom:none}table.ft tbody tr:hover{background:rgba(255,255,255,.02)}
+.ib{margin:14px 0;padding:12px 14px;border-radius:8px;border-left:4px solid;display:flex;gap:10px;font-size:14px}
+.ib.tip{background:rgba(16,185,129,.08);border-color:var(--green)}.ib.warn{background:rgba(245,158,11,.08);border-color:var(--orange)}.ib.info{background:rgba(59,130,246,.08);border-color:var(--blue)}.ib.danger{background:rgba(239,68,68,.08);border-color:var(--red)}
+.ib .ic{font-size:17px;flex-shrink:0}
+pre.yaml{background:var(--code);border:1px solid var(--border);border-radius:8px;padding:14px;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tx2);margin:12px 0}
+pre.yaml .k{color:var(--cyan)}pre.yaml .s{color:var(--orange)}pre.yaml .c{color:var(--muted);font-style:italic}
+.icon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:10px;margin:14px 0}
+.icon-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center;transition:.3s}
+.icon-card:hover{border-color:var(--blue)}
+.icon-card img{width:48px;height:48px;border-radius:8px;display:block;margin:0 auto 6px}
+.icon-card .name{font-size:11px;color:var(--tx2)}
+.fi{border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.fq{width:100%;background:transparent;border:none;padding:12px 14px;color:var(--tx2);font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:.3s;text-align:left}
+.fq:hover{background:rgba(59,130,246,.04);color:var(--tx)}
+.fq::after{content:"+";font-size:18px;color:var(--muted);transition:.3s;flex-shrink:0}
+.fi.open .fq::after{transform:rotate(45deg)}
+.fi.open .fq{background:rgba(59,130,246,.06);color:var(--tx)}
+.fa{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.fi.open .fa{max-height:300px}
+.fai{padding:12px 14px;font-size:13px;color:var(--tx2);line-height:1.8}
+.footer{text-align:center;padding:28px 0;color:var(--muted);font-size:12px;border-top:1px solid var(--border);margin-top:40px}
+.pb{position:fixed;top:var(--hh);left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--purple));z-index:999;transition:width .1s}
+.mb{display:none;background:none;border:none;color:var(--tx);font-size:22px;cursor:pointer;padding:4px}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:899}
+@media(max-width:860px){.mb{display:block}.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.ov.open{display:block}.main{margin-left:0}.content{padding:18px 12px 40px}.hero h1{font-size:24px}.hn{display:none}}
+@media print{.header,.sidebar,.pb,.mb,.ov{display:none!important}.main{margin-left:0!important}.sec{opacity:1!important;transform:none!important}}
+</style>
+</head>
+<body>
+<div class="pb" id="pb"></div>
+<header class="header"><button class="mb" id="mb">&#9776;</button><div class="hb"><div class="ico">&#128222;</div><span>FlexArm - Dialing Tutorial</span></div><nav class="hn"><a href="#hero">Home</a><a href="#s1">Steps</a><a href="#faq">FAQ</a><a class="lang-switch" href="dial_tutorial_cn.html">中文</a></nav></header>
+<div class="ov" id="ov"></div>
+<aside class="sidebar" id="sb">
+<div class="st">Before You Start</div><ul class="sn">
+<li><a href="#hero"><span class="ni">&#127968;</span>Overview</a></li>
+<li><a href="#req"><span class="ni">&#128203;</span>Requirements</a></li>
+</ul><div class="st">Steps</div><ul class="sn">
+<li><a href="#s1"><span class="ni">&#128241;</span>Prepare Digit Icons</a></li>
+<li><a href="#s2"><span class="ni">&#128221;</span>Write Dialer Page Config</a></li>
+<li><a href="#s3"><span class="ni">&#128225;</span>Write the Dial Script</a></li>
+<li><a href="#s4"><span class="ni">&#128640;</span>Run &amp; Execute</a></li>
+</ul><div class="st">Help</div><ul class="sn"><li><a href="#faq"><span class="ni">&#128161;</span>FAQ</a></li></ul>
+</aside>
+<main class="main"><div class="content">
+
+<!-- Hero -->
+<section class="hero" id="hero">
+<div class="logo-wrap"><img src="dial_demo_pic/logo_256.png" alt="FlexArm Logo"></div>
+<div class="badge">&#129302; Robotic Arm Automation &#183; Phone Dialing</div>
+<h1>Automated Phone Dialing with FlexArm</h1>
+<p class="desc">This tutorial shows you how to configure the robotic arm to automatically dial any phone number. Once set up, you can reuse the same script over and over — just change the phone number each time.</p>
+</section>
+
+<!-- Requirements -->
+<section id="req" class="sec"><div class="sh"><div class="sn2">&#10003;</div><h2 class="st2">Requirements</h2></div>
+<p class="tx">Before you begin, make sure:</p>
+<ul style="list-style:none;padding:0">
+<li class="tx" style="padding:3px 0">&#8226; <strong>RobotArmServer.exe</strong> is running</li>
+<li class="tx" style="padding:3px 0">&#8226; <strong>Camera</strong> is focused on the phone screen</li>
+<li class="tx" style="padding:3px 0">&#8226; <strong>Calibration</strong> is completed</li>
+<li class="tx" style="padding:3px 0">&#8226; <strong>Phone dialer app icon</strong> is configured in <code>app_desktop.yaml</code> (so <code>run_app</code> can launch it)</li>
+</ul>
+</section>
+
+<!-- Step 1: Prepare Digit Icons -->
+<section id="s1" class="sec"><div class="sh"><div class="sn2">1</div><h2 class="st2">Prepare Digit Icon Templates</h2></div>
+<p class="tx">The dialing feature relies on template images for each digit (0-9), plus special keys <code>*</code> and <code>#</code>. These must be placed in a directory such as <code>icons/phone/</code>.</p>
+<div class="sub">Required icon files</div>
+<div class="icon-grid">
+<div class="icon-card"><img src="dial_demo_pic/num1.png" alt="1"><div class="name">num1.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num2.png" alt="2"><div class="name">num2.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num3.png" alt="3"><div class="name">num3.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num4.png" alt="4"><div class="name">num4.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num5.png" alt="5"><div class="name">num5.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num6.png" alt="6"><div class="name">num6.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num7.png" alt="7"><div class="name">num7.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num8.png" alt="8"><div class="name">num8.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num9.png" alt="9"><div class="name">num9.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num0.png" alt="0"><div class="name">num0.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num_star.png" alt="*"><div class="name">num_star.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num_hash.png" alt="#"><div class="name">num_hash.png</div></div>
+</div>
+<div class="sub">Additional icons for the full dial flow</div>
+<div class="icon-grid">
+<div class="icon-card"><img src="dial_demo_pic/call.png" alt="Call"><div class="name">call.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/hang_up.png" alt="Hang Up"><div class="name">hang_up.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/speaker.png" alt="Speaker"><div class="name">speaker.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num_back.png" alt="Backspace"><div class="name">num_back.png</div></div>
+</div>
+<div class="ib tip"><span class="ic">&#128161;</span><span>Icons should be cropped from your phone's actual dialer app screenshot. Use <code>mask: false</code> for template matching since digit buttons may appear on varying backgrounds.</span></div>
+</section>
+
+<!-- Step 2: Write Dialer Page Config -->
+<section id="s2" class="sec"><div class="sh"><div class="sn2">2</div><h2 class="st2">Write the Dialer Page Configuration</h2></div>
+<p class="tx">Create a page config file at <code>scripts/configs/app_phone_dialer.yaml</code>. This tells the program how to recognize the dialer app's different screens.</p>
+<div class="sub">Minimal config (dialer page only)</div>
+<p class="tx">If you only need to dial numbers (no call monitoring), the config can be very simple:</p>
+<pre class="yaml"><span class="k">app_name</span>: Phone Dialer
+
+<span class="k">pages</span>:
+  <span class="c"># Dialer page — the keypad screen</span>
+  - <span class="k">name</span>: dial_pad
+    <span class="k">min_match</span>: 2
+    <span class="k">must_features</span>:
+      - <span class="k">name</span>: 1
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num1.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 2
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num2.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 3
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num3.png
+        <span class="k">mask</span>: false
+    <span class="k">features</span>:
+      - <span class="k">name</span>: 0
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num0.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: Call button
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/call.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 4
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num4.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 5
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num5.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 6
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num6.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 7
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num7.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 8
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num8.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 9
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num9.png
+        <span class="k">mask</span>: false</pre>
+<div class="sub">Full config (with call monitoring)</div>
+<p class="tx">If you want to monitor call state (speaker, hang up, etc.), add more pages:</p>
+<pre class="yaml"><span class="k">app_name</span>: Phone Dialer
+
+<span class="k">pages</span>:
+  <span class="c"># Dialer keypad page</span>
+  - <span class="k">name</span>: dial_pad
+    <span class="k">min_match</span>: 2
+    <span class="k">must_features</span>:
+      - <span class="k">name</span>: 1
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num1.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 2
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num2.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 3
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num3.png
+        <span class="k">mask</span>: false
+    <span class="k">features</span>:
+      - <span class="k">name</span>: 0
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num0.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 4
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num4.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 5
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num5.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 6
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num6.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 7
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num7.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 8
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num8.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 9
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num9.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: Call button
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/call.png
+        <span class="k">mask</span>: false
+
+  <span class="c"># In-call page — during active call</span>
+  - <span class="k">name</span>: in_call
+    <span class="k">min_match</span>: 0
+    <span class="k">must_features</span>:
+      - <span class="k">name</span>: Speaker
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/speaker.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: Hang up
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/hang_up.png
+        <span class="k">mask</span>: false</pre>
+<div class="ib info"><span class="ic">&#8505;</span><span>The <code>must_features</code> only need <strong>2-3 digit icons</strong> — these are the "gate" to identify the page. The rest go in <code>features</code> as candidate pool. The dialer will match enough icons to confirm it's on the keypad screen.</span></div>
+</section>
+
+<!-- Step 3: Write the Dial Script -->
+<section id="s3" class="sec"><div class="sh"><div class="sn2">3</div><h2 class="st2">Write the Dial Script</h2></div>
+<p class="tx">Create a YAML script that defines the dialing flow. Here is a minimal example:</p>
+<div class="sub">Minimal script — dial and hang up</div>
+<pre class="yaml"><span class="k">name</span>: auto_dial
+<span class="k">description</span>: "Auto dial a phone number"
+
+<span class="k">steps</span>:
+  <span class="c"># 1. Launch the Phone app</span>
+  - <span class="k">action</span>: run_app
+    <span class="k">app_name</span>: Phone
+
+  <span class="c"># 2. Wait for app to load</span>
+  - <span class="k">action</span>: wait
+    <span class="k">seconds</span>: 2
+
+  <span class="c"># 3. Dial the number</span>
+  - <span class="k">action</span>: dial_number
+    <span class="k">number</span>: "13258652185"
+    <span class="k">interval</span>: 0.8
+
+  <span class="c"># 4. Tap the green call button</span>
+  - <span class="k">action</span>: click_icon
+    <span class="k">path</span>: icons/phone/call.png
+    <span class="k">mask</span>: false
+
+  <span class="c"># 5. Wait for the call to connect</span>
+  - <span class="k">action</span>: wait
+    <span class="k">seconds</span>: 10
+
+  <span class="c"># 6. Hang up</span>
+  - <span class="k">action</span>: click_icon
+    <span class="k">path</span>: icons/phone/hang_up.png
+    <span class="k">mask</span>: false</pre>
+<div class="sub">Advanced script — with page detection + state monitoring</div>
+<p class="tx">This version uses <code>switch_page</code> to detect which screen we're on and handles different states:</p>
+<pre class="yaml"><span class="k">name</span>: smart_dial
+<span class="k">description</span>: "Smart dial with page state detection"
+
+<span class="k">steps</span>:
+  <span class="c"># 1. Launch the Phone app</span>
+  - <span class="k">action</span>: run_app
+    <span class="k">app_name</span>: Phone
+
+  <span class="c"># 2. Wait for app to load</span>
+  - <span class="k">action</span>: wait
+    <span class="k">seconds</span>: 2
+
+  <span class="c"># 3. Loop: detect page state and act accordingly</span>
+  - <span class="k">action</span>: loop
+    <span class="k">count</span>: 3
+    <span class="k">steps</span>:
+      - <span class="k">action</span>: switch_page
+        <span class="k">config</span>: scripts/configs/app_phone_dialer.yaml
+        <span class="k">cases</span>:
+          <span class="c"># We are on the dial pad — enter the number</span>
+          dial_pad:
+            - <span class="k">action</span>: log
+              <span class="k">message</span>: "On dial pad, entering number..."
+            - <span class="k">action</span>: dial_number
+              <span class="k">number</span>: "13258652185"
+              <span class="k">interval</span>: 0.8
+            - <span class="k">action</span>: click_icon
+              <span class="k">path</span>: icons/phone/call.png
+              <span class="k">mask</span>: false
+
+          <span class="c"># Call is active — wait then hang up</span>
+          in_call:
+            - <span class="k">action</span>: log
+              <span class="k">message</span>: "Call connected, waiting..."
+            - <span class="k">action</span>: wait
+              <span class="k">seconds</span>: 10
+            - <span class="k">action</span>: click_icon
+              <span class="k">path</span>: icons/phone/hang_up.png
+              <span class="k">mask</span>: false
+
+          <span class="c"># Unknown page — swipe or go back</span>
+          default:
+            - <span class="k">action</span>: log
+              <span class="k">message</span>: "Unknown page, going back"
+            - <span class="k">action</span>: go_back
+            - <span class="k">action</span>: wait
+              <span class="k">seconds</span>: 1</pre>
+<div class="sub">Using click_icons for manual dialing</div>
+<p class="tx">Alternatively, you can dial digits one by one using <code>click_icons</code> — this gives more control:</p>
+<pre class="yaml">  - <span class="k">action</span>: click_icons
+    <span class="k">paths</span>:
+      - icons/phone/num1.png
+      - icons/phone/num3.png
+      - icons/phone/num2.png
+      - icons/phone/num5.png
+      - icons/phone/num8.png
+      - icons/phone/num6.png
+      - icons/phone/num5.png
+      - icons/phone/num2.png
+      - icons/phone/num1.png
+      - icons/phone/num8.png
+      - icons/phone/num5.png
+    <span class="k">interval</span>: 0.8</pre>
+<div class="ib warn"><span class="ic">&#9888;</span><span>The <code>dial_number</code> action is simpler and recommended for most cases. It automatically maps each digit character to the corresponding icon file. <code>click_icons</code> is useful when you need special handling per digit.</span></div>
+</section>
+
+<!-- Step 4: Run -->
+<section id="s4" class="sec"><div class="sh"><div class="sn2">4</div><h2 class="st2">Run the Script</h2></div>
+<p class="tx">Once the script is written, execute it via the API:</p>
+<div class="sub">Via API</div>
+<pre class="yaml"><span class="c"># Start the dial script</span>
+POST /api/run_script {"path": "scripts/auto_dial.yaml"}
+<span class="c"># Returns: {"ok":true,"data":{"script":"...","status":"started"}}</span></pre>
+<p class="tx">The robotic arm will:</p>
+<p class="tx"><strong>1.</strong> Launch the Phone app via <code>run_app</code> (auto-navigates to desktop, finds Phone icon, taps it)</p>
+<p class="tx"><strong>2.</strong> Wait for the dial pad to appear</p>
+<p class="tx"><strong>3.</strong> Dial each digit one by one (each digit is a template match + click)</p>
+<p class="tx"><strong>4.</strong> Tap the green call button</p>
+<p class="tx"><strong>5.</strong> Wait, then hang up</p>
+<p class="tx"><strong>6.</strong> Auto-reset arm position when done</p>
+<div class="sub">Monitoring execution</div>
+<pre class="yaml"><span class="c"># Check script status</span>
+GET /api/script_status
+<span class="c"># Returns: {"ok":true,"data":{"running":true,"current_script":"scripts/auto_dial.yaml"}}</span>
+
+<span class="c"># Check detailed progress</span>
+GET /api/script_progress
+<span class="c"># Returns full step-by-step execution log with timestamps</span></pre>
+<div class="ib tip"><span class="ic">&#128161;</span><span><strong>This script is reusable!</strong> To dial a different number, simply edit the <code>number</code> field in the YAML script, then call <code>run_script</code> again. No code changes needed — the script is interpreted at runtime.</span></div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="sec"><div class="sh"><div class="sn2">&#128161;</div><h2 class="st2">Frequently Asked Questions</h2></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: Can I dial numbers with special characters like * and #?</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0">Yes. The <code>dial_number</code> action automatically maps <code>*</code> to <code>icons/phone/num_star.png</code> and <code>#</code> to <code>icons/phone/num_hash.png</code>. Characters like <code>-</code>, spaces, and parentheses are stripped automatically. Example: <code>"*123#"</code> dials star, 1, 2, 3, hash.</p>
+</div></div></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: The arm taps the wrong digit. What should I do?</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0">Check that the digit icon templates in <code>icons/phone/</code> match the actual digits on your phone's dialer screen. If the icon style differs, template matching may confuse similar digits. Re-crop the icons from your actual phone screenshot and retry.</p>
+</div></div></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: Can I reuse the same script for different numbers?</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0"><strong>Yes, this is the intended design.</strong> The script is a YAML file — just edit the <code>number</code> field before each <code>run_script</code> call. For example: change <code>"13258652185"</code> to <code>"18600001234"</code>, save, and run again. No recompilation or code changes needed. You can also use the API <code>POST /api/dial_number</code> directly to dial any number without editing a script.</p>
+</div></div></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: Can the API dial a number directly without a script?</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0">Yes. Send a POST to <code>/api/dial_number</code> with the number as a parameter:</p>
+<pre class="yaml">POST /api/dial_number {"number": "13258652185", "interval": 0.8}
+<span class="c"># Returns: {"ok":true,"data":{"clicked":true,"success_count":11,"failed":[]}}</span></pre>
+<p class="tx" style="margin:0">This is useful for quick dialing from external systems or AI agents. However, it assumes you're already on the dialer screen — it doesn't launch the Phone app automatically.</p>
+</div></div></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: How do I add a pause between digits?</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0">Set the <code>interval</code> parameter in the <code>dial_number</code> action. Default is 0.5 seconds. Example: <code>interval: 1</code> waits 1 second between each digit. This can help with phones that have slow UI response times.</p>
+</div></div></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: What if the dialer page isn't detected?</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0">Verify: <strong>1)</strong> The <code>app_phone_dialer.yaml</code> config file exists and has correct paths; <strong>2)</strong> Digit icon files exist in <code>icons/phone/</code>; <strong>3)</strong> Icons match the actual phone dialer appearance (same size, colors); <strong>4)</strong> <code>mask: false</code> is set for all digit icons; <strong>5)</strong> Phone is properly positioned in the camera view.</p>
+</div></div></div>
+</section>
+
+<div class="footer">FlexArm Robot &middot; Automated Phone Dialing Tutorial &middot; <a href="dial_tutorial_cn.html" style="color:var(--blue);text-decoration:none">中文版</a></div>
+</div></main>
+
+<script>
+const links=document.querySelectorAll('.sn a');
+const secs=document.querySelectorAll('.sec, .hero');
+const pb=document.getElementById('pb');
+window.addEventListener('scroll',()=>{
+  let y=window.scrollY+100;
+  secs.forEach((s,i)=>{if(y>=s.offsetTop){links.forEach(l=>l.classList.remove('active'));if(links[i])links[i].classList.add('active')}});
+  pb.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
+});
+document.getElementById('mb').onclick=()=>{document.getElementById('sb').classList.toggle('open');document.getElementById('ov').classList.toggle('open')};
+document.getElementById('ov').onclick=()=>{document.getElementById('sb').classList.remove('open');document.getElementById('ov').classList.remove('open')};
+</script>
+</body>
+</html>

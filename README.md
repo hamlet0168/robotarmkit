@@ -46,9 +46,9 @@ FlexArm Server HTTP API 服务，提供脚本化自动控制能力。支持 YAML
 *FlexArm Server HTTP API service providing scripted automatic control. Supports YAML script orchestration, smart page detection, icon/text recognition & click, conditional branching, etc.*
 
 - [📥 下载 / Download RobotArmServer v2.0.0 (231 MB)](https://github.com/hamlet0168/FlexArm/releases/tag/v2.0.0)
-- [📖 AI Agent Skill 文档 / Documentation](skill.md)
-- [📖 桌面识别配置教程 / Desktop Setup Guide](FlexArmServer/desktop_tutorial_cn.html)
-- [📖 Desktop Setup Guide (English)](FlexArmServer/desktop_tutorial_en.html)
+- [📖 AI Agent Skill 文档 / Documentation](FlexArmServer/skill.md)
+- [📖 桌面识别配置教程 / Desktop Setup Guide](https://hamlet0168.github.io/FlexArm/FlexArmServer/desktop_tutorial_cn.html)
+- [📖 Desktop Setup Guide (English)](https://hamlet0168.github.io/FlexArm/FlexArmServer/desktop_tutorial_en.html)
 
 ---
 
@@ -58,7 +58,7 @@ FlexArm Server HTTP API 服务，提供脚本化自动控制能力。支持 YAML
 flexarm/
 ├── README.md                  # 项目总览 / Project overview
 ├── index.html                 # GitHub Pages 品牌首页 / Brand homepage
-├── skill.md                   # AI Agent 完整 API 技能文档 / Full API skill doc
+├── FlexArmServer/skill.md     # AI Agent 完整 API 技能文档 / Full API skill doc
 ├── flx-icon-256.png           # 品牌 Logo / Brand Logo (256x256)
 ├── calibration/               # 标定程序 / Calibration (v1.0.0 released)
 │   ├── README.md              # Calibration 详细文档 / Detailed docs
@@ -66,9 +66,14 @@ flexarm/
 │   ├── tutorial_en.html       # English tutorial
 │   └── tutorial_assets/       # 教程图片 / Tutorial images
 ├── FlexArmServer/             # FlexArm Server + 教程 / Server + tutorials
+│   ├── README.md              # 项目介绍 + 教程索引 / Project intro + tutorial index
+│   ├── skill.md               # AI Agent 完整 API 技能文档 / Full API skill doc
 │   ├── desktop_tutorial_cn.html  # 桌面识别配置教程 / Desktop setup guide (CN)
 │   ├── desktop_tutorial_en.html  # Desktop setup guide (EN)
-│   └── desktop_demo_pic/        # 教程示例图片 / Demo images
+│   ├── desktop_demo_pic/        # 教程示例图片 / Demo images
+│   ├── dial_tutorial_cn.html     # 拨号/挂断识别教程 / Dial recognition guide (CN)
+│   ├── dial_tutorial_en.html     # Dial recognition guide (EN)
+│   └── dial_demo_pic/           # 拨号教程示例图片 / Dial demo images
 ```
 
 ---

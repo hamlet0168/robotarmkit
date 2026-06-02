@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>FlexArm - 自动拨打电话教程</title>
+<style>
+:root{--bg:#0a0e17;--bg2:#111827;--card:#1a2235;--code:#0d1117;--blue:#3b82f6;--purple:#8b5cf6;--cyan:#06b6d4;--green:#10b981;--orange:#f59e0b;--red:#ef4444;--tx:#f1f5f9;--tx2:#94a3b8;--muted:#64748b;--border:#1e293b;--glow:rgba(59,130,246,.3);--sw:240px;--hh:56px}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--tx);line-height:1.8;font-size:15px;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 800px 600px at 20% 10%,rgba(59,130,246,.08) 0%,transparent 70%),radial-gradient(ellipse 600px 400px at 80% 80%,rgba(139,92,246,.06) 0%,transparent 70%);pointer-events:none;z-index:0}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--muted);border-radius:3px}
+.header{position:fixed;top:0;left:0;right:0;height:var(--hh);background:rgba(10,14,23,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;z-index:1000}
+.hb{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:700}
+.hb .ico{width:32px;height:32px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.hn{margin-left:auto;display:flex;gap:6px}
+.hn a{color:var(--tx2);text-decoration:none;padding:6px 12px;border-radius:6px;font-size:13px;transition:.3s}
+.hn a:hover{color:var(--tx);background:rgba(255,255,255,.05)}
+.lang-switch{color:var(--blue);border:1px solid rgba(59,130,246,.3);padding:4px 12px;border-radius:6px;font-size:12px;font-weight:600}
+.lang-switch:hover{background:rgba(59,130,246,.1)}
+.sidebar{position:fixed;top:var(--hh);left:0;bottom:0;width:var(--sw);background:rgba(17,24,39,.6);backdrop-filter:blur(10px);border-right:1px solid var(--border);padding:16px 0;overflow-y:auto;z-index:900;transition:transform .3s}
+.st{font-size:11px;font-weight:600;letter-spacing:1.5px;color:var(--muted);padding:0 18px;margin:18px 0 4px;text-transform:uppercase}
+.sn{list-style:none}
+.sn li a{display:flex;align-items:center;gap:8px;padding:8px 18px;color:var(--tx2);text-decoration:none;font-size:13px;transition:.3s;border-left:3px solid transparent}
+.sn li a:hover{color:var(--tx);background:rgba(255,255,255,.03);border-left-color:var(--blue)}
+.sn li a.active{color:var(--blue);background:rgba(59,130,246,.08);border-left-color:var(--blue)}
+.sn .ni{width:20px;text-align:center}
+.main{margin-left:var(--sw);padding-top:var(--hh);min-height:100vh;position:relative;z-index:1}
+.content{max-width:860px;margin:0 auto;padding:28px 36px 50px}
+.hero{text-align:center;padding:50px 0 32px}
+.hero .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);border-radius:50px;padding:5px 14px;font-size:12px;color:var(--blue);margin-bottom:18px}
+.hero h1{font-size:34px;font-weight:800;background:linear-gradient(135deg,var(--tx) 0%,var(--blue) 50%,var(--purple) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px;line-height:1.3}
+.hero .desc{font-size:15px;color:var(--tx2);max-width:540px;margin:0 auto;line-height:1.7}
+.logo-wrap{margin:0 auto 20px;width:120px;height:120px;border-radius:20px;overflow:hidden;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(59,130,246,.15)}
+.logo-wrap img{width:100%;height:100%;object-fit:contain}
+.sec{margin-bottom:42px;opacity:0;transform:translateY(20px);animation:fu .5s ease forwards}
+.sec:nth-child(2){animation-delay:.08s}.sec:nth-child(3){animation-delay:.14s}.sec:nth-child(4){animation-delay:.2s}.sec:nth-child(5){animation-delay:.26s}.sec:nth-child(6){animation-delay:.32s}.sec:nth-child(7){animation-delay:.38s}.sec:nth-child(8){animation-delay:.44s}
+@keyframes fu{to{opacity:1;transform:translateY(0)}}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.sn2{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff;flex-shrink:0;box-shadow:0 0 12px rgba(59,130,246,.3)}
+.st2{font-size:20px;font-weight:700;color:var(--tx)}
+.sub{margin:14px 0 10px;font-size:16px;font-weight:600;color:var(--tx);display:flex;align-items:center;gap:8px}
+.sub::before{content:"";width:4px;height:16px;background:var(--blue);border-radius:2px}
+.tx{font-size:15px;color:var(--tx2);margin-bottom:10px;line-height:1.8}
+.tx strong{color:var(--tx)}
+.tx code{background:var(--code);color:var(--cyan);padding:2px 7px;border-radius:4px;font-family:"JetBrains Mono",Consolas,monospace;font-size:13px;border:1px solid var(--border)}
+.tc{margin:18px 0;border-radius:10px;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 18px rgba(0,0,0,.4);background:var(--card);transition:.3s}
+.tc:hover{border-color:var(--glow);box-shadow:0 4px 18px rgba(0,0,0,.4),0 0 14px var(--glow)}
+.tc img{display:block;width:100%;height:auto}
+.tc .cap{padding:8px 14px;font-size:12px;color:var(--muted);background:rgba(0,0,0,.3);display:flex;align-items:center;gap:6px}
+.tc .cap::before{content:"";width:7px;height:7px;background:var(--blue);border-radius:50%;flex-shrink:0}
+.tw{margin:16px 0;border-radius:10px;border:1px solid var(--border);overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.4)}
+table.ft{width:100%;border-collapse:collapse}
+table.ft thead{background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(139,92,246,.12))}
+table.ft th{padding:11px 14px;text-align:left;font-size:12px;font-weight:600;letter-spacing:.5px;color:var(--blue);border-bottom:1px solid var(--border)}
+table.ft td{padding:11px 14px;font-size:13px;border-bottom:1px solid var(--border);color:var(--tx2);vertical-align:top}
+table.ft td:first-child{font-family:"JetBrains Mono",Consolas,monospace;color:var(--cyan);font-size:12px}
+table.ft tr:last-child td{border-bottom:none}table.ft tbody tr:hover{background:rgba(255,255,255,.02)}
+.ib{margin:14px 0;padding:12px 14px;border-radius:8px;border-left:4px solid;display:flex;gap:10px;font-size:14px}
+.ib.tip{background:rgba(16,185,129,.08);border-color:var(--green)}.ib.warn{background:rgba(245,158,11,.08);border-color:var(--orange)}.ib.info{background:rgba(59,130,246,.08);border-color:var(--blue)}.ib.danger{background:rgba(239,68,68,.08);border-color:var(--red)}
+.ib .ic{font-size:17px;flex-shrink:0}
+pre.yaml{background:var(--code);border:1px solid var(--border);border-radius:8px;padding:14px;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tx2);margin:12px 0}
+pre.yaml .k{color:var(--cyan)}pre.yaml .s{color:var(--orange)}pre.yaml .c{color:var(--muted);font-style:italic}
+.icon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:10px;margin:14px 0}
+.icon-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center;transition:.3s}
+.icon-card:hover{border-color:var(--blue)}
+.icon-card img{width:48px;height:48px;border-radius:8px;display:block;margin:0 auto 6px}
+.icon-card .name{font-size:11px;color:var(--tx2)}
+.fi{border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.fq{width:100%;background:transparent;border:none;padding:12px 14px;color:var(--tx2);font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:.3s;text-align:left}
+.fq:hover{background:rgba(59,130,246,.04);color:var(--tx)}
+.fq::after{content:"+";font-size:18px;color:var(--muted);transition:.3s;flex-shrink:0}
+.fi.open .fq::after{transform:rotate(45deg)}
+.fi.open .fq{background:rgba(59,130,246,.06);color:var(--tx)}
+.fa{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.fi.open .fa{max-height:300px}
+.fai{padding:12px 14px;font-size:13px;color:var(--tx2);line-height:1.8}
+.footer{text-align:center;padding:28px 0;color:var(--muted);font-size:12px;border-top:1px solid var(--border);margin-top:40px}
+.pb{position:fixed;top:var(--hh);left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--purple));z-index:999;transition:width .1s}
+.mb{display:none;background:none;border:none;color:var(--tx);font-size:22px;cursor:pointer;padding:4px}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:899}
+@media(max-width:860px){.mb{display:block}.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.ov.open{display:block}.main{margin-left:0}.content{padding:18px 12px 40px}.hero h1{font-size:24px}.hn{display:none}}
+@media print{.header,.sidebar,.pb,.mb,.ov{display:none!important}.main{margin-left:0!important}.sec{opacity:1!important;transform:none!important}}
+</style>
+</head>
+<body>
+<div class="pb" id="pb"></div>
+<header class="header"><button class="mb" id="mb">&#9776;</button><div class="hb"><div class="ico">&#128222;</div><span>FlexArm - 自动拨打教程</span></div><nav class="hn"><a href="#hero">首页</a><a href="#s1">步骤</a><a href="#faq">FAQ</a><a class="lang-switch" href="dial_tutorial_en.html">English</a></nav></header>
+<div class="ov" id="ov"></div>
+<aside class="sidebar" id="sb">
+<div class="st">开始之前</div><ul class="sn">
+<li><a href="#hero"><span class="ni">&#127968;</span>教程概览</a></li>
+<li><a href="#req"><span class="ni">&#128203;</span>环境要求</a></li>
+</ul><div class="st">操作步骤</div><ul class="sn">
+<li><a href="#s1"><span class="ni">&#128241;</span>准备数字图标</a></li>
+<li><a href="#s2"><span class="ni">&#128221;</span>编写拨号页配置</a></li>
+<li><a href="#s3"><span class="ni">&#128225;</span>编写拨号脚本</a></li>
+<li><a href="#s4"><span class="ni">&#128640;</span>运行执行</a></li>
+</ul><div class="st">帮助</div><ul class="sn"><li><a href="#faq"><span class="ni">&#128161;</span>常见问题</a></li></ul>
+</aside>
+<main class="main"><div class="content">
+
+<!-- Hero -->
+<section class="hero" id="hero">
+<div class="logo-wrap"><img src="dial_demo_pic/logo_256.png" alt="FlexArm Logo"></div>
+<div class="badge">&#129302; 机械臂自动化 &#183; 自动拨号</div>
+<h1>让机械臂自动拨打任意电话号码</h1>
+<p class="desc">本教程引导你完成拨号功能的全流程配置。配置完成后，同一份脚本可反复使用——每次执行前只需修改脚本中的电话号码即可。</p>
+</section>
+
+<!-- Requirements -->
+<section id="req" class="sec"><div class="sh"><div class="sn2">&#10003;</div><h2 class="st2">环境要求</h2></div>
+<p class="tx">开始前，请确认以下条件已满足：</p>
+<ul style="list-style:none;padding:0">
+<li class="tx" style="padding:3px 0">&#8226; <strong>RobotArmServer.exe</strong> 正在运行</li>
+<li class="tx" style="padding:3px 0">&#8226; <strong>摄像头</strong> 已对准手机屏幕</li>
+<li class="tx" style="padding:3px 0">&#8226; <strong>标定</strong> 已完成</li>
+<li class="tx" style="padding:3px 0">&#8226; <strong>电话APP图标</strong> 已在 <code>app_desktop.yaml</code> 中配置（以便 <code>run_app</code> 能启动它）</li>
+</ul>
+</section>
+
+<!-- Step 1: Prepare Digit Icons -->
+<section id="s1" class="sec"><div class="sh"><div class="sn2">1</div><h2 class="st2">准备数字图标模板</h2></div>
+<p class="tx">拨号功能依赖 0-9 数字图标以及 <code>*</code> 和 <code>#</code> 特殊键的模板图片。将这些文件放在 <code>icons/phone/</code> 目录中。</p>
+<div class="sub">需要的数字图标</div>
+<div class="icon-grid">
+<div class="icon-card"><img src="dial_demo_pic/num1.png" alt="1"><div class="name">num1.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num2.png" alt="2"><div class="name">num2.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num3.png" alt="3"><div class="name">num3.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num4.png" alt="4"><div class="name">num4.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num5.png" alt="5"><div class="name">num5.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num6.png" alt="6"><div class="name">num6.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num7.png" alt="7"><div class="name">num7.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num8.png" alt="8"><div class="name">num8.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num9.png" alt="9"><div class="name">num9.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num0.png" alt="0"><div class="name">num0.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num_star.png" alt="*"><div class="name">num_star.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num_hash.png" alt="#"><div class="name">num_hash.png</div></div>
+</div>
+<div class="sub">拨号流程需要的其他图标</div>
+<div class="icon-grid">
+<div class="icon-card"><img src="dial_demo_pic/call.png" alt="拨打"><div class="name">call.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/hang_up.png" alt="挂断"><div class="name">hang_up.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/speaker.png" alt="免提"><div class="name">speaker.png</div></div>
+<div class="icon-card"><img src="dial_demo_pic/num_back.png" alt="退格"><div class="name">num_back.png</div></div>
+</div>
+<div class="ib tip"><span class="ic">&#128161;</span><span>图标应从手机拨号器实际截图中裁剪。使用 <code>mask: false</code> 进行模板匹配，因为数字按钮可能出现在不同背景上。</span></div>
+</section>
+
+<!-- Step 2: Write Dialer Page Config -->
+<section id="s2" class="sec"><div class="sh"><div class="sn2">2</div><h2 class="st2">编写拨号页面配置文件</h2></div>
+<p class="tx">在 <code>scripts/configs/app_phone_dialer.yaml</code> 创建页面配置。它告诉程序如何识别拨号器的不同界面。</p>
+<div class="sub">最简配置（仅拨号页）</div>
+<p class="tx">如果只需要拨打号码（不需要监控通话状态），配置非常简单：</p>
+<pre class="yaml"><span class="k">app_name</span>: 手机拨号器
+
+<span class="k">pages</span>:
+  <span class="c"># 拨号键盘页面</span>
+  - <span class="k">name</span>: dial_pad
+    <span class="k">min_match</span>: 2
+    <span class="k">must_features</span>:
+      - <span class="k">name</span>: 数字1
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num1.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 数字2
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num2.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 数字3
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num3.png
+        <span class="k">mask</span>: false
+    <span class="k">features</span>:
+      - <span class="k">name</span>: 数字0
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num0.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 拨打按钮
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/call.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 数字4
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num4.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 数字5
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num5.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 数字6
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num6.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 数字7
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num7.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 数字8
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num8.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 数字9
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num9.png
+        <span class="k">mask</span>: false</pre>
+<div class="sub">完整配置（含通话状态监控）</div>
+<p class="tx">如果需要监控通话状态（免提、挂断等），添加更多页面：</p>
+<pre class="yaml"><span class="k">app_name</span>: 手机拨号器
+
+<span class="k">pages</span>:
+  <span class="c"># 拨号键盘页面</span>
+  - <span class="k">name</span>: dial_pad
+    <span class="k">min_match</span>: 2
+    <span class="k">must_features</span>:
+      - <span class="k">name</span>: 数字1
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num1.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 数字2
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num2.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 数字3
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num3.png
+        <span class="k">mask</span>: false
+    <span class="k">features</span>:
+      - <span class="k">name</span>: 数字0
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num0.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 数字4 ~ 9
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/num4.png  <span class="c"># 省略写法，实际需逐个配置</span>
+      - <span class="k">name</span>: 拨打按钮
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/call.png
+        <span class="k">mask</span>: false
+
+  <span class="c"># 通话中页面</span>
+  - <span class="k">name</span>: in_call
+    <span class="k">min_match</span>: 0
+    <span class="k">must_features</span>:
+      - <span class="k">name</span>: 免提
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/speaker.png
+        <span class="k">mask</span>: false
+      - <span class="k">name</span>: 挂断
+        <span class="k">type</span>: image
+        <span class="k">path</span>: icons/phone/hang_up.png
+        <span class="k">mask</span>: false</pre>
+<div class="ib info"><span class="ic">&#8505;</span><span><code>must_features</code> 只需要 <strong>2-3 个数字图标</strong> 作为"门槛"来识别该页面。其余数字放入 <code>features</code> 作为候选池。程序匹配足够数量的图标即可确认处于拨号键盘界面。</span></div>
+</section>
+
+<!-- Step 3: Write the Dial Script -->
+<section id="s3" class="sec"><div class="sh"><div class="sn2">3</div><h2 class="st2">编写拨号脚本</h2></div>
+<p class="tx">创建一个 YAML 脚本定义拨号流程。以下是最简示例：</p>
+<div class="sub">最简脚本 — 拨打 + 挂断</div>
+<pre class="yaml"><span class="k">name</span>: auto_dial
+<span class="k">description</span>: "自动拨打指定号码"
+
+<span class="k">steps</span>:
+  <span class="c"># 1. 启动电话APP</span>
+  - <span class="k">action</span>: run_app
+    <span class="k">app_name</span>: Phone
+
+  <span class="c"># 2. 等待APP加载</span>
+  - <span class="k">action</span>: wait
+    <span class="k">seconds</span>: 2
+
+  <span class="c"># 3. 拨打号码（核心动作）</span>
+  - <span class="k">action</span>: dial_number
+    <span class="k">number</span>: "13258652185"
+    <span class="k">interval</span>: 0.8
+
+  <span class="c"># 4. 点击绿色拨打按钮</span>
+  - <span class="k">action</span>: click_icon
+    <span class="k">path</span>: icons/phone/call.png
+    <span class="k">mask</span>: false
+
+  <span class="c"># 5. 等待通话接通</span>
+  - <span class="k">action</span>: wait
+    <span class="k">seconds</span>: 10
+
+  <span class="c"># 6. 挂断</span>
+  - <span class="k">action</span>: click_icon
+    <span class="k">path</span>: icons/phone/hang_up.png
+    <span class="k">mask</span>: false</pre>
+<div class="sub">进阶脚本 — 页面检测 + 状态监控</div>
+<p class="tx">使用 <code>switch_page</code> 检测当前界面，根据不同状态执行不同动作：</p>
+<pre class="yaml"><span class="k">name</span>: smart_dial
+<span class="k">description</span>: "智能拨号，含页面状态检测"
+
+<span class="k">steps</span>:
+  <span class="c"># 1. 启动电话APP</span>
+  - <span class="k">action</span>: run_app
+    <span class="k">app_name</span>: Phone
+
+  <span class="c"># 2. 等待APP加载</span>
+  - <span class="k">action</span>: wait
+    <span class="k">seconds</span>: 2
+
+  <span class="c"># 3. 循环检测页面状态</span>
+  - <span class="k">action</span>: loop
+    <span class="k">count</span>: 3
+    <span class="k">steps</span>:
+      - <span class="k">action</span>: switch_page
+        <span class="k">config</span>: scripts/configs/app_phone_dialer.yaml
+        <span class="k">cases</span>:
+          <span class="c"># 拨号键盘 — 输入号码</span>
+          dial_pad:
+            - <span class="k">action</span>: log
+              <span class="k">message</span>: "在拨号键盘，开始输入号码"
+            - <span class="k">action</span>: dial_number
+              <span class="k">number</span>: "13258652185"
+              <span class="k">interval</span>: 0.8
+            - <span class="k">action</span>: click_icon
+              <span class="k">path</span>: icons/phone/call.png
+              <span class="k">mask</span>: false
+
+          <span class="c"># 通话中 — 等待后挂断</span>
+          in_call:
+            - <span class="k">action</span>: log
+              <span class="k">message</span>: "通话已接通，等待中..."
+            - <span class="k">action</span>: wait
+              <span class="k">seconds</span>: 10
+            - <span class="k">action</span>: click_icon
+              <span class="k">path</span>: icons/phone/hang_up.png
+              <span class="k">mask</span>: false
+
+          <span class="c"># 未知页面 — 返回重试</span>
+          default:
+            - <span class="k">action</span>: log
+              <span class="k">message</span>: "未知页面，返回重试"
+            - <span class="k">action</span>: go_back
+            - <span class="k">action</span>: wait
+              <span class="k">seconds</span>: 1</pre>
+<div class="sub">使用 click_icons 逐个拨号</div>
+<p class="tx">也可以使用 <code>click_icons</code> 逐个点击数字，适合需要精确控制每个数字的场景：</p>
+<pre class="yaml">  - <span class="k">action</span>: click_icons
+    <span class="k">paths</span>:
+      - icons/phone/num1.png
+      - icons/phone/num3.png
+      - icons/phone/num2.png
+      - icons/phone/num5.png
+      - icons/phone/num8.png
+      - icons/phone/num6.png
+      - icons/phone/num5.png
+      - icons/phone/num2.png
+      - icons/phone/num1.png
+      - icons/phone/num8.png
+      - icons/phone/num5.png
+    <span class="k">interval</span>: 0.8</pre>
+<div class="ib warn"><span class="ic">&#9888;</span><span>推荐使用 <code>dial_number</code> 动作，它更简单方便——自动将号码字符串映射到对应图标。<code>click_icons</code> 适合需要特殊处理每个数字的场景。</span></div>
+</section>
+
+<!-- Step 4: Run -->
+<section id="s4" class="sec"><div class="sh"><div class="sn2">4</div><h2 class="st2">运行执行</h2></div>
+<p class="tx">脚本写好后，通过 API 执行：</p>
+<div class="sub">通过 API 运行</div>
+<pre class="yaml"><span class="c"># 启动拨号脚本</span>
+POST /api/run_script {"path": "scripts/auto_dial.yaml"}
+<span class="c"># 返回: {"ok":true,"data":{"script":"...","status":"started"}}</span></pre>
+<p class="tx">机械臂将自动完成以下步骤：</p>
+<p class="tx"><strong>1.</strong> 通过 <code>run_app</code> 启动电话APP（自动回到桌面、找到电话图标、点击）</p>
+<p class="tx"><strong>2.</strong> 等待拨号键盘出现</p>
+<p class="tx"><strong>3.</strong> 逐个拨打每一位数字（模板匹配 + 点击）</p>
+<p class="tx"><strong>4.</strong> 点击绿色拨打按钮</p>
+<p class="tx"><strong>5.</strong> 等待，然后挂断</p>
+<p class="tx"><strong>6.</strong> 完成后机械臂自动复位</p>
+<div class="sub">监控执行状态</div>
+<pre class="yaml"><span class="c"># 查询脚本是否运行中</span>
+GET /api/script_status
+<span class="c"># 返回: {"ok":true,"data":{"running":true,"current_script":"scripts/auto_dial.yaml"}}</span>
+
+<span class="c"># 查询详细执行进度（含每步日志）</span>
+GET /api/script_progress
+<span class="c"># 返回完整步骤日志 + 时间戳</span></pre>
+<div class="ib tip"><span class="ic">&#128161;</span><span><strong>此脚本可反复使用！</strong>每次拨打不同号码时，只需修改脚本中的 <code>number</code> 字段，然后再次调用 <code>run_script</code> 即可。无需改任何代码——脚本是解释执行的，改完即用。</span></div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="sec"><div class="sh"><div class="sn2">&#128161;</div><h2 class="st2">常见问题</h2></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: 可以拨打带 * 和 # 的号码吗？</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0">可以。<code>dial_number</code> 会自动将 <code>*</code> 映射到 <code>icons/phone/num_star.png</code>，<code>#</code> 映射到 <code>icons/phone/num_hash.png</code>。号码中的 <code>-</code>、空格、括号等字符会被自动过滤。例如 <code>"*123#"</code> 会依次拨打星号、1、2、3、井号。</p>
+</div></div></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: 机械臂点错了数字怎么办？</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0">检查 <code>icons/phone/</code> 中的数字图标是否与手机拨号器上的实际数字一致。如果图标样式不同，模板匹配可能会混淆相似数字。从手机截图中重新裁剪对应数字图标，然后重试。</p>
+</div></div></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: 同一个脚本可以拨打不同号码吗？</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0"><strong>可以，这正是设计意图。</strong>脚本是 YAML 文件——每次执行前只需修改 <code>number</code> 字段的值，保存后再次调用 <code>run_script</code> 即可。例如将 <code>"13258652185"</code> 改为 <code>"18600001234"</code>，无需重新编译或改代码。也可以直接通过 API <code>POST /api/dial_number</code> 拨号，不经过脚本。</p>
+</div></div></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: 能不能不写脚本，直接通过 API 拨号？</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0">可以。发送 POST 请求到 <code>/api/dial_number</code>：</p>
+<pre class="yaml">POST /api/dial_number {"number": "13258652185", "interval": 0.8}
+<span class="c"># 返回: {"ok":true,"data":{"clicked":true,"success_count":11,"failed":[]}}</span></pre>
+<p class="tx" style="margin:0">适合从外部系统或 AI Agent 快速拨号。但注意：此 API 假设你已经在拨号键盘界面，不会自动启动电话APP。要完整自动化流程（启动APP → 拨号 → 拨打），请使用脚本。</p>
+</div></div></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: 如何增加数字之间的间隔？</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0">在 <code>dial_number</code> 动作中设置 <code>interval</code> 参数。默认 0.5 秒，例如 <code>interval: 1</code> 表示每位数字之间等待 1 秒。对于 UI 响应较慢的手机，增大间隔有助于提高成功率。</p>
+</div></div></div>
+
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('open')">Q: 拨号页面检测不到怎么办？</button><div class="fa"><div class="fai">
+<p class="tx" style="margin:0">依次检查：<strong>1)</strong> <code>app_phone_dialer.yaml</code> 配置文件是否存在且路径正确；<strong>2)</strong> 数字图标文件是否存在于 <code>icons/phone/</code>；<strong>3)</strong> 图标是否与手机拨号器上的数字一致（大小、颜色）；<strong>4)</strong> 所有数字图标是否设置了 <code>mask: false</code>；<strong>5)</strong> 手机是否正确放置在摄像头画面中。</p>
+</div></div></div>
+</section>
+
+<div class="footer">FlexArm Robot &#183; 自动拨打电话教程 &#183; <a href="dial_tutorial_en.html" style="color:var(--blue);text-decoration:none">English Version</a></div>
+</div></main>
+
+<script>
+const links=document.querySelectorAll('.sn a');
+const secs=document.querySelectorAll('.sec, .hero');
+const pb=document.getElementById('pb');
+window.addEventListener('scroll',()=>{
+  let y=window.scrollY+100;
+  secs.forEach((s,i)=>{if(y>=s.offsetTop){links.forEach(l=>l.classList.remove('active'));if(links[i])links[i].classList.add('active')}});
+  pb.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
+});
+document.getElementById('mb').onclick=()=>{document.getElementById('sb').classList.toggle('open');document.getElementById('ov').classList.toggle('open')};
+document.getElementById('ov').onclick=()=>{document.getElementById('sb').classList.remove('open');document.getElementById('ov').classList.remove('open')};
+</script>
+</body>
+</html>
