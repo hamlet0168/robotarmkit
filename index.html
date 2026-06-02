@@ -26,14 +26,15 @@
             margin-bottom: 12px;
         }
         .brand-icon {
-            font-size: 56px;
-            margin-bottom: 8px;
-            filter: drop-shadow(0 0 12px rgba(59, 130, 246, 0.4));
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 12px;
+            filter: drop-shadow(0 0 16px rgba(138, 43, 226, 0.5));
         }
         .brand-name {
             font-size: 42px;
             font-weight: 800;
-            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            background: linear-gradient(135deg, #8a2be2, #06b6d4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -71,7 +72,7 @@
             transition: border-color 0.3s, transform 0.3s;
         }
         .card:hover {
-            border-color: #3b82f6;
+            border-color: #8a2be2;
             transform: translateY(-4px);
         }
         .card-badge {
@@ -110,13 +111,13 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            color: #3b82f6;
+            color: #8a2be2;
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
             transition: color 0.2s;
         }
-        .card-link:hover { color: #60a5fa; }
+        .card-link:hover { color: #a855f7; }
         .card-link.disabled {
             color: #475569;
             pointer-events: none;
@@ -129,7 +130,7 @@
             color: #475569;
         }
         .footer a {
-            color: #3b82f6;
+            color: #8a2be2;
             text-decoration: none;
         }
     </style>
@@ -138,7 +139,7 @@
     <div class="container">
         <!-- 品牌 -->
         <div class="brand">
-            <div class="brand-icon">🦾</div>
+            <img src="flx-icon-256.png" alt="FlexArm Logo" class="brand-icon">
             <div class="brand-name">FlexArm</div>
             <div class="brand-zh">灵 臂</div>
         </div>
@@ -158,13 +159,13 @@
                     完成机械臂标定后，用鼠标直接操控手机屏幕。
                 </p>
                 <div class="card-links">
-                    <a href="https://github.com/hamlet0168/robotarmkit/releases/tag/v1.0.0" class="card-link">
+                    <a href="https://github.com/hamlet0168/flexarm/releases/tag/v1.0.0" class="card-link">
                         ⬇️ 下载最新版 (159 MB)
                     </a>
                     <a href="calibration/tutorial_cn.html" class="card-link">
                         📖 查看使用教程
                     </a>
-                    <a href="https://github.com/hamlet0168/robotarmkit/tree/main/calibration" class="card-link">
+                    <a href="https://github.com/hamlet0168/flexarm/tree/main/calibration" class="card-link">
                         📂 查看源码
                     </a>
                 </div>
@@ -172,23 +173,31 @@
 
             <!-- Flask 版 -->
             <div class="card">
-                <span class="card-badge coming">🚧 开发中</span>
+                <span class="card-badge coming">🚀 已发布 · v2.0.0</span>
                 <h2>🌐 FlexArm Server · API 服务</h2>
                 <p>
                     Flask HTTP API 服务，提供脚本化自动控制能力。
-                    支持任务编排、远程调度，适合自动化批量操作。
+                    支持 YAML 脚本编排、智能页面检测、图标/文字识别点击。
                 </p>
                 <div class="card-links">
-                    <span class="card-link disabled">⏳ 即将发布</span>
+                    <a href="https://github.com/hamlet0168/flexarm/releases/tag/v2.0.0" class="card-link">
+                        ⬇️ 下载 RobotArmServer (231 MB)
+                    </a>
+                    <a href="skill.md" class="card-link">
+                        📖 AI Agent Skill 文档
+                    </a>
+                    <a href="https://github.com/hamlet0168/flexarm" class="card-link">
+                        📂 查看源码
+                    </a>
                 </div>
             </div>
         </div>
 
         <!-- 页脚 -->
         <div class="footer">
-            <a href="https://github.com/hamlet0168/robotarmkit">GitHub 仓库</a>
+            <a href="https://github.com/hamlet0168/flexarm">GitHub 仓库</a>
             &nbsp;·&nbsp;
-            <a href="https://github.com/hamlet0168/robotarmkit/issues">反馈问题</a>
+            <a href="https://github.com/hamlet0168/flexarm/issues">反馈问题</a>
             &nbsp;·&nbsp;
             MIT License &copy; hamlet0168
         </div>
