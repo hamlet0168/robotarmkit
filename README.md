@@ -10,7 +10,7 @@
 >
 > *Give AI eyes to see reality and hands to operate your phone*
 
-[![GitHub Release](https://img.shields.io/badge/v2.0.0-Server-purple)](https://github.com/hamlet0168/FlexArm/releases/tag/v2.0.0)
+[![GitHub Release](https://img.shields.io/badge/v2.0.1-Server-purple)](https://github.com/hamlet0168/FlexArm/releases/tag/v2.0.1)
 [![GitHub Release](https://img.shields.io/badge/v1.0.0-Calibration-green)](https://github.com/hamlet0168/FlexArm/releases/tag/v1.0.0)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)]()
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%2F11-lightgrey)]()
@@ -37,15 +37,15 @@
 - [📖 View User Guide (English)](https://hamlet0168.github.io/FlexArm/calibration/tutorial_en.html)
 - [📂 查看 Calibration 源码 / Source](calibration/README.md)
 
-### 🌐 FlexArm Server · API 服务 ✅ 已发布 (v2.0.0)
+### 🌐 FlexArm Server · API 服务 ✅ 已发布 (v2.0.1)
 
-**位置 / Location：** [`RobotArmServer/`](https://github.com/hamlet0168/FlexArm/releases/tag/v2.0.0)
+**位置 / Location：** [`RobotArmServer/`](https://github.com/hamlet0168/FlexArm/releases/tag/v2.0.1)
 
 FlexArm Server HTTP API 服务，提供脚本化自动控制能力。支持 YAML 脚本编排、智能页面检测、图标/文字识别点击、条件分支等。
 
 *FlexArm Server HTTP API service providing scripted automatic control. Supports YAML script orchestration, smart page detection, icon/text recognition & click, conditional branching, etc.*
 
-- [📥 下载 / Download RobotArmServer v2.0.0 (231 MB)](https://github.com/hamlet0168/FlexArm/releases/latest)
+- [📥 下载 / Download RobotArmServer v2.0.1 (236 MB)](https://github.com/hamlet0168/FlexArm/releases/latest)
 - [📖 AI Agent Skill 文档 / Documentation](FlexArmServer/skill.md)
 - [📖 桌面识别配置教程 / Desktop Setup Guide](https://hamlet0168.github.io/FlexArm/FlexArmServer/desktop_tutorial_cn.html)
 - [📖 Desktop Setup Guide (English)](https://hamlet0168.github.io/FlexArm/FlexArmServer/desktop_tutorial_en.html)
