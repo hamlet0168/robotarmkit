@@ -45,7 +45,7 @@ FlexArm Server HTTP API 服务，提供脚本化自动控制能力。支持 YAML
 
 *FlexArm Server HTTP API service providing scripted automatic control. Supports YAML script orchestration, smart page detection, icon/text recognition & click, conditional branching, etc.*
 
-- [📥 下载 / Download RobotArmServer v2.0.0 (231 MB)](https://github.com/hamlet0168/FlexArm/releases/tag/v2.0.0)
+- [📥 下载 / Download RobotArmServer v2.0.0 (231 MB)](https://github.com/hamlet0168/FlexArm/releases/latest)
 - [📖 AI Agent Skill 文档 / Documentation](FlexArmServer/skill.md)
 - [📖 桌面识别配置教程 / Desktop Setup Guide](https://hamlet0168.github.io/FlexArm/FlexArmServer/desktop_tutorial_cn.html)
 - [📖 Desktop Setup Guide (English)](https://hamlet0168.github.io/FlexArm/FlexArmServer/desktop_tutorial_en.html)
