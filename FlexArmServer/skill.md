@@ -11,7 +11,7 @@
   下载地址：[官方仓库 Release 页面](https://github.com/hamlet0168/flexarm/releases/tag/v1.0.0)   
   最新版本：v2.0.0  
   文件大小：约 160MB（压缩包）  
-- **服务端程序**：`RobotArmServer.exe`  
+- **服务端程序**：`RobotArmServer.exe`   这个才是此skill应该使用的版本
   下载地址：[FlexArm v2.0.0 Release](https://github.com/hamlet0168/flexarm/releases/tag/v2.0.0)  
   最新版本：v2.0.0
   文件大小：约 231 MB（压缩包）
