@@ -1,0 +1,6 @@
+name: test_click
+description: A simple test script that clicks the center of the screen.
+steps:
+  - action: click
+    x: 0.5
+    y: 0.5
