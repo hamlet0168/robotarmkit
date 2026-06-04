@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>FlexArm 脚本商店 · Script Store</title>
-    <link rel="icon" href="flx-icon-32.png" type="image/png">
+    <link rel="icon" href="/flx-icon-32.png" type="image/png">
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
             background: #0a0e17;
@@ -20,6 +21,12 @@
             background: linear-gradient(135deg, #8a2be2, #06b6d4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            color: #94a3b8;
+            margin-bottom: 40px;
+            font-size: 16px;
         }
         .back-link {
             display: inline-block;
@@ -29,48 +36,115 @@
         }
         .script-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 24px;
         }
         .script-card {
             background: #111827;
             border: 1px solid #1e293b;
             border-radius: 16px;
-            padding: 20px;
+            padding: 24px;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        .script-card:hover {
+            border-color: #8a2be2;
+            transform: translateY(-2px);
         }
         .script-card h3 {
-            margin: 0 0 8px;
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #f1f5f9;
         }
         .script-card p {
             color: #94a3b8;
             font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .script-meta {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 16px;
+            display: flex;
+            gap: 16px;
+        }
+        .card-links {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .card-links a {
+            color: #8a2be2;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .card-links a:hover {
+            color: #a855f7;
         }
         .coming-soon {
             text-align: center;
             color: #64748b;
-            padding: 60px;
+            padding: 60px 20px;
+            background: #111827;
+            border-radius: 16px;
+            margin-top: 40px;
+        }
+        .footer {
+            margin-top: 48px;
+            text-align: center;
+            font-size: 13px;
+            color: #475569;
+        }
+        .footer a {
+            color: #8a2be2;
+            text-decoration: none;
+        }
+        hr {
+            border-color: #1e293b;
+            margin: 20px 0;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <a href="index.html" class="back-link">← 返回首页 / Back to Home</a>
-    <h1>📦 社区脚本商店 · Community Script Store</h1>
-    <p>用户提交的自动化脚本，下载后放入 FlexArm Server 的 scripts 目录即可使用。</p>
+    <a href="/FlexArm/" class="back-link">← 返回首页 / Back to Home</a>
+    
+    <h1>📦 社区脚本商店</h1>
+    <div class="subtitle">Community Script Store</div>
+    <p style="margin-bottom: 32px; color: #94a3b8;">
+        用户提交的自动化脚本，下载后放入 FlexArm Server 的 scripts 目录即可使用。<br>
+        User-submitted automation scripts. Download and place into FlexArm Server's scripts directory to use.
+    </p>
 
     <div class="script-grid">
-        <!-- 示例：当有真实脚本时，复制这个卡片并修改链接 -->
+        <!-- hello_flexarm 示例脚本卡片 -->
         <div class="script-card">
             <h3>hello_flexarm</h3>
-            <p>基础点击、滑动、等待示例脚本</p>
-            <a href="community_scripts/hello_flexarm/">查看详情</a>
+            <p>基础点击、滑动、等待示例脚本 / Basic click, swipe, wait example script</p>
+            <div class="script-meta">
+                <span>📅 2025-01-15</span>
+                <span>👤 hamlet0168</span>
+            </div>
+            <div class="card-links">
+                <a href="https://github.com/hamlet0168/FlexArm/blob/main/community_scripts/hello_flexarm/README.md">📖 查看详情 / Details</a>
+                <a href="https://github.com/hamlet0168/FlexArm/blob/main/community_scripts/hello_flexarm/script.yaml">📄 查看脚本 / View Script</a>
+            </div>
         </div>
-        <!-- 更多脚本将陆续添加 -->
+
+        <!-- 更多脚本将在这里添加 -->
     </div>
 
     <div class="coming-soon">
-        🚀 更多脚本即将到来 / More scripts coming soon<br>
-        想要提交脚本？请查看 <a href="https://github.com/hamlet0168/FlexArm/blob/main/.github/PULL_REQUEST_TEMPLATE.md">PR指南</a>
+        🚀 更多脚本即将到来 / More scripts coming soon<br><br>
+        想要提交脚本？请查看 / Want to submit a script? Check out the 
+        <a href="https://github.com/hamlet0168/FlexArm/blob/main/.github/PULL_REQUEST_TEMPLATE.md">PR 指南 / PR Guide</a>
+    </div>
+
+    <hr>
+
+    <div class="footer">
+        <a href="https://github.com/hamlet0168/FlexArm">GitHub 仓库 / Repository</a> ·
+        <a href="https://github.com/hamlet0168/FlexArm/issues">反馈问题 / Issues</a>
     </div>
 </div>
 </body>
