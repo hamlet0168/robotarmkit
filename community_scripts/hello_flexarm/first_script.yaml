@@ -1,0 +1,38 @@
+name: hello_flexarm
+description: "Chinese: 第一个 FlexArm 脚本 — 体验点击、滑动、等待等基本动作 | English: First FlexArm script — experience basic actions like tap, swipe, and wait."
+
+steps:
+  # 1. 点击屏幕中央 / 1. Tap the center of the screen
+  - action: click
+    x: 0.5
+    y: 0.5
+
+  # 2. 等待 1 秒 / 2. Wait 1 second
+  - action: wait
+    seconds: 1
+
+  # 3. 点击屏幕底部（触发返回键或手势导航） / 3. Tap bottom of screen (trigger back key or gesture navigation)
+  - action: click
+    x: 0.5
+    y: 0.95
+
+  # 4. 等待 2 秒 / 4. Wait 2 seconds
+  - action: wait
+    seconds: 2
+
+  # 5. 大幅上滑（翻页） / 5. Swipe up (large) for page turning
+  - action: swipe_up
+    large: true
+
+  # 6. 等待 1 秒 / 6. Wait 1 second
+  - action: wait
+    seconds: 1
+
+  # 7. 小幅下滑 / 7. Swipe down (small)
+  - action: swipe_down
+    large: false
+
+  # 8. 点击屏幕右上角（约返回/菜单区域） / 8. Tap top-right corner (back/menu area)
+  - action: click
+    x: 0.85
+    y: 0.1
