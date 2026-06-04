@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>FlexArm 脚本商店 · Script Store</title>
+    <link rel="icon" href="flx-icon-32.png" type="image/png">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+            background: #0a0e17;
+            color: #e0e0e0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 32px;
+            background: linear-gradient(135deg, #8a2be2, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: #8a2be2;
+            text-decoration: none;
+        }
+        .script-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .script-card {
+            background: #111827;
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            padding: 20px;
+        }
+        .script-card h3 {
+            margin: 0 0 8px;
+        }
+        .script-card p {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+        .coming-soon {
+            text-align: center;
+            color: #64748b;
+            padding: 60px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="back-link">← 返回首页 / Back to Home</a>
+    <h1>📦 社区脚本商店 · Community Script Store</h1>
+    <p>用户提交的自动化脚本，下载后放入 FlexArm Server 的 scripts 目录即可使用。</p>
+
+    <div class="script-grid">
+        <!-- 示例：当有真实脚本时，复制这个卡片并修改链接 -->
+        <div class="script-card">
+            <h3>hello_flexarm</h3>
+            <p>基础点击、滑动、等待示例脚本</p>
+            <a href="community_scripts/hello_flexarm/">查看详情</a>
+        </div>
+        <!-- 更多脚本将陆续添加 -->
+    </div>
+
+    <div class="coming-soon">
+        🚀 更多脚本即将到来 / More scripts coming soon<br>
+        想要提交脚本？请查看 <a href="https://github.com/hamlet0168/FlexArm/blob/main/.github/PULL_REQUEST_TEMPLATE.md">PR指南</a>
+    </div>
+</div>
+</body>
+</html>
