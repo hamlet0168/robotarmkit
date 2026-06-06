@@ -6,7 +6,7 @@
 </video>
 
 ## AI操作手机打电话
-<video src="./AI_agent_make_a_phone_call_to_me.mp4" width="100%" controls muted loop></video>
+<video src="./AI-agent-make-a-phone-call-to-me.mp4" width="100%" controls muted loop></video>
 
 ## AI操作机械臂玩手机中的扑克游戏  - 电脑窗体录制画面
 <video src="./poker_pc_screen_record.mp4" width="100%" controls muted loop></video>
